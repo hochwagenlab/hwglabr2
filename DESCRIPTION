@@ -1,0 +1,14 @@
+Package: hwglabr2
+Title: Collection of R functions used in the Hochwagen Lab
+Version: 0.0.0.9000
+Authors@R: c(
+  person("Luis", "Vale-Silva", email = "luisvalesilva@gmail.com", role = c("cre", "aut"))
+  )
+Description: Complete rewrite of package "hwglabr", with a focus on using Bioconductor's
+    GRanges class. The intention is mainly to analyse ChIP-seq data stored in bedGraph
+    format, as produced by the lab's updated ChIP-seq analysis pipeline.
+Depends: R (>= 3.2.5)
+License: MIT + file LICENSE 
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1

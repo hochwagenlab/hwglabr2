@@ -1,0 +1,58 @@
+#' Import wiggle data
+#'
+#' Given a path to a collection of 16 tab-separated wiggle data files (one per
+#' yeast chromosome), imports data into a \code{GRanges} object.
+#' @param path Path to the folder containing the wiggle data. No default.
+#' @param local_copy Logical indicating whether to create local copy of target
+#' file before importing data. If \code{TRUE} a local copy is automatically
+#' created and deleted after use. Use this argument to avoid reading files
+#' directly from shared locations (namely \code{LabShare}).
+#' Defaults to \code{TRUE}.
+#' @return \code{GRanges} object.
+#' @examples
+#' \dontrun{
+#' x <- import_wiggle('wiggle_data/')
+#' 
+#' dot1 <- import_wiggle('/Volumes/LabShare/HTGenomics/HiSeqOutputs/\
+#'                       AveReps_SacCer3_MACS2/Red1-dot1D-195-16-reps-MACS2/',
+#'                       local_copy=TRUE)
+#' }
+#' @export
+
+import_wiggle <- function(path, local_copy=TRUE){
+  t0  <- proc.time()
+  
+  # IO checks
+  if (is(path, "character")) {
+    hwglabr2::check_path(path)
+  } else stop("'path' argument must be a path to a bedGraph file")
+  
+  hwglabr2::check_package("hwglabr")
+  hwglabr2::check_package("GenomicRanges")
+  hwglabr2::check_package("IRanges")
+  
+  if (local_copy) path <- hwglabr2::make_local_copy(path)
+  
+  # Import wiggle data
+  message('Loading wiggle files...')
+  suppressMessages(df <- hwglabr::readall_tab(path, localCopy=F,
+                                              asBedGraph=TRUE))
+  
+  if (local_copy) {
+    message('(deleting local copy...)')
+    unlink('hwglabr2_imports_temp', recursive = TRUE)
+  }
+  
+  if('strand' %in% colnames(df)){
+    df$strand <- gsub(pattern="[^+-]+", replacement = '*', x = df$strand)
+  }
+  
+  message('Converting to "GRanges" object...')
+  gr <- with(df, GenomicRanges::GRanges(chr, IRanges::IRanges(start, end - 1),
+                                        score=score)) 
+
+  message('---')
+  message('Completed in ', hwglabr2::elapsed_time(t0))
+  
+  return(gr)
+}
