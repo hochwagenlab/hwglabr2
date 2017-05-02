@@ -22,7 +22,7 @@ function returns output R object. Defaults to \code{FALSE}.}
 \value{
 A data frame with 1001 columns:
 \enumerate{
-  \item \code{gene} First column with the gene IDs
+  \item \code{gene} First column with the gene IDs (if found in input gff)
   \item \code{t1 to t1000} 1000 columns with signal at each meta position.
 }
 Columns t1 to t1000 correspond to the following meta positions:
@@ -42,9 +42,9 @@ will be collected up and downstream, respectively. The whole region is then
 rescaled to a length of 1000, corresponding to a gene length of 500 plus 250
 for each flanking region.\cr
 \cr \cr
-\strong{Note:} Our ChIP-seq data always contains gaps with missing chromosome
-coordinates. The affected genes will not be included in the output. The
-number of skipped genes is printed to the console. \cr
+\strong{Note:} Our ChIP-seq data always contains gaps with missing data. The
+affected genes will contain "NA" values in the output. As a warning, the
+number of affected genes is printed to the console.\cr
 }
 \examples{
 \dontrun{
