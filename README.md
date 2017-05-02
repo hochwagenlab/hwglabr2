@@ -2,7 +2,7 @@
 ### Hochwagen lab R package 2
 
 Compilation of functions used frequently by Hochwagen lab members. This is a rewrite
-of the original packege `hwglabr` 
+of the original package `hwglabr` 
 (GitHub [repo](https://github.com/hochwagenlab/hwglabr)), focused on using 
 Bioconductor's `GRanges` object class.
 
@@ -36,4 +36,6 @@ help("function_name")
 ?function_name
 ```
 
+## License
 
+This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE) file for details.
