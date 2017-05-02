@@ -25,7 +25,8 @@ library(hwglabr2)
 #### Documentation
 
 Use the package GitHub [repo](https://github.com/hochwagenlab/hwglabr2) and the
-[documentation website](http://www.nyu.edu/projects/hochwagen/hwglabr2_docs/).
+[documentation website](http://www.nyu.edu/projects/hochwagen/hwglabr2_docs/)
+built with `pkgdown` (simply run `pkgdown::build_site()` to update).
 
 Function documentation is also accessible within R in the standard way, by
 typing one of the following:
