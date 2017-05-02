@@ -1,6 +1,6 @@
 Package: hwglabr2
 Title: Collection of R functions used in the Hochwagen Lab
-Version: 0.0.0.9000
+Version: 0.0.1 (Development)
 Authors@R: c(
   person("Luis", "Vale Silva", email = "luisvalesilva@gmail.com", role = c("cre", "aut"))
   )
