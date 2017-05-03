@@ -89,7 +89,7 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   # Add chr lengths to fix the other way?
   
   # Compute signal at each gene using package EnrichedHeatmap
-  message('Computing signal at each normalized ORF...\n')
+  message('Computing signal at each normalized ORF...')
   mat <- EnrichedHeatmap::normalizeToMatrix(gr, gff, value_column="score",
                                             mean_mode="absolute",
                                             extend=0, k=1000, empty_value=NA,
