@@ -1,10 +1,7 @@
-# Utility functions used by main hwglabr2 functions
-
-#check_io <- function(packages, genomes) {
-#  if (!missing(check_packages)) all(sapply(packages, check_package))
-#  if (!missing(check_genome)) check_genome(for_genome)
-#}
-
+# Utility functions used by hwglabr2
+#
+# Set of utility functions internal to the package that perform auxiliary tasks
+# used repeatedly by `hwglabr2` functions.
 
 check_package <- function(package) {
   if (!requireNamespace(package, quietly = TRUE)) {
