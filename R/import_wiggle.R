@@ -24,14 +24,14 @@ import_wiggle <- function(path, local_copy=TRUE){
   
   # IO checks
   if (is(path, "character")) {
-    hwglabr2::check_path(path)
+    check_path(path)
   } else stop("'path' argument must be a path to a bedGraph file")
   
-  hwglabr2::check_package("hwglabr")
-  hwglabr2::check_package("GenomicRanges")
-  hwglabr2::check_package("IRanges")
+  check_package("hwglabr")
+  check_package("GenomicRanges")
+  check_package("IRanges")
   
-  if (local_copy) path <- hwglabr2::make_local_copy(path)
+  if (local_copy) path <- make_local_copy(path)
   
   # Import wiggle data
   message('Loading wiggle files...')

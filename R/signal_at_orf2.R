@@ -65,12 +65,11 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   gff <- gff[!as.character(gff@seqnames) %in% c('chrMito', '2-micron'), ]
   
   # Check reference genome (must match between input data and gff)
-  if (hwglabr2::check_genome(gr)[1] != hwglabr2::check_genome(gff)[1]) {
+  if (check_genome(gr)[1] != check_genome(gff)[1]) {
     stop("The reference genomes in the data and the gff do not seem to match.",
          call. = FALSE)
-  } else if (hwglabr2::check_genome(gr)[1] == hwglabr2::check_genome(gff)[1]) {
-    message('Ref. genome: ', paste(hwglabr2::check_genome(gr),
-                                   collapse = " "))
+  } else if (check_genome(gr)[1] == check_genome(gff)[1]) {
+    message('Ref. genome: ', paste(check_genome(gr), collapse = " "))
   } else stop('Did not recognize reference genome.\n',
               'Please ensure chromosome numbers are in the expected format:\n',
               'e.g. "chrI" or "chr01".')
@@ -123,7 +122,7 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   
   if (write_to_file){
     file_name <- paste0(deparse(substitute(gr)), "_",
-                        hwglabr2::check_genome(gr)[1], "_metaORF.txt")
+                        check_genome(gr)[1], "_metaORF.txt")
     message(paste0('Writing data to file: ', file_name))
     if (check_package("readr")) {
       readr::write_tsv(df, path=file_name)
