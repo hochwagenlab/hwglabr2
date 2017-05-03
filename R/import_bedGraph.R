@@ -38,15 +38,15 @@ import_bedGraph <- function(path, keep_zeros=FALSE, local_copy=TRUE,
   
   # IO checks
   if (is(path, "character")) {
-    hwglabr2::check_path(path)
+    check_path(path)
   } else stop("'path' argument must be a path to a bedGraph file")
   
-  hwglabr2::check_package("GenomicRanges")
+  check_package("GenomicRanges")
   if (use_rtracklayer) {
-    hwglabr2::check_package("rtracklayer")
-  } else hwglabr2::check_package("readr")
+    check_package("rtracklayer")
+  } else check_package("readr")
   
-  if (local_copy) path <- hwglabr2::make_local_copy(path)
+  if (local_copy) path <- make_local_copy(path)
   
   # Import bedGraph data
   message('Loading bedGraph file...')
