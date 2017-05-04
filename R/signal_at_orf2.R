@@ -44,7 +44,7 @@
 signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   t0  <- proc.time()
   
-  # Check inputs
+  # IO checks
   check_package("GenomicRanges")
   check_package("EnrichedHeatmap")
   
