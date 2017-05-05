@@ -124,9 +124,8 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
     file_name <- paste0(deparse(substitute(gr)), "_",
                         check_genome(gr)[1], "_metaORF.txt")
     message(paste0('Writing data to file: ', file_name))
-    if (check_package("readr")) {
-      readr::write_tsv(df, path=file_name)
-    } else write.table(df, file_name, sep="\t", quote=FALSE, row.names=FALSE)
+    write.table(df, file_name, sep="\t", quote=FALSE, row.names=FALSE)
+    
     message('Done!')
   } else return(df)
 }
