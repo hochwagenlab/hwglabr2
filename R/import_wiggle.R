@@ -48,7 +48,7 @@ import_wiggle <- function(path, local_copy=TRUE){
   }
   
   message('Converting to "GRanges" object...')
-  gr <- with(df, GenomicRanges::GRanges(chr, IRanges::IRanges(start, end + 1),
+  gr <- with(df, GenomicRanges::GRanges(chr, IRanges::IRanges(start, end),
                                         score=score)) 
 
   message('---')
