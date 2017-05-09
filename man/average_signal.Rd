@@ -4,19 +4,28 @@
 \alias{average_signal}
 \title{Average signal genome-wide and on each chromosome}
 \usage{
-average_signal(gr)
+average_signal(gr, mean_norm = FALSE, order_chrs = FALSE)
 }
 \arguments{
 \item{gr}{Input signal track data as a \code{GRanges} object (see
 \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},
 respectively. No default.}
+
+\item{mean_norm}{Logical indicating whether to normalize by average
+genome-wide score. This adds two columns to the dataframe (first element of
+the output list): mean ratio (\code{avrg_signal_mean_ratio}) and
+mean-subtracted (\code{avrg_signal_mean_subtracted}).
+Defaults to \code{FALSE}.}
+
+\item{order_chrs}{Logical indicating whether to order rows by chromosome
+length (in increasing order). Defaults to \code{FALSE}.}
 }
 \value{
-List of two named numeric vectors with average \code{score} on:
+List with two elements:
 \enumerate{
-  \item \code{seq_avrg} Each individual sequence
-  \item \code{genome_avrg} Whole genome
+  \item \code{seq_avrg} Average \code{score} on each sequence (dataframe)
+  \item \code{genome_avrg} Average \code{score} genome-wide (named vector)
 }
 }
 \description{
@@ -26,8 +35,8 @@ genome-wide and on each chromosome (each individual sequence determined by
 }
 \examples{
 \dontrun{
-average_signal(GRanges_objct)
+average_signal(GRanges_object)
 
-average_signal(WT)
+average_signal(WT, mean_norm=TRUE, order_chrs=TRUE)
 }
 }

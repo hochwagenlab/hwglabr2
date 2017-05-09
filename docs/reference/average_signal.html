@@ -82,7 +82,7 @@ genome-wide and on each chromosome (each individual sequence determined by
 <code>seqnames</code>).</p>
     
 
-    <pre class="usage"><span class='fu'>average_signal</span>(<span class='no'>gr</span>)</pre>
+    <pre class="usage"><span class='fu'>average_signal</span>(<span class='no'>gr</span>, <span class='kw'>mean_norm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>order_chrs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -94,22 +94,35 @@ genome-wide and on each chromosome (each individual sequence determined by
 run <code><a href='import_wiggle.html'>import_wiggle</a></code> and <code><a href='import_bedGraph.html'>import_bedGraph</a></code>,
 respectively. No default.</p></td>
     </tr>
+    <tr>
+      <th>mean_norm</th>
+      <td><p>Logical indicating whether to normalize by average
+genome-wide score. This adds two columns to the dataframe (first element of
+the output list): mean ratio (<code>avrg_signal_mean_ratio</code>) and
+mean-subtracted (<code>avrg_signal_mean_subtracted</code>).
+Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>order_chrs</th>
+      <td><p>Logical indicating whether to order rows by chromosome
+length (in increasing order). Defaults to <code>FALSE</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List of two named numeric vectors with average <code>score</code> on:</p><ol>
-<li><p><code>seq_avrg</code> Each individual sequence</p></li>
-<li><p><code>genome_avrg</code> Whole genome</p></li>
+    <p>List with two elements:</p><ol>
+<li><p><code>seq_avrg</code> Average <code>score</code> on each sequence (dataframe)</p></li>
+<li><p><code>genome_avrg</code> Average <code>score</code> genome-wide (named vector)</p></li>
 </ol>
 
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='fu'>average_signal</span>(<span class='no'>GRanges_objct</span>)
+  <span class='fu'>average_signal</span>(<span class='no'>GRanges_object</span>)
 
-  <span class='fu'>average_signal</span>(<span class='no'>WT</span>)
+  <span class='fu'>average_signal</span>(<span class='no'>WT</span>, <span class='kw'>mean_norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>order_chrs</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
