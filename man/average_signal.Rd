@@ -4,13 +4,21 @@
 \alias{average_signal}
 \title{Average signal genome-wide and on each chromosome}
 \usage{
-average_signal(gr, mean_norm = FALSE, order_chrs = FALSE)
+average_signal(gr, remove_cen = FALSE, cen_region_length = 50000,
+  mean_norm = FALSE, order_chrs = FALSE)
 }
 \arguments{
 \item{gr}{Input signal track data as a \code{GRanges} object (see
 \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},
 respectively. No default.}
+
+\item{remove_cen}{Logical indicating whether to remove regions around
+centromeres. Defaults to \code{FALSE}.}
+
+\item{cen_region_length}{Integer indicating the length (in bp) of the region
+to remove (centered on the centromere of each chromosome).
+Defaults to 50'000 bp.}
 
 \item{mean_norm}{Logical indicating whether to normalize by average
 genome-wide score. This adds two columns to the dataframe (first element of

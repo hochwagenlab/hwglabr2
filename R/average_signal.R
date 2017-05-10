@@ -7,6 +7,11 @@
 #' \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 #' run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},
 #' respectively. No default.
+#' @param remove_cen Logical indicating whether to remove regions around
+#' centromeres. Defaults to \code{FALSE}.
+#' @param cen_region_length Integer indicating the length (in bp) of the region
+#' to remove (centered on the centromere of each chromosome).
+#' Defaults to 50'000 bp.
 #' @param mean_norm Logical indicating whether to normalize by average
 #' genome-wide score. This adds two columns to the dataframe (first element of
 #' the output list): mean ratio (\code{avrg_signal_mean_ratio}) and
@@ -27,7 +32,8 @@
 #' }
 #' @export
 
-average_signal <- function(gr, mean_norm = FALSE, order_chrs=FALSE){
+average_signal <- function(gr, remove_cen=FALSE, cen_region_length=50000,
+                           mean_norm = FALSE, order_chrs=FALSE){
   # IO checks
   check_package("GenomicRanges")
   if (!is(gr, "GRanges")) stop('input must be a GRanges object.')
@@ -35,9 +41,25 @@ average_signal <- function(gr, mean_norm = FALSE, order_chrs=FALSE){
     stop(deparse(substitute(gr)), ' does not have a "score" metadata column.')
   }
   
+  if (remove_cen) {
+    # Load centromere data
+    cen <- ifelse(check_genome(gr)[1] == 'S288c', sacCer3cen, SK1cen)
+    
+    # Add/subtract half of region length (centered on centromere midpoint)
+    half_length <- floor(cen_region_length / 2)
+    offset <- floor(GenomicRanges::width(cen) / 2)
+    
+    GenomicRanges::start(cen) <- (GenomicRanges::start(cen) + offset
+                                  - half_length)
+    GenomicRanges::end(cen) <- (GenomicRanges::end(cen) - offset
+                                + half_length)
+    # Remove centromere regions
+    gr <- gr[!GenomicRanges::overlapsAny(gr, cen)]
+  }
+  
   message('Computing average signal...')
   avrg <- function(x) (sum(GenomicRanges::width(x) * GenomicRanges::score(x))
-                      / sum(GenomicRanges::width(x)))
+                       / sum(GenomicRanges::width(x)))
   genome_avrg <- avrg(gr)
   seq_avrg <- sapply(GenomicRanges::split(gr, GenomicRanges::seqnames(gr)),
                      avrg)

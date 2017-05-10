@@ -82,7 +82,8 @@ genome-wide and on each chromosome (each individual sequence determined by
 <code>seqnames</code>).</p>
     
 
-    <pre class="usage"><span class='fu'>average_signal</span>(<span class='no'>gr</span>, <span class='kw'>mean_norm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>order_chrs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>average_signal</span>(<span class='no'>gr</span>, <span class='kw'>remove_cen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cen_region_length</span> <span class='kw'>=</span> <span class='fl'>50000</span>,
+  <span class='kw'>mean_norm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>order_chrs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -93,6 +94,17 @@ genome-wide and on each chromosome (each individual sequence determined by
 <code>?"GRanges-class"</code> for more details). To load wiggle and bedGraph data
 run <code><a href='import_wiggle.html'>import_wiggle</a></code> and <code><a href='import_bedGraph.html'>import_bedGraph</a></code>,
 respectively. No default.</p></td>
+    </tr>
+    <tr>
+      <th>remove_cen</th>
+      <td><p>Logical indicating whether to remove regions around
+centromeres. Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>cen_region_length</th>
+      <td><p>Integer indicating the length (in bp) of the region
+to remove (centered on the centromere of each chromosome).
+Defaults to 50'000 bp.</p></td>
     </tr>
     <tr>
       <th>mean_norm</th>
