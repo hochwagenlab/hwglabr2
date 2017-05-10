@@ -28,7 +28,10 @@
 #' \dontrun{
 #' average_signal(GRanges_object)
 #' 
-#' average_signal(WT, mean_norm=TRUE, order_chrs=TRUE)
+#' average_signal(anti_Rec8, remove_cen=TRUE, mean_norm=TRUE, order_chrs=TRUE)
+#' 
+#' average_signal(anti_Rec8, remove_cen=TRUE, cen_region_length=40000,
+#'                mean_norm=TRUE, order_chrs=TRUE)
 #' }
 #' @export
 
@@ -42,8 +45,10 @@ average_signal <- function(gr, remove_cen=FALSE, cen_region_length=50000,
   }
   
   if (remove_cen) {
+    message('Removing ', floor(cen_region_length / 1000),
+            'Kb regions around centromeres...')
     # Load centromere data
-    cen <- ifelse(check_genome(gr)[1] == 'S288c', sacCer3cen, SK1cen)
+    if (check_genome(gr)[1] == 'S288c') cen <- sacCer3cen else cen <- SK1cen
     
     # Add/subtract half of region length (centered on centromere midpoint)
     half_length <- floor(cen_region_length / 2)

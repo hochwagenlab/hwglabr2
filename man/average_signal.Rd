@@ -45,6 +45,9 @@ genome-wide and on each chromosome (each individual sequence determined by
 \dontrun{
 average_signal(GRanges_object)
 
-average_signal(WT, mean_norm=TRUE, order_chrs=TRUE)
+average_signal(anti_Rec8, remove_cen=TRUE, mean_norm=TRUE, order_chrs=TRUE)
+
+average_signal(anti_Rec8, remove_cen=TRUE, cen_region_length=40000,
+               mean_norm=TRUE, order_chrs=TRUE)
 }
 }
