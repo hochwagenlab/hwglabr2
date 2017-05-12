@@ -2,6 +2,7 @@
 
 export(average_signal)
 export(elapsed_time)
+export(get_chr_coordinates)
 export(import_bedGraph)
 export(import_wiggle)
 export(signal_at_orf2)
