@@ -10,8 +10,8 @@ get_chr_coordinates(genome = "sacCer3", as_df = FALSE)
 \item{genome}{Character object specifying the genome version; accepts one of
 the following options:
 \enumerate{
-  \item \code{sacCer3}
-  \item \code{SK1}
+  \item \code{"sacCer3"}
+  \item \code{"SK1"}
 }
 Default is \code{sacCer3}.}
 

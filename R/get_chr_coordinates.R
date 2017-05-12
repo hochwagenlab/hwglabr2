@@ -4,8 +4,8 @@
 #' @param genome Character object specifying the genome version; accepts one of
 #' the following options:
 #' \enumerate{
-#'   \item \code{sacCer3}
-#'   \item \code{SK1}
+#'   \item \code{"sacCer3"}
+#'   \item \code{"SK1"}
 #' }
 #' Default is \code{sacCer3}.
 #' @param as_df Logical specifying whether the output should be returned as a
