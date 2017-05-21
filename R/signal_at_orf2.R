@@ -48,7 +48,7 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   check_package("GenomicRanges")
   check_package("EnrichedHeatmap")
   
-  if (!is(gr, "GRanges")) stop('input must be a GRanges object.')
+  if (!is(gr, "GRanges")) stop('"gr" must be a GRanges object.')
   
   if (missing(gff)) stop('No gff data provided.\n',
                          '"gff" must be gff data as a "GRanges" object\n',
@@ -59,7 +59,7 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
     check_package("rtracklayer")
     message('Loading gff file...')
     gff <- rtracklayer::import.gff(gff)
-  } else stop("'gff' must be either a GRanges object or a path to a gff file.")
+  } else stop('"gff" must be either a GRanges object or a path to a gff file.')
   
   # Drop 'chrMito' and '2-micron' if present in gff (absent from ChIP-seq data)
   gff <- gff[!as.character(gff@seqnames) %in% c('chrMito', '2-micron'), ]
