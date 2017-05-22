@@ -22,7 +22,7 @@ check_genome <- function(gr) {
  
   # Check only first few rows to speed up runtime 
   if (any(grep('chr[XVI]',
-               as.character(GenomicRanges::seqnames(gr[1:50]))))) {
+               as.character(GenomicRanges::seqnames(gr[1:10]))))) {
     return(c('S288c', '(chrs named using roman numerals)'))
   } else if (any(grep('chr[0-9]',
                       as.character(GenomicRanges::seqnames(gr[1:50]))))) {
