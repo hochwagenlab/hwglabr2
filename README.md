@@ -1,9 +1,9 @@
 # hwglabr2
 ### Hochwagen lab R package 2
 
-Compilation of functions used frequently by Hochwagen lab members. This is a rewrite
-of the original package `hwglabr` 
-(GitHub [repo](https://github.com/hochwagenlab/hwglabr)), focused on using 
+Compilation of functions used frequently by Hochwagen lab members. This is a
+rewrite of the original package `hwglabr` 
+(GitHub [repo](https://github.com/hochwagenlab/hwglabr)), designed to leverage 
 Bioconductor's `GRanges` object class.
 
 #### Installation
@@ -24,12 +24,16 @@ library(hwglabr2)
 
 #### Documentation
 
-Use the package GitHub [repo](https://github.com/hochwagenlab/hwglabr2) and the
-[documentation website](http://www.nyu.edu/projects/hochwagen/hwglabr2_docs/)
-built with `pkgdown` (simply run `pkgdown::build_site()` to update).
+See the
+[Analysis recipes](https://github.com/hochwagenlab/hwglabr2/wiki/Analysis-recipes)
+GitHub wiki page for example usage of `hwglabr2` to perform some common analysis.
 
-Function documentation is also accessible within R in the standard way, by
-typing one of the following:
+For function documentation, use the package GitHub [repo](https://github.com/hochwagenlab/hwglabr2)
+and the [documentation website](http://www.nyu.edu/projects/hochwagen/hwglabr2_docs/)
+built with `pkgdown`.
+
+Function documentation is also accessible within R in the standard way, by typing
+one of the following:
 
 ``` r
 help("function_name")
@@ -39,4 +43,5 @@ help("function_name")
 
 ## License
 
-This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE) file for details.
+This project is licensed under the terms of the MIT license.
+See [LICENSE](LICENSE) file for details.
