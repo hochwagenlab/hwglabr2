@@ -4,10 +4,10 @@
 \alias{signal_at_orf2}
 \title{Signal at all ORFs genome-wide normalized to constant length (meta ORF)}
 \usage{
-signal_at_orf2(gr, gff, write_to_file = FALSE)
+signal_at_orf2(signal_data, gff, write_to_file = FALSE)
 }
 \arguments{
-\item{gr}{Input signal track data as a \code{GRanges} object (see
+\item{signal_data}{Input signal track data as a \code{GRanges} object (see
 \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},
 respectively. No default.}
@@ -33,15 +33,14 @@ Columns t1 to t1000 correspond to the following meta positions:
 }
 }
 \description{
-This function allows you to pull out the ChIP signal over all ORFs in the
-genome (normalized to a constant length). It collects the signal over each
-ORF plus both flanking regions (1/2 the length of the ORF on each side) and
-scales them all to the same value (1000). This means that for two example
-genes with lengths of 500 bp and 2 kb, flanking regions of 250 bp and 1 kb
-will be collected up and downstream, respectively. The whole region is then
-rescaled to a length of 1000, corresponding to a gene length of 500 plus 250
-for each flanking region.\cr
-\cr \cr
+Pulls out the ChIP signal over all ORFs in the genome normalized to a
+constant length. Collects the signal over each ORF plus both flanking regions
+(1/2 the length of the ORF on each side) and scales them all to the same
+value (1000). This means that for two example genes with lengths of 500 bp
+and 2 kb, flanking regions of 250 bp and 1 kb will be collected up and
+downstream, respectively. The whole region is then rescaled to a length of
+1000, corresponding to a gene length of 500 plus 250 for each flanking
+region.\cr\cr\cr
 \strong{Note:} Our ChIP-seq data always contains gaps with missing data. The
 affected genes will contain "NA" values in the output. As a warning, the
 number of affected genes is printed to the console.\cr
@@ -51,6 +50,6 @@ number of affected genes is printed to the console.\cr
 signal_at_orf2(WT, gff = gff)
 
 signal_at_orf2(WT, gff = "S288C_annotation_modified.gff",
-               write_to_file = TRUE)
+                   write_to_file = TRUE)
 }
 }

@@ -1,18 +1,17 @@
 #' Signal at all ORFs genome-wide normalized to constant length (meta ORF)
 #'
-#' This function allows you to pull out the ChIP signal over all ORFs in the
-#' genome (normalized to a constant length). It collects the signal over each
-#' ORF plus both flanking regions (1/2 the length of the ORF on each side) and
-#' scales them all to the same value (1000). This means that for two example
-#' genes with lengths of 500 bp and 2 kb, flanking regions of 250 bp and 1 kb
-#' will be collected up and downstream, respectively. The whole region is then
-#' rescaled to a length of 1000, corresponding to a gene length of 500 plus 250
-#' for each flanking region.\cr
-#' \cr \cr
+#' Pulls out the ChIP signal over all ORFs in the genome normalized to a
+#' constant length. Collects the signal over each ORF plus both flanking regions
+#' (1/2 the length of the ORF on each side) and scales them all to the same
+#' value (1000). This means that for two example genes with lengths of 500 bp
+#' and 2 kb, flanking regions of 250 bp and 1 kb will be collected up and
+#' downstream, respectively. The whole region is then rescaled to a length of
+#' 1000, corresponding to a gene length of 500 plus 250 for each flanking
+#' region.\cr\cr\cr
 #' \strong{Note:} Our ChIP-seq data always contains gaps with missing data. The
 #' affected genes will contain "NA" values in the output. As a warning, the
 #' number of affected genes is printed to the console.\cr
-#' @param gr Input signal track data as a \code{GRanges} object (see
+#' @param signal_data Input signal track data as a \code{GRanges} object (see
 #' \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 #' run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},
 #' respectively. No default.
@@ -37,18 +36,20 @@
 #' signal_at_orf2(WT, gff = gff)
 #' 
 #' signal_at_orf2(WT, gff = "S288C_annotation_modified.gff",
-#'                write_to_file = TRUE)
+#'                    write_to_file = TRUE)
 #' }
 #' @export
 
-signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
+signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE) {
   t0  <- proc.time()
   
   # IO checks
   check_package("GenomicRanges")
   check_package("EnrichedHeatmap")
   
-  if (!is(gr, "GRanges")) stop('"gr" must be a GRanges object.')
+  if (!is(signal_data, "GRanges")) {
+    stop('"signal_data" must be a GRanges object.')
+  }
   
   if (missing(gff)) stop('No gff data provided.\n',
                          '"gff" must be gff data as a "GRanges" object\n',
@@ -65,11 +66,11 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   gff <- gff[!as.character(gff@seqnames) %in% c('chrMito', '2-micron'), ]
   
   # Check reference genome (must match between input data and gff)
-  if (check_genome(gr)[1] != check_genome(gff)[1]) {
+  if (check_genome(signal_data)[1] != check_genome(gff)[1]) {
     stop("The reference genomes in the data and the gff do not seem to match.",
          call. = FALSE)
-  } else if (check_genome(gr)[1] == check_genome(gff)[1]) {
-    message('Ref. genome: ', paste(check_genome(gr), collapse = " "))
+  } else if (check_genome(signal_data)[1] == check_genome(gff)[1]) {
+    message('Ref. genome: ', paste(check_genome(signal_data), collapse = " "))
   } else stop('Did not recognize reference genome.\n',
               'Please ensure chromosome numbers are in the expected format:\n',
               'e.g. "chrI" or "chr01".')
@@ -90,7 +91,8 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   
   # Compute signal at each gene using package EnrichedHeatmap
   message('Computing signal at each normalized ORF...')
-  mat <- EnrichedHeatmap::normalizeToMatrix(gr, gff, value_column="score",
+  mat <- EnrichedHeatmap::normalizeToMatrix(signal_data, gff,
+                                            value_column="score",
                                             mean_mode="absolute",
                                             extend=0, k=1000, empty_value=NA,
                                             smooth=FALSE, target_ratio=1)
@@ -121,8 +123,8 @@ signal_at_orf2 <- function(gr, gff, write_to_file=FALSE) {
   message('Completed in ', hwglabr2::elapsed_time(t0))
   
   if (write_to_file){
-    file_name <- paste0(deparse(substitute(gr)), "_",
-                        check_genome(gr)[1], "_metaORF.txt")
+    file_name <- paste0(deparse(substitute(signal_data)), "_",
+                        check_genome(signal_data)[1], "_metaORF.txt")
     message(paste0('Writing data to file: ', file_name))
     write.table(df, file_name, sep="\t", quote=FALSE, row.names=FALSE)
     
