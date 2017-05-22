@@ -77,27 +77,26 @@
     </div>
 
     
-    <p>This function allows you to pull out the ChIP signal over all ORFs in the
-genome (normalized to a constant length). It collects the signal over each
-ORF plus both flanking regions (1/2 the length of the ORF on each side) and
-scales them all to the same value (1000). This means that for two example
-genes with lengths of 500 bp and 2 kb, flanking regions of 250 bp and 1 kb
-will be collected up and downstream, respectively. The whole region is then
-rescaled to a length of 1000, corresponding to a gene length of 500 plus 250
-for each flanking region.
-
-    <strong>Note:</strong> Our ChIP-seq data always contains gaps with missing data. The
+    <p>Pulls out the ChIP signal over all ORFs in the genome normalized to a
+constant length. Collects the signal over each ORF plus both flanking regions
+(1/2 the length of the ORF on each side) and scales them all to the same
+value (1000). This means that for two example genes with lengths of 500 bp
+and 2 kb, flanking regions of 250 bp and 1 kb will be collected up and
+downstream, respectively. The whole region is then rescaled to a length of
+1000, corresponding to a gene length of 500 plus 250 for each flanking
+region.
+<strong>Note:</strong> Our ChIP-seq data always contains gaps with missing data. The
 affected genes will contain "NA" values in the output. As a warning, the
 number of affected genes is printed to the console.</p>
     
 
-    <pre class="usage"><span class='fu'>signal_at_orf2</span>(<span class='no'>gr</span>, <span class='no'>gff</span>, <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>signal_at_orf2</span>(<span class='no'>signal_data</span>, <span class='no'>gff</span>, <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>gr</th>
+      <th>signal_data</th>
       <td><p>Input signal track data as a <code>GRanges</code> object (see
 <code>?"GRanges-class"</code> for more details). To load wiggle and bedGraph data
 run <code><a href='import_wiggle.html'>import_wiggle</a></code> and <code><a href='import_bedGraph.html'>import_bedGraph</a></code>,
@@ -134,7 +133,7 @@ function returns output R object. Defaults to <code>FALSE</code>.</p></td>
   <span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='no'>gff</span>)
 
   <span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='st'>"S288C_annotation_modified.gff"</span>,
-                 <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+                     <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
