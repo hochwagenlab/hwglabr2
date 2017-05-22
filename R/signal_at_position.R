@@ -96,7 +96,7 @@ signal_at_position <- function(signal_data, positions, position_names,
   
   # Add extensions to intervals
   message('Preparing intervals...')
-  GenomicRanges::start(positions) <- GenomicRanges::start(positions) - up_ext
+  GenomicRanges::start(positions) <- GenomicRanges::start(positions) - (up_ext + 1)
   GenomicRanges::end(positions) <- GenomicRanges::end(positions) + down_ext
   # Fix overflowing flanks?
   GenomicRanges::start(positions)[GenomicRanges::start(positions) < 0] <- 1
