@@ -102,7 +102,8 @@ signal_at_position <- function(signal_data, positions, position_names,
   
   # Add chromosome seqlengths (if not present)
   if (any(is.na(seqlengths(positions)))) {
-    chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates())
+    genome <- ifelse(check_genome(gff)[1] == 'S288c', 'sacCer3', 'SK1')
+    chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates(genome=genome))
     GenomeInfoDb::seqlengths(positions) <- chr_lengths
   }
   
