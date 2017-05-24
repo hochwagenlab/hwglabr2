@@ -94,18 +94,30 @@ signal_at_position <- function(signal_data, positions, position_names,
   message('     ...')
   message('     Total of ', all_pos)
   
+  # Drop 'chrMito' and '2-micron' if present in positions
+  # (absent from ChIP-seq data)
+  if (length(GenomicRanges::seqinfo(positions)) == 18) {
+    positions <- GenomeInfoDb::dropSeqlevels(positions, c('chrMito', '2-micron'))
+  }
+  
+  # Add chromosome seqlengths (if not present)
+  if (any(is.na(seqlengths(positions)))) {
+    chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates())
+    GenomeInfoDb::seqlengths(positions) <- chr_lengths
+  }
+  
   # Add extensions to intervals
   message('Preparing intervals...')
   up_ext <- up_ext + 1
   #GenomicRanges::start(positions) <- GenomicRanges::start(positions) - up_ext
   #GenomicRanges::end(positions) <- GenomicRanges::end(positions) + down_ext
   # Accounting for strand!
-  positions <- GenomicRanges::promoters(positions,
-                                        upstream = up_ext,
-                                        downstream = down_ext)
-  # Fix overflowing flanks?
-  GenomicRanges::start(positions)[GenomicRanges::start(positions) < 0] <- 1
-  # Add chr lengths to fix the other way?
+  positions <- suppressWarnings(GenomicRanges::promoters(positions,
+                                                         upstream = up_ext,
+                                                         downstream = down_ext))
+  # Fix overflowing flanks
+  # (ensure flanks do not go over chromosome bounds)
+  positions <- GenomicRanges::trim(positions)
   
   # Compute signal at each interval using package EnrichedHeatmap
   message('Collecting signal...')
