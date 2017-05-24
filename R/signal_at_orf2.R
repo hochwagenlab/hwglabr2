@@ -86,9 +86,8 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE) {
   flank <- floor(GenomicRanges::width(gff) / 2)
   GenomicRanges::start(gff) <- GenomicRanges::start(gff) - flank
   GenomicRanges::end(gff) <- GenomicRanges::end(gff) + flank
-  # Fix overflowing flanks?
-  GenomicRanges::start(gff)[GenomicRanges::start(gff) < 0] <- 1
-  # Add chr lengths to fix the other way?
+  # Fix overflowing flanks (ensure they don't go over chromosome bounds)
+  gff <- GenomicRanges::trim(gff)
   
   # Compute signal at each gene using package EnrichedHeatmap
   message('Computing signal at each normalized ORF...')
