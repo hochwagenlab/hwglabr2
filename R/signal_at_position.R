@@ -97,8 +97,12 @@ signal_at_position <- function(signal_data, positions, position_names,
   # Add extensions to intervals
   message('Preparing intervals...')
   up_ext <- up_ext + 1
-  GenomicRanges::start(positions) <- GenomicRanges::start(positions) - up_ext
-  GenomicRanges::end(positions) <- GenomicRanges::end(positions) + down_ext
+  #GenomicRanges::start(positions) <- GenomicRanges::start(positions) - up_ext
+  #GenomicRanges::end(positions) <- GenomicRanges::end(positions) + down_ext
+  # Accounting for strand!
+  positions <- GenomicRanges::promoters(positions,
+                                        upstream = up_ext,
+                                        downstream = down_ext)
   # Fix overflowing flanks?
   GenomicRanges::start(positions)[GenomicRanges::start(positions) < 0] <- 1
   # Add chr lengths to fix the other way?
