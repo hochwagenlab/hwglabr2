@@ -63,7 +63,7 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE) {
   } else stop('"gff" must be either a GRanges object or a path to a gff file.')
   
   # Drop 'chrMito' and '2-micron' if present in gff (absent from ChIP-seq data)
-  gff <- GenomicRanges::dropSeqlevels(gff, c('chrMito', '2-micron'))
+  gff <- GenomeInfoDb::dropSeqlevels(gff, c('chrMito', '2-micron'))
   
   # Check reference genome (must match between input data and gff)
   if (check_genome(signal_data)[1] != check_genome(gff)[1]) {
