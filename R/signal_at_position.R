@@ -83,6 +83,12 @@ signal_at_position <- function(signal_data, positions, position_names,
               'Please ensure chromosome numbers are in the expected format:\n',
               'e.g. "chrI" or "chr01".')
   
+  # Drop 'chrMito' and '2-micron' if present in positions
+  # (absent from ChIP-seq data)
+  if (length(GenomicRanges::seqinfo(positions)) == 18) {
+    positions <- GenomeInfoDb::dropSeqlevels(positions, c('chrMito', '2-micron'))
+  }
+  
   # Number of positions to analyze
   message('Number of genomic positions:')
   all_pos <- 0
@@ -93,12 +99,6 @@ signal_at_position <- function(signal_data, positions, position_names,
   }
   message('     ...')
   message('     Total of ', all_pos)
-  
-  # Drop 'chrMito' and '2-micron' if present in positions
-  # (absent from ChIP-seq data)
-  if (length(GenomicRanges::seqinfo(positions)) == 18) {
-    positions <- GenomeInfoDb::dropSeqlevels(positions, c('chrMito', '2-micron'))
-  }
   
   # Add chromosome seqlengths (if not present)
   if (any(is.na(seqlengths(positions)))) {
