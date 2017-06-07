@@ -8,7 +8,6 @@ Description: Complete rewrite of package "hwglabr", with a focus on using Biocon
 URL: https://github.com/hochwagenlab/hwglabr2
 BugReports: https://github.com/hochwagenlab/hwglabr2/issues
 Depends: R (>= 3.2.5)
-Imports:
 Suggests:
     readr
     hwglabr,
