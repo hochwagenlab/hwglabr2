@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hochwagenlab/hwglabr2.svg?branch=master)](https://travis-ci.org/hochwagenlab/hwglabr2)
+
 # hwglabr2
 ### Hochwagen lab R package 2
 
