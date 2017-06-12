@@ -78,6 +78,17 @@ sacCer3cen <- with(sacCer3cen,
                                                                 Chromosome)))
 
 #------------------------------------------------------------------------------#
+#                         Intergenic region data                               #
+#                         (Conv, div and tandem)                               #
+# The intergenic region coordinate file generated using the scripts in:
+# '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
+
+# 1. Import SK1Yue data
+path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
+SK1Yue_intergenic <- read.table(paste0(path, 'SK1Yue_intergenic.txt'),
+                                header = TRUE, stringsAsFactors = FALSE)
+
+#------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
 #                           Add all data to package                            #
 #                             (as internal data)                               #
@@ -88,5 +99,6 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 # Set package directory as working directory
 # setwd('/path/to/hwglabr2/')
 devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
+                   SK1Yue_intergenic,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
 
