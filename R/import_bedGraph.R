@@ -37,7 +37,7 @@ import_bedGraph <- function(path, keep_zeros=FALSE, local_copy=TRUE,
   t0  <- proc.time()
   
   # IO checks
-  if (is(path, "character")) {
+  if (is(path, "character") & length(list.files(path)) == 0) {
     check_path(path)
   } else stop("'path' argument must be a path to a bedGraph file")
   

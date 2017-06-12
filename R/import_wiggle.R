@@ -23,9 +23,9 @@ import_wiggle <- function(path, local_copy=TRUE){
   t0  <- proc.time()
   
   # IO checks
-  if (is(path, "character")) {
+  if (is(path, "character")  & length(list.files(path)) != 0) {
     check_path(path)
-  } else stop("'path' argument must be a path to a bedGraph file")
+  } else stop("'path' argument must be a path to a folder")
   
   check_package("hwglabr")
   check_package("GenomicRanges")
