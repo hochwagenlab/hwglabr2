@@ -87,6 +87,6 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 
 # Set package directory as working directory
 # setwd('/path/to/hwglabr2/')
-devtools::use_data(sacCer3cen, SK1cen,
+devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
 
