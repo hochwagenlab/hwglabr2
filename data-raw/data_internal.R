@@ -11,11 +11,36 @@
 #------------------------------------------------------------------------------#
 #                               Centromeres                                    #
 
+# SK1 genome assembly published in Yue et al. 2017
+# Chromosome lengths calculated using:
+#cat SK1.genome.fa | awk '$0 ~ ">" {print c; c=0;printf substr($0,2,100) "\t"; } \
+#$0 !~ ">" {c+=length($0);} END { print c; }'
+SK1Yuecen <- data.frame("Chromosome" = c("chrI","chrII","chrIII","chrIV","chrV",
+                                         "chrVI","chrVII","chrVIII","chrIX",
+                                         "chrX","chrXI","chrXII","chrXIII",
+                                         "chrXIV","chrXV","chrXVI"),
+                     "Start" = c(154628, 251815, 108708, 460752, 171136, 170910,
+                                 501251, 102251, 348027, 447447, 451859, 151679,
+                                 251000, 637019, 307189, 555578),
+                     "End" = c(154745, 251931, 108824, 460871, 171253, 171027,
+                               501370, 102368, 348143, 447565, 451975, 151797,
+                               251118, 637136, 307307, 555694),
+                     "LenChr" = c(228861, 829469, 340914, 1486921, 589812,
+                                  299318, 1080440, 542723, 449612, 753937,
+                                  690901, 1054145, 923535, 791982, 1053869,
+                                  946846))
+
+SK1Yuecen <- with(SK1Yuecen,
+                  GenomicRanges::GRanges(Chromosome,
+                                         IRanges::IRanges(Start + 1, End),
+                                         seqlengths=setNames(LenChr,
+                                                             Chromosome)))
+
 # SK1 info based on Keeney lab genome sequence and annotation
 SK1cen <- data.frame("Chromosome" = c("chr01","chr02","chr03","chr04","chr05",
-                                     "chr06","chr07","chr08","chr09","chr10",
-                                     "chr11","chr12","chr13","chr14","chr15",
-                                     "chr16"),
+                                      "chr06","chr07","chr08","chr09","chr10",
+                                      "chr11","chr12","chr13","chr14","chr15",
+                                      "chr16"),
                      "Start" = c(137832, 226711, 128699, 463204, 157003, 162815,
                                  505440, 95031, 346215, 415648, 452723, 137738,
                                  249103, 616840, 307236, 553355),
