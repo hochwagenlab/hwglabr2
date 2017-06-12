@@ -4,7 +4,7 @@
 \alias{signal_at_orf2}
 \title{Signal at all ORFs genome-wide normalized to constant length (meta ORF)}
 \usage{
-signal_at_orf2(signal_data, gff, write_to_file = FALSE)
+signal_at_orf2(signal_data, gff, write_to_file = FALSE, file_name)
 }
 \arguments{
 \item{signal_data}{Input signal track data as a \code{GRanges} object (see
@@ -16,16 +16,17 @@ respectively. No default.}
 object. No default.}
 
 \item{write_to_file}{Logical indicating whether output should be written to a
-.txt file (in current working directory). If \code{to_file = FALSE} the
-function returns output R object. Defaults to \code{FALSE}.}
+.txt file. The file will be saved at location provided in "file_name"
+argument or at the current working directory if only a file name is provided).
+If \code{write_to_file = FALSE} the function returns output R object.
+Defaults to \code{FALSE}.}
+
+\item{file_name}{Charatcer string indicating file name when writing output to
+a .txt file. Must be provided if \code{write_to_file = TRUE}. No default.}
 }
 \value{
-A data frame with 1001 columns:
-\enumerate{
-  \item \code{gene} First column with the gene IDs (if found in input gff)
-  \item \code{t1 to t1000} 1000 columns with signal at each meta position.
-}
-Columns t1 to t1000 correspond to the following meta positions:
+An \code{EnrichedHeatmap} matrix with 1000 columns containing signal
+at each meta position. Columns correspond to the following meta positions:
 \enumerate{
   \item \code{t1 to t250} Upstream flank (1/2 of gene length)
   \item \code{t251 to t750} ORF
@@ -50,6 +51,6 @@ number of affected genes is printed to the console.\cr
 signal_at_orf2(WT, gff = gff)
 
 signal_at_orf2(WT, gff = "S288C_annotation_modified.gff",
-                   write_to_file = TRUE)
+               write_to_file = TRUE, file_name = "WT_S288C_metaORF.txt")
 }
 }
