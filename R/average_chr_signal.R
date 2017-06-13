@@ -35,18 +35,18 @@
 #' }
 #' @examples
 #' \dontrun{
-#' average_signal(GRanges_object)
+#' average_chr_signal(GRanges_object)
 #' 
-#' average_signal(anti_Rec8, remove_cen=TRUE, mean_norm=TRUE, order_chrs=TRUE)
+#' average_chr_signal(anti_Rec8, remove_cen=TRUE, mean_norm=TRUE, order_chrs=TRUE)
 #' 
-#' average_signal(anti_Rec8, remove_cen=TRUE, genome = 'SK1Yue',
-#'                cen_region_length=40000, mean_norm=TRUE, order_chrs=TRUE)
+#' average_chr_signal(anti_Rec8, remove_cen=TRUE, genome = 'SK1Yue',
+#'                    cen_region_length=40000, mean_norm=TRUE, order_chrs=TRUE)
 #' }
 #' @export
 
-average_signal <- function(gr, remove_cen=FALSE, genome,
-                           cen_region_length=50000,
-                           mean_norm = FALSE, order_chrs=FALSE){
+average_chr_signal <- function(gr, remove_cen=FALSE, genome,
+                               cen_region_length=50000,
+                               mean_norm = FALSE, order_chrs=FALSE){
   # IO checks
   check_package("GenomicRanges")
   if (!is(gr, "GRanges")) stop('input must be a GRanges object.')
