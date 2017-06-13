@@ -76,11 +76,12 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
   gff <- GenomeInfoDb::dropSeqlevels(gff, c('chrMito', '2-micron'))
   
   # Check seqnames (must match between input data and gff)
-  if (check_genome(signal_data)[1] != check_genome(gff)[1]) {
+  # this does not catch the problem of mixing SK1Yue and S288C!
+  if (check_chr_names(signal_data) != check_chr_names(gff)) {
     stop("The reference genomes in the data and the gff do not seem to match.",
          call. = FALSE)
-  } else if (check_genome(signal_data)[1] == check_genome(gff)[1]) {
-    message('Ref. genome: ', paste(check_genome(signal_data), collapse = " "))
+  } else if (check_chr_names(signal_data) == check_chr_names(gff)) {
+    message('Chromosomes numbered using ', check_chr_names(signal_data))
   } else stop('Did not recognize reference genome.\n',
               'Please ensure chromosome numbers are in the expected format:\n',
               'e.g. "chrI" or "chr01".')

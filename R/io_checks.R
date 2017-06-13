@@ -16,18 +16,18 @@ check_package <- function(package) {
   }
 }
 
-check_genome <- function(gr) {
+check_chr_names <- function(gr) {
   check_package("GenomicRanges")
   if (!is(gr, "GRanges")) stop("Input must be a GRanges object")
  
   # Check only first few rows to speed up runtime 
   if (any(grep('chr[XVI]',
                as.character(GenomicRanges::seqnames(gr[1:10]))))) {
-    return(c('SK1Yue or S288c', '(chrs named using roman numerals)'))
+    return('roman numerals')
   } else if (any(grep('chr[0-9]',
                       as.character(GenomicRanges::seqnames(gr[1:50]))))) {
-    return(c('SK1', '(chrs numbered using arabic numerals)'))
-  } else stop ('Did not recognize reference genome.\n',
+    return('arabic numerals')
+  } else stop ('Did not recognize chromosome numbering system\n',
                'Please ensure chromosome numbers are in the usual format:\n',
                '"chrI" or "chr01".')
 }

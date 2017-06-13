@@ -9,6 +9,15 @@
 #' respectively. No default.
 #' @param remove_cen Logical indicating whether to remove regions around
 #' centromeres. Defaults to \code{FALSE}.
+#' @param ref_genome Character string indicating reference genome used to align
+#' the data. Must be provided when \code{remove_cen = TRUE}, in order to load
+#' appropriate centromere data. Accepts one of the following strings:
+#' \enumerate{
+#'   \item \code{"SK1Yue"}
+#'   \item \code{"S288C"}
+#'   \item \code{"SK1"}
+#' }
+#' No default.
 #' @param cen_region_length Integer indicating the length (in bp) of the region
 #' to remove (centered on the centromere of each chromosome).
 #' Defaults to 50'000 bp.
@@ -30,12 +39,13 @@
 #' 
 #' average_signal(anti_Rec8, remove_cen=TRUE, mean_norm=TRUE, order_chrs=TRUE)
 #' 
-#' average_signal(anti_Rec8, remove_cen=TRUE, cen_region_length=40000,
-#'                mean_norm=TRUE, order_chrs=TRUE)
+#' average_signal(anti_Rec8, remove_cen=TRUE, ref_genome = 'SK1Yue',
+#'                cen_region_length=40000, mean_norm=TRUE, order_chrs=TRUE)
 #' }
 #' @export
 
-average_signal <- function(gr, remove_cen=FALSE, cen_region_length=50000,
+average_signal <- function(gr, remove_cen=FALSE, ref_genome,
+                           cen_region_length=50000,
                            mean_norm = FALSE, order_chrs=FALSE){
   # IO checks
   check_package("GenomicRanges")
@@ -45,10 +55,33 @@ average_signal <- function(gr, remove_cen=FALSE, cen_region_length=50000,
   }
   
   if (remove_cen) {
+    if (missing(ref_genome)) {
+      stop('No reference genome provided.\n',
+           '"ref_genome" is required when "remove_cen = TRUE"',
+           call. = FALSE)
+    }
+    
+    # Make sure provided ref_genome does not clash with data
+    if (check_chr_names(gr) == 'roman numerals') {
+      if (!ref_genome %in% c('SK1Yue', 'S288C')) {
+        stop('"ref_genome" must be either "SK1Yue" or "S288C"', call. = FALSE)
+      }
+    } else {
+      if (ref_genome != 'SK1') stop('"ref_genome" must be either "SK1"',
+                                    call. = FALSE)
+    }
+    
     message('Removing ', floor(cen_region_length / 1000),
-            'Kb regions around centromeres...')
+            '-Kb regions around centromeres...')
+
     # Load centromere data
-    if (check_genome(gr)[1] == 'S288c') cen <- sacCer3cen else cen <- SK1cen
+    if (ref_genome == 'SK1Yue') {
+      cen <- SK1Yuecen
+    } else if (ref_genome == 'S288C') {
+      cen <- sacCer3cen
+    } else if (ref_genome == 'SK1') {
+      cen <- SK1cen
+    }
     
     # Add/subtract half of region length (centered on centromere midpoint)
     half_length <- floor(cen_region_length / 2)
@@ -93,23 +126,24 @@ order_chromosomes <- function(df, chr_column, decreasing=FALSE) {
   }
   
   # Check reference genome and get order
-  chrom_S288C <- c('chrI', 'chrVI', 'chrIII', 'chrIX', 'chrVIII', 'chrV',
+  chrom_roman <- c('chrI', 'chrVI', 'chrIII', 'chrIX', 'chrVIII', 'chrV',
                    'chrXI', 'chrX', 'chrXIV', 'chrII', 'chrXIII', 'chrXVI',
                    'chrXII', 'chrVII', 'chrXV', 'chrIV')
-  chrom_SK1 <- c('chr01', 'chr06', 'chr03', 'chr09', 'chr08', 'chr05', 'chr11',
-                 'chr10', 'chr14', 'chr02', 'chr13', 'chr16', 'chr12', 'chr07',
-                 'chr15', 'chr04')
+  chrom_arabic <- c('chr01', 'chr06', 'chr03', 'chr09', 'chr08', 'chr05',
+                    'chr11', 'chr10', 'chr14', 'chr02', 'chr13', 'chr16',
+                    'chr12', 'chr07', 'chr15', 'chr04')
   
-  check_S288C <- any(grep('chr[XVI]', df[, chr_column]))
-  check_SK1 <- any(grep('chr[0-9]', df[, chr_column]))
+  check_roman <- any(grep('chr[XVI]', df[, chr_column]))
+  check_arabic <- any(grep('chr[0-9]', df[, chr_column]))
   
-  if (check_S288C && !check_SK1) {
-    chrom <- chrom_S288C    
-  } else if (check_SK1 && !check_S288C) {
-    chrom <- chrom_SK1
-  } else stop('Did not recognize reference genome.\n',
-              'Please make sure it is in one of the following two formats:\n',
-              '"chrI" or "chr01"', call. = FALSE)
+  if (check_roman && !check_arabic) {
+    chrom <- chrom_roman    
+  } else if (check_arabic && !check_roman) {
+    chrom <- chrom_arabic
+  } else stop('Did not recognize chromosome numbering system.\n',
+              'Please make sure chromosomes are numbered according to one of',
+              ' the following formats:\n',
+              'e.g. "chrI" or "chr01"', call. = FALSE)
   
   if (decreasing) chrom <- rev(chrom)
   
