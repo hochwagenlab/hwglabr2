@@ -9,12 +9,12 @@
 #' respectively. No default.
 #' @param remove_cen Logical indicating whether to remove regions around
 #' centromeres. Defaults to \code{FALSE}.
-#' @param ref_genome Character string indicating reference genome used to align
+#' @param genome Character string indicating reference genome used to align
 #' the data. Must be provided when \code{remove_cen = TRUE}, in order to load
 #' appropriate centromere data. Accepts one of the following strings:
 #' \enumerate{
 #'   \item \code{"SK1Yue"}
-#'   \item \code{"S288C"}
+#'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
 #' }
 #' No default.
@@ -39,12 +39,12 @@
 #' 
 #' average_signal(anti_Rec8, remove_cen=TRUE, mean_norm=TRUE, order_chrs=TRUE)
 #' 
-#' average_signal(anti_Rec8, remove_cen=TRUE, ref_genome = 'SK1Yue',
+#' average_signal(anti_Rec8, remove_cen=TRUE, genome = 'SK1Yue',
 #'                cen_region_length=40000, mean_norm=TRUE, order_chrs=TRUE)
 #' }
 #' @export
 
-average_signal <- function(gr, remove_cen=FALSE, ref_genome,
+average_signal <- function(gr, remove_cen=FALSE, genome,
                            cen_region_length=50000,
                            mean_norm = FALSE, order_chrs=FALSE){
   # IO checks
@@ -55,31 +55,32 @@ average_signal <- function(gr, remove_cen=FALSE, ref_genome,
   }
   
   if (remove_cen) {
-    if (missing(ref_genome)) {
+    if (missing(genome)) {
       stop('No reference genome provided.\n',
-           '"ref_genome" is required when "remove_cen = TRUE"',
+           '"genome" is required when "remove_cen = TRUE"',
            call. = FALSE)
     }
     
-    # Make sure provided ref_genome does not clash with data
+    if (!is(genome, "character")) stop('"genome" must be a character object.')
+    
+    # Make sure provided genome does not clash with data
     if (check_chr_names(gr) == 'roman numerals') {
-      if (!ref_genome %in% c('SK1Yue', 'S288C')) {
-        stop('"ref_genome" must be either "SK1Yue" or "S288C"', call. = FALSE)
+      if (!genome %in% c('SK1Yue', 'S288C')) {
+        stop('"genome" must be either "SK1Yue" or "S288C"', call. = FALSE)
       }
     } else {
-      if (ref_genome != 'SK1') stop('"ref_genome" must be either "SK1"',
-                                    call. = FALSE)
+      if (genome != 'SK1') stop('"genome" must be "SK1"', call. = FALSE)
     }
     
     message('Removing ', floor(cen_region_length / 1000),
             '-Kb regions around centromeres...')
 
     # Load centromere data
-    if (ref_genome == 'SK1Yue') {
+    if (genome == 'SK1Yue') {
       cen <- SK1Yuecen
-    } else if (ref_genome == 'S288C') {
+    } else if (genome == 'sacCer3') {
       cen <- sacCer3cen
-    } else if (ref_genome == 'SK1') {
+    } else if (genome == 'SK1') {
       cen <- SK1cen
     }
     
