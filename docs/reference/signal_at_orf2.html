@@ -90,7 +90,7 @@ affected genes will contain "NA" values in the output. As a warning, the
 number of affected genes is printed to the console.</p>
     
 
-    <pre class="usage"><span class='fu'>signal_at_orf2</span>(<span class='no'>signal_data</span>, <span class='no'>gff</span>, <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>signal_at_orf2</span>(<span class='no'>signal_data</span>, <span class='no'>gff</span>, <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>file_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -110,17 +110,22 @@ object. No default.</p></td>
     <tr>
       <th>write_to_file</th>
       <td><p>Logical indicating whether output should be written to a
-.txt file (in current working directory). If <code>to_file = FALSE</code> the
-function returns output R object. Defaults to <code>FALSE</code>.</p></td>
+.txt file. The file will be saved at location provided in "file_name"
+argument or at the current working directory if only a file name is provided).
+If <code>write_to_file = FALSE</code> the function returns output R object.
+Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>file_name</th>
+      <td><p>Charatcer string indicating file name when writing output to
+a .txt file. Must be provided if <code>write_to_file = TRUE</code>. No default.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with 1001 columns:</p><ol>
-<li><p><code>gene</code> First column with the gene IDs (if found in input gff)</p></li>
-<li><p><code>t1 to t1000</code> 1000 columns with signal at each meta position.</p></li>
-</ol><p>Columns t1 to t1000 correspond to the following meta positions:</p><ol>
+    <p>An <code>EnrichedHeatmap</code> matrix with 1000 columns containing signal
+at each meta position. Columns correspond to the following meta positions:</p><ol>
 <li><p><code>t1 to t250</code> Upstream flank (1/2 of gene length)</p></li>
 <li><p><code>t251 to t750</code> ORF</p></li>
 <li><p><code>t751 to t1000</code> Downstream flank (1/2 of gene length)</p></li>
@@ -133,7 +138,7 @@ function returns output R object. Defaults to <code>FALSE</code>.</p></td>
   <span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='no'>gff</span>)
 
   <span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='st'>"S288C_annotation_modified.gff"</span>,
-                     <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+                 <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"WT_S288C_metaORF.txt"</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
