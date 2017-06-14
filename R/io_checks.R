@@ -6,7 +6,7 @@
 check_package <- function(package) {
   if (!requireNamespace(package, quietly = TRUE)) {
     if (package == "EnrichedHeatmap") {
-      stop('Requires R package "EnrichedHeatmap". Please install it.',
+      stop('Requires R package "EnrichedHeatmap". Please install it.\n',
            'Note: please install the latest version ',
            '(from GitHub, NOT Bioconductor):\n',
            'devtools::install_github("jokergoo/EnrichedHeatmap")',
