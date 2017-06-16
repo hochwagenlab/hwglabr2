@@ -4,25 +4,28 @@
 \alias{elapsed_time}
 \title{Return elapsed time}
 \usage{
-elapsed_time(t0)
+elapsed_time(t0, t1)
 }
 \arguments{
-\item{t0}{Output of \code{proc.time}, either all elements or just element
-"elapsed". No default.}
+\item{t0}{Numeric start time representing seconds. No default.}
+
+\item{t1}{Numeric end time representing continuous second count from
+\code{t0}. No default.}
 }
 \value{
-\code{String}.
+\code{String} containing elapsed time.
 }
 \description{
-Given a time stamp generated with \code{proc.time}, returns elapsed time in
-sec., min. or hrs, as appropriate.
+Given a start and end time in seconds, returns elapsed time in sec., min. or
+hrs, as appropriate.
 }
 \examples{
 \dontrun{
-start <- proc.time()
-elapsed_time(t0=start)
-
 start <- proc.time()[3]
-elapsed_time(t0=start)
+end <- proc.time()[3]
+elapsed_time(t0=start, t1=end)
+
+start <- proc.time()
+elapsed_time(start[3], proc.time()[3])
 }
 }
