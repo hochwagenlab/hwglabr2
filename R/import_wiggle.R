@@ -20,7 +20,7 @@
 #' @export
 
 import_wiggle <- function(path, local_copy=TRUE){
-  t0  <- proc.time()
+  t0  <- proc.time()[3]
   
   # IO checks
   if (is(path, "character")  & length(list.files(path)) != 0) {
@@ -52,7 +52,7 @@ import_wiggle <- function(path, local_copy=TRUE){
                                         score=score)) 
 
   message('---')
-  message('Completed in ', hwglabr2::elapsed_time(t0))
+  message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
   
   return(gr)
 }

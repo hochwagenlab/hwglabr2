@@ -41,7 +41,7 @@
 #' @export
 
 signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
-  t0  <- proc.time()
+  t0  <- proc.time()[3]
   
   # IO checks
   check_package("GenomicRanges")
@@ -133,7 +133,7 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
     attr(mat, "target_name") <- 'ORFs'
     
     message('---')
-    message('Completed in ', hwglabr2::elapsed_time(t0))
+    message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
     return(mat)
     }
 }

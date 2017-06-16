@@ -48,7 +48,7 @@
 
 signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
                                    genome) {
-  t0  <- proc.time()
+  t0  <- proc.time()[3]
   
   # IO checks
   check_package("GenomicRanges")
@@ -116,6 +116,6 @@ signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
               df)
   
   message('---')
-  message('Completed in ', hwglabr2::elapsed_time(t0))
+  message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
   return(df)
 }

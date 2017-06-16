@@ -34,7 +34,7 @@
 
 import_bedGraph <- function(path, keep_zeros=FALSE, local_copy=TRUE,
                             use_rtracklayer=FALSE){
-  t0  <- proc.time()
+  t0  <- proc.time()[3]
   
   # IO checks
   if (is(path, "character") & length(list.files(path)) == 0) {
@@ -73,8 +73,9 @@ import_bedGraph <- function(path, keep_zeros=FALSE, local_copy=TRUE,
     gr <- gr[gr$score > 0]
   }
   
+  
   message('---')
-  message('Completed in ', hwglabr2::elapsed_time(t0))
+  message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
   
   return(gr)
 }
