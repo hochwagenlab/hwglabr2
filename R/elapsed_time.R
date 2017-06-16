@@ -19,12 +19,13 @@ elapsed_time <- function(t0){
   
   # IO checks
   if (!(is(t0, "proc_time"))) {
-    if (!(is(t0, "numeric") | length(t0) != 1)) {
-      stop("'t0' must be the output of proc.time (in full or a single element)")
+    if (!(is(t0, "numeric") | length(t0) != 1 | names(t0) != "elapsed")) {
+      stop('"t0" must be the output of proc.time ',
+           '(in full or the "elapsed" element)')
     }
   }
   
-  # Are all elements returned by proc.time included?
+  # Is full proc_time object included?
   if (is(t0, "proc_time")) t0 <- t0[3]
   # Calculate elapsed time
   elapsed_time <- proc.time()[3] - t0
