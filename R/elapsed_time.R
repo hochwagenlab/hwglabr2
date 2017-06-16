@@ -18,8 +18,10 @@
 elapsed_time <- function(t0){
   
   # IO checks
-  if (!(is(t0, "proc_time") | is(t0, "numeric"))) {
-    stop("'t0' must be the output of proc.time (in full or a subset)")
+  if (!(is(t0, "proc_time"))) {
+    if (!(is(t0, "numeric") | length(t0) != 1)) {
+      stop("'t0' must be the output of proc.time (in full or a single element)")
+    }
   }
   
   # Are all elements returned by proc.time included?
