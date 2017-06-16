@@ -16,8 +16,14 @@
 #' @export
 
 elapsed_time <- function(t0){
+  
+  # IO checks
+  if (!(is(t0, "proc_time") | is(t0, "numeric"))) {
+    stop("'t0' must be the output of proc.time (in full or a subset)")
+  }
+  
   # Are all elements returned by proc.time included?
-  if (length(t0) > 1) t0 <- t0[3]
+  if (is(t0, "proc_time")) t0 <- t0[3]
   # Calculate elapsed time
   elapsed_time <- proc.time()[3] - t0
   
