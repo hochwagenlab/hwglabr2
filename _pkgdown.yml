@@ -10,15 +10,15 @@ reference:
     - import_bedGraph
     - import_wiggle
   - title: Data info
-    desc:  Get data useful as input for downstream analyses.
+    desc:  (functions returning data useful as input for downstream analyses)
     contents:
     - get_chr_coordinates
   - title: Analyses
-    desc:  Implementations of useful analyses.
     contents:
     - average_chr_signal
     - signal_at_orf2
     - signal_from_telomeres2
+    - signal_flanking_rDNA
   - title: Helpers
     contents:
     - elapsed_time
