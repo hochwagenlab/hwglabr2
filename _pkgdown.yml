@@ -1,0 +1,24 @@
+url: https://hochwagenlab.github.io/hwglabr2
+
+template:
+  params:
+    bootswatch: yeti
+
+reference:
+  - title: Import data
+    contents:
+    - import_bedGraph
+    - import_wiggle
+  - title: Data info
+    desc:  Get data useful as input for downstream analyses.
+    contents:
+    - get_chr_coordinates
+  - title: Analyses
+    desc:  Implementations of useful analyses.
+    contents:
+    - average_chr_signal
+    - signal_at_orf2
+    - signal_from_telomeres2
+  - title: Helpers
+    contents:
+    - elapsed_time
