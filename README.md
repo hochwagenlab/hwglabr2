@@ -31,7 +31,7 @@ See the
 GitHub wiki page for example usage of `hwglabr2` to perform some common analysis.
 
 For function documentation, use the package GitHub [repo](https://github.com/hochwagenlab/hwglabr2)
-and the [documentation website](http://www.nyu.edu/projects/hochwagen/hwglabr2_docs/)
+and the [documentation website](https://hochwagenlab.github.io/hwglabr2/)
 built with `pkgdown`.
 
 Function documentation is also accessible within R in the standard way, by typing
