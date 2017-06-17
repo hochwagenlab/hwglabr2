@@ -18,11 +18,11 @@
 #' @param gff Either a path to a gff file or loaded gff data as a \code{GRanges}
 #' object. No default.
 #' @param write_to_file Logical indicating whether output should be written to a
-#' .txt file. The file will be saved at location provided in "file_name"
+#' .txt file. The file will be saved at location provided in \code{file_name}
 #' argument or at the current working directory if only a file name is provided).
 #' If \code{write_to_file = FALSE} the function returns output R object.
 #' Defaults to \code{FALSE}.
-#' @param file_name Charatcer string indicating file name when writing output to
+#' @param file_name Character string indicating file name when writing output to
 #' a .txt file. Must be provided if \code{write_to_file = TRUE}. No default.
 #' @return An \code{EnrichedHeatmap} matrix with 1000 columns containing signal
 #' at each meta position. Columns correspond to the following meta positions:
