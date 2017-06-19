@@ -82,10 +82,19 @@ sacCer3cen <- with(sacCer3cen,
 #                         (Conv, div and tandem)                               #
 # The intergenic region coordinate file generated using the scripts in:
 # '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
+# S288C and old SK1 regions were generated from the files in hwglabr
 
 # 1. Import SK1Yue data
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 SK1Yue_intergenic <- read.table(paste0(path, 'SK1Yue_intergenic.txt'),
+                                header = TRUE, stringsAsFactors = FALSE)
+# 2. Import SK1 data
+path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
+SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
+                             header = TRUE, stringsAsFactors = FALSE)
+# 3. Import S288C data
+path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
+SK288c_intergenic <- read.table(paste0(path, 'S288C_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
 
 #------------------------------------------------------------------------------#
@@ -99,6 +108,6 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 # Set package directory as working directory
 # setwd('/path/to/hwglabr2/')
 devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
-                   SK1Yue_intergenic,
+                   SK1Yue_intergenic, SK1_intergenic, S288C_intergenic,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
 
