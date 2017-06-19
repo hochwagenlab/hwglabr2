@@ -94,8 +94,8 @@ SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
                              header = TRUE, stringsAsFactors = FALSE)
 # 3. Import S288C data
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
-SK288C_intergenic <- read.table(paste0(path, 'S288C_intergenic.txt'),
-                                header = TRUE, stringsAsFactors = FALSE)
+sacCer3_intergenic <- read.table(paste0(path, 'sacCer3_intergenic.txt'),
+                                 header = TRUE, stringsAsFactors = FALSE)
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
