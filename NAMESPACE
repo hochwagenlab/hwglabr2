@@ -3,6 +3,7 @@
 export(average_chr_signal)
 export(elapsed_time)
 export(get_chr_coordinates)
+export(get_intergenic_regions)
 export(import_bedGraph)
 export(import_wiggle)
 export(signal_at_orf2)
