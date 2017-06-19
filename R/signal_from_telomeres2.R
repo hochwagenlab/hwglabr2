@@ -59,7 +59,7 @@ signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
   }
   
   if (!is(length_to_collect, "numeric")) {
-    stop('"length_to_collect" must be an integer.', call. = FALSE)
+    stop('"length_to_collect" must be numeric.', call. = FALSE)
   }
   
   if (missing(genome)) stop('"genome" is a required argument.\n', call. = FALSE)
@@ -76,6 +76,8 @@ signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
   } else stop('"genome" argument must be one of "SK1Yue", "sacCer3" or "SK1".')
   
   message('Making GRanges object of subtelomeric regions...')
+  # Make sure it is integer
+  length_to_collect <- floor(length_to_collect)
   
   # Left arms
   left_arm <- coord_table
