@@ -94,7 +94,7 @@ SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
                              header = TRUE, stringsAsFactors = FALSE)
 # 3. Import S288C data
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
-SK288c_intergenic <- read.table(paste0(path, 'S288C_intergenic.txt'),
+SK288C_intergenic <- read.table(paste0(path, 'S288C_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
 
 #------------------------------------------------------------------------------#
@@ -110,4 +110,3 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
                    SK1Yue_intergenic, SK1_intergenic, S288C_intergenic,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
-
