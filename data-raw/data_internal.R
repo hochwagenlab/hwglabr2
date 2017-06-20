@@ -104,13 +104,13 @@ sacCer3_intergenic <- read.table(paste0(path, 'sacCer3_intergenic.txt'),
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 SK1Yue_Red1_summits_file <- paste0(path,
                                    'AH119BC-SacCer3-2mis-PM-reps-',
-                                   'M5_Q20_summits.bed')
+                                   'M5_over20_summits.bed')
 SK1Yue_Red1_summits <- rtracklayer::import.bed(SK1Yue_Red1_summits_file)
 
 # 2. Import S288C data
 sacCer3_Red1_summits_file <- paste0(path,
                                     'Red1-wildtype-71-34-199-29-Reps-',
-                                    'SK1Yue-PM_B3W3_MACS2_Q20_summits.bed')
+                                    'SK1Yue-PM_B3W3_MACS2_over20_summits.bed')
 sacCer3_Red1_summits <- rtracklayer::import.bed(sacCer3_Red1_summits_file)
 
 #------------------------------------------------------------------------------#
