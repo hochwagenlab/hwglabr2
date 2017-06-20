@@ -89,13 +89,29 @@ path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 SK1Yue_intergenic <- read.table(paste0(path, 'SK1Yue_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
 # 2. Import SK1 data
-path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
                              header = TRUE, stringsAsFactors = FALSE)
 # 3. Import S288C data
-path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 sacCer3_intergenic <- read.table(paste0(path, 'sacCer3_intergenic.txt'),
                                  header = TRUE, stringsAsFactors = FALSE)
+
+#------------------------------------------------------------------------------#
+#                           Red1 summits in WT                                 #
+#                         (Conv, div and tandem)                               #
+# Files generated using the scripts in:
+# '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
+# 1. Import SK1Yue data
+path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
+SK1Yue_Red1_summits_file <- paste0(path,
+                                   'AH119BC-SacCer3-2mis-PM-reps-',
+                                   'M5_Q20_summits.bed')
+SK1Yue_Red1_summits <- rtracklayer::import.bed(SK1Yue_Red1_summits_file)
+
+# 2. Import S288C data
+sacCer3_Red1_summits_file <- paste0(path,
+                                    'Red1-wildtype-71-34-199-29-Reps-',
+                                    'SK1Yue-PM_B3W3_MACS2_Q20_summits.bed')
+sacCer3_Red1_summits <- rtracklayer::import.bed(sacCer3_Red1_summits_file)
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
@@ -108,5 +124,6 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 # Set package directory as working directory
 # setwd('/path/to/hwglabr2/')
 devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
-                   SK1Yue_intergenic, SK1_intergenic, S288C_intergenic,
+                   SK1Yue_intergenic, SK1_intergenic, sacCer3_intergenic,
+                   SK1Yue_Red1_summits, sacCer3_Red1_summits,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
