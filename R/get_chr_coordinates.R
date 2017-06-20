@@ -38,7 +38,6 @@ get_chr_coordinates <- function(genome='SK1Yue', as_df=FALSE){
   } else stop('"genome" argument must be one of "SK1Yue", "sacCer3" or "SK1".')
   
   if (as_df) {
-    check_package("GenomicRanges")
     coord_table <- cbind(GenomicRanges::as.data.frame(coord_table),
                    chr_len=GenomeInfoDb::seqlengths(coord_table))
   }
