@@ -7,10 +7,13 @@
 #' and 2 kb, flanking regions of 250 bp and 1 kb will be collected up and
 #' downstream, respectively. The whole region is then rescaled to a length of
 #' 1000, corresponding to a gene length of 500 plus 250 for each flanking
-#' region.\cr\cr\cr
-#' \strong{Note:} Our ChIP-seq data always contains gaps with missing data. The
+#' region.
+#' 
+#' @section Warning:
+#' Our ChIP-seq data always contains gaps with missing data. The
 #' affected genes will contain "NA" values in the output. As a warning, the
-#' number of affected genes is printed to the console.\cr
+#' number of affected genes is printed to the console.
+#' 
 #' @param signal_data Input signal track data as a \code{GRanges} object (see
 #' \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 #' run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},

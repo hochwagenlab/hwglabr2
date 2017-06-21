@@ -41,11 +41,15 @@ value (1000). This means that for two example genes with lengths of 500 bp
 and 2 kb, flanking regions of 250 bp and 1 kb will be collected up and
 downstream, respectively. The whole region is then rescaled to a length of
 1000, corresponding to a gene length of 500 plus 250 for each flanking
-region.\cr\cr\cr
-\strong{Note:} Our ChIP-seq data always contains gaps with missing data. The
-affected genes will contain "NA" values in the output. As a warning, the
-number of affected genes is printed to the console.\cr
+region.
 }
+\section{Warning}{
+
+Our ChIP-seq data always contains gaps with missing data. The
+affected genes will contain "NA" values in the output. As a warning, the
+number of affected genes is printed to the console.
+}
+
 \examples{
 \dontrun{
 signal_at_orf2(WT, gff = gff)

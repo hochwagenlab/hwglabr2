@@ -1,16 +1,18 @@
 #' Collect signal from telomeres for all chromosome arms
 #'
 #' Pulls out the ChIP signal starting at chromosome ends inward up to a
-#' specified distance.\cr
-#' \strong{Note:} The fact that some sub-telomeric sequences may be incomplete
+#' specified distance.
+#' 
+#' @section Warning:
+#' The fact that some sub-telomeric sequences may be incomplete
 #' in the genome means that in some cases we have ChIP-seq data mapping all the
 #' way to the very end of the available sequence. This, together with the read
 #' extension performed by MACS, leads to some cases where the last positions in
 #' the signal data for the right chromosome arms are higher than the annotated
 #' length of the respective chromosome. As a result, some negative position
 #' values may appear in the output of this function (typically not off by more
-#' than 150 bp).\cr
-#' \cr \cr
+#' than 150 bp).
+#' 
 #' @param signal_data Input signal track data as a \code{GRanges} object (see
 #' \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
 #' run \code{\link{import_wiggle}} and \code{\link{import_bedGraph}},
