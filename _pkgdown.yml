@@ -21,6 +21,7 @@ reference:
     - signal_at_orf2
     - signal_from_telomeres2
     - signal_flanking_rDNA
+    - signal_mean_and_ci
   - title: Helpers
     contents:
     - elapsed_time
