@@ -41,7 +41,7 @@ signal_mean_and_ci <- function(signal_data, ci=0.95, rep_bootstrap=1000,
   # IO checks
   signal_data <- as.matrix(signal_data)
   
-  if (!is.class(signal_data[1, ], "numeric")) {
+  if (!is(signal_data[1, ], "numeric")) {
     stop('"signal_data" must be either a numeric matrix or',
          'an object that can be coerced to one', call. = FALSE)
   }
