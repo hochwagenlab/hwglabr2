@@ -78,15 +78,7 @@
 
     
     <p>Pulls out the ChIP signal starting at chromosome ends inward up to a
-specified distance.
-<strong>Note:</strong> The fact that some sub-telomeric sequences may be incomplete
-in the genome means that in some cases we have ChIP-seq data mapping all the
-way to the very end of the available sequence. This, together with the read
-extension performed by MACS, leads to some cases where the last positions in
-the signal data for the right chromosome arms are higher than the annotated
-length of the respective chromosome. As a result, some negative position
-values may appear in the output of this function (typically not off by more
-than 150 bp).</p>
+specified distance.</p>
     
 
     <pre class="usage"><span class='fu'>signal_from_telomeres2</span>(<span class='no'>signal_data</span>, <span class='kw'>length_to_collect</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='no'>genome</span>)</pre>
@@ -132,6 +124,18 @@ following columns are included:</p><ol>
 </ol>
 
     
+    <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
+
+    
+    <p>The fact that some sub-telomeric sequences may be incomplete
+in the genome means that in some cases we have ChIP-seq data mapping all the
+way to the very end of the available sequence. This, together with the read
+extension performed by MACS, leads to some cases where the last positions in
+the signal data for the right chromosome arms are higher than the annotated
+length of the respective chromosome. As a result, some negative position
+values may appear in the output of this function (typically not off by more
+than 150 bp).</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
@@ -146,6 +150,8 @@ following columns are included:</p><ol>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#warning">Warning</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
