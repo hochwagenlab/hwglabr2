@@ -7,6 +7,14 @@
 # Get all data frames and then generate internal package data at the end of the
 # script (/R/sysdata.rda)
 
+#------------------------------------------------------------------------------#
+#                             Helper functions                                 #
+add_genome_name_to_GR <- function(gr, name='SK1Yue') {
+  number_seqs <- length(levels(gr@seqnames))
+  gr@seqinfo@genome <- rep(name, number_seqs)
+  
+  gr
+}
 
 #------------------------------------------------------------------------------#
 #                               Centromeres                                    #
@@ -36,6 +44,8 @@ SK1Yuecen <- with(SK1Yuecen,
                                          seqlengths=setNames(LenChr,
                                                              Chromosome)))
 
+SK1Yuecen <- add_genome_name_to_GR(SK1Yuecen, name='SK1Yue')
+
 # SK1 info based on Keeney lab genome sequence and annotation
 SK1cen <- data.frame("Chromosome" = c("chr01","chr02","chr03","chr04","chr05",
                                       "chr06","chr07","chr08","chr09","chr10",
@@ -59,6 +69,7 @@ SK1cen <- with(SK1cen, GenomicRanges::GRanges(Chromosome,
                                               IRanges::IRanges(Start + 1, End),
                                               seqlengths=setNames(LenChr,
                                                                   Chromosome)))
+SK1cen <- add_genome_name_to_GR(SK1cen, name='SK1')
 
 # S288c
 path <- '/Users/luis/Google_Drive_NYU/LabShare_Luis/LabWork/GenomeSequences/'
@@ -77,6 +88,8 @@ sacCer3cen <- with(sacCer3cen,
                                           seqlengths = setNames(LenChr,
                                                                 Chromosome)))
 
+sacCer3cen <- add_genome_name_to_GR(sacCer3cen, name='sacCer3')
+
 #------------------------------------------------------------------------------#
 #                         Intergenic region data                               #
 #                         (Conv, div and tandem)                               #
@@ -88,6 +101,7 @@ sacCer3cen <- with(sacCer3cen,
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 SK1Yue_intergenic <- read.table(paste0(path, 'SK1Yue_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
+SK1Yue_intergenic <- rtracklayer::import.bedGraph(paste0(path, 'SK1Yue_intergenic.txt'))
 # 2. Import SK1 data
 SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
                              header = TRUE, stringsAsFactors = FALSE)
@@ -106,13 +120,15 @@ SK1Yue_Red1_summits_file <- paste0(path,
                                    'Red1-wildtype-71-34-199-29-Reps-SK1Yue-',
                                    'PM_B3W3_MACS2_over20_summits.bed')
 SK1Yue_Red1_summits <- rtracklayer::import.bed(SK1Yue_Red1_summits_file)
+SK1Yue_Red1_summits <- add_genome_name_to_GR(SK1Yue_Red1_summits, name='SK1Yue')
 
 # 2. Import S288C data
 sacCer3_Red1_summits_file <- paste0(path,
                                     'Red1-wildtype-71-34-199-29-Reps-SacCer3-',
                                     '2mis_B3W3_MACS2_over20_summits.bed')
 sacCer3_Red1_summits <- rtracklayer::import.bed(sacCer3_Red1_summits_file)
-
+sacCer3_Red1_summits <- add_genome_name_to_GR(sacCer3_Red1_summits,
+                                              name='sacCer3')
 
 #------------------------------------------------------------------------------#
 #                            Spo11 DSB hotspots                                #
@@ -123,11 +139,13 @@ sacCer3_Red1_summits <- rtracklayer::import.bed(sacCer3_Red1_summits_file)
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 # 1. Import SK1Yue data
 SK1Yue_file <- 'spo11_SK1Yue_Pan2011hotspot_WT1_fixed.bedgraph'
-SK1Yue_Spo11_DSBs <- read.table(paste0(path, SK1Yue_file))
+SK1Yue_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, SK1Yue_file))
+SK1Yue_Spo11_DSBs <- add_genome_name_to_GR(SK1Yue_Spo11_DSBs, name='SK1Yue')
 
 # 2. Import S288C data
 sacCer3_file <- 'spo11_SacCer3_Pan2011hotspot_WT1_fixed.bedgraph'
-sacCer3_Spo11_DSBs <- read.table(paste0(path, sacCer3_file))
+sacCer3_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, sacCer3_file))
+sacCer3_Spo11_DSBs <- add_genome_name_to_GR(sacCer3_Spo11_DSBs, name='sacCer3')
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
