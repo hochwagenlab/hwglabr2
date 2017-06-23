@@ -34,8 +34,8 @@ check_chr_names <- function(gr) {
 
 check_path <- function(path) {
   if (!file.exists(path)) {
-    stop('Cannot seem to find file:\n', path,
-         '\nPlease check that the provided path is correct.', call. = FALSE)
+    stop('Please check that the provided path is correct:\n', path,
+         call. = FALSE)
   }
 }
 
