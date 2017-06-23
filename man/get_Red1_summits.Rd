@@ -4,7 +4,7 @@
 \alias{get_Red1_summits}
 \title{Get Red1 ChIP-seq summits in WT}
 \usage{
-get_Red1_summits(genome = "SK1Yue", as_df = FALSE)
+get_Red1_summits(genome, as_df = FALSE)
 }
 \arguments{
 \item{genome}{Character object specifying the genome version; accepts one of
@@ -13,7 +13,7 @@ the following options:
   \item \code{"SK1Yue"}
   \item \code{"sacCer3"}
 }
-Default is \code{"SK1Yue"}.}
+No default.}
 
 \item{as_df}{Logical specifying whether the output should be returned as a
 \code{data frame}. If \code{FALSE}, output is a \code{GRanges} object.
@@ -29,7 +29,7 @@ for which -log10 of the peak's p-value is equal or greater than 20.
 }
 \examples{
 \dontrun{
-get_Red1_summits()
+get_Red1_summits(genome='SK1Yue')
 
 get_Red1_summits(genome='sacCer3', as_df=TRUE)
 }

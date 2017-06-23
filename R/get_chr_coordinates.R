@@ -8,7 +8,7 @@
 #'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
 #' }
-#' Default is \code{"SK1Yue"}.
+#' No default.
 #' @param as_df Logical specifying whether the output should be returned as a
 #' \code{data frame}. If \code{FALSE}, output is a \code{GRanges} object.
 #' Defaults to \code{FALSE}.
@@ -16,7 +16,7 @@
 #' chromosome.
 #' @examples
 #' \dontrun{
-#' get_chr_coordinates()
+#' get_chr_coordinates(genome='SK1Yue')
 #' 
 #' get_chr_coordinates(genome='sacCer3', as_df=FALSE)
 #' 
@@ -24,7 +24,7 @@
 #' }
 #' @export
 
-get_chr_coordinates <- function(genome='SK1Yue', as_df=FALSE){
+get_chr_coordinates <- function(genome, as_df=FALSE){
   # IO checks
   check_package("GenomicRanges")
   if (!is(genome, "character")) stop('"genome" must be a character object.')

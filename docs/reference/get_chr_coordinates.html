@@ -80,7 +80,7 @@
     <p>Returns chromosome length and centromere coordinates for specified genome.</p>
     
 
-    <pre class="usage"><span class='fu'>get_chr_coordinates</span>(<span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>"SK1Yue"</span>, <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_chr_coordinates</span>(<span class='no'>genome</span>, <span class='kw'>as_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -92,7 +92,7 @@ the following options:</p><ol>
 <li><p><code>"SK1Yue"</code></p></li>
 <li><p><code>"sacCer3"</code></p></li>
 <li><p><code>"SK1"</code></p></li>
-</ol><p>Default is <code>"SK1Yue"</code>.</p></td>
+</ol><p>No default.</p></td>
     </tr>
     <tr>
       <th>as_df</th>
@@ -110,7 +110,7 @@ chromosome.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='fu'>get_chr_coordinates</span>()
+  <span class='fu'>get_chr_coordinates</span>(<span class='kw'>genome</span><span class='kw'>=</span><span class='st'>'SK1Yue'</span>)
 
   <span class='fu'>get_chr_coordinates</span>(<span class='kw'>genome</span><span class='kw'>=</span><span class='st'>'sacCer3'</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 

@@ -4,7 +4,7 @@
 \alias{get_chr_coordinates}
 \title{Get chromosome coordinates}
 \usage{
-get_chr_coordinates(genome = "SK1Yue", as_df = FALSE)
+get_chr_coordinates(genome, as_df = FALSE)
 }
 \arguments{
 \item{genome}{Character object specifying the genome version; accepts one of
@@ -14,7 +14,7 @@ the following options:
   \item \code{"sacCer3"}
   \item \code{"SK1"}
 }
-Default is \code{"SK1Yue"}.}
+No default.}
 
 \item{as_df}{Logical specifying whether the output should be returned as a
 \code{data frame}. If \code{FALSE}, output is a \code{GRanges} object.
@@ -29,7 +29,7 @@ Returns chromosome length and centromere coordinates for specified genome.
 }
 \examples{
 \dontrun{
-get_chr_coordinates()
+get_chr_coordinates(genome='SK1Yue')
 
 get_chr_coordinates(genome='sacCer3', as_df=FALSE)
 

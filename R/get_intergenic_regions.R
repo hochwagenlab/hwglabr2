@@ -8,19 +8,19 @@
 #'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
 #' }
-#' Default is \code{"SK1Yue"}.
+#' No default.
 #' @return R data frame containing coordinates and annotations for all
 #' intergenic regions in the genome.
 #' @examples
 #' \dontrun{
-#' get_intergenic_regions()
+#' get_intergenic_regions(genome='SK1Yue')
 #' 
 #' get_intergenic_regions(genome='sacCer3')
 #' 
 #' }
 #' @export
 
-get_intergenic_regions <- function(genome='SK1Yue'){
+get_intergenic_regions <- function(genome){
   # IO checks
   if (!is(genome, "character")) stop('"genome" must be a character object.')
   

@@ -4,7 +4,7 @@
 \alias{get_intergenic_regions}
 \title{Get intergenic regions}
 \usage{
-get_intergenic_regions(genome = "SK1Yue")
+get_intergenic_regions(genome)
 }
 \arguments{
 \item{genome}{Character object specifying the reference genome; accepts one
@@ -14,7 +14,7 @@ of the following options:
   \item \code{"sacCer3"}
   \item \code{"SK1"}
 }
-Default is \code{"SK1Yue"}.}
+No default.}
 }
 \value{
 R data frame containing coordinates and annotations for all
@@ -25,7 +25,7 @@ Returns table of intergenic regions for specified genome.
 }
 \examples{
 \dontrun{
-get_intergenic_regions()
+get_intergenic_regions(genome='SK1Yue')
 
 get_intergenic_regions(genome='sacCer3')
 
