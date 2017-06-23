@@ -113,6 +113,22 @@ sacCer3_Red1_summits_file <- paste0(path,
                                     '2mis_B3W3_MACS2_over20_summits.bed')
 sacCer3_Red1_summits <- rtracklayer::import.bed(sacCer3_Red1_summits_file)
 
+
+#------------------------------------------------------------------------------#
+#                            Spo11 DSB hotspots                                #
+# Files generated using the script in:
+# '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
+# Source of data: nature13120-s2_SacCer2.xls from Thacker 2014 paper.
+# S288C data file copied from old package (hwglabr) folder
+path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
+# 1. Import SK1Yue data
+SK1Yue_file <- 'spo11_SK1Yue_Pan2011hotspot_WT1_fixed.bedgraph'
+SK1Yue_Spo11_DSBs <- read.table(paste0(path, SK1Yue_file))
+
+# 2. Import S288C data
+sacCer3_file <- 'spo11_SacCer3_Pan2011hotspot_WT1_fixed.bedgraph'
+sacCer3_Spo11_DSBs <- read.table(paste0(path, sacCer3_file))
+
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
 #                           Add all data to package                            #
@@ -126,4 +142,5 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
                    SK1Yue_intergenic, SK1_intergenic, sacCer3_intergenic,
                    SK1Yue_Red1_summits, sacCer3_Red1_summits,
+                   SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
