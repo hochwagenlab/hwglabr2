@@ -101,7 +101,6 @@ sacCer3cen <- add_genome_name_to_GR(sacCer3cen, name='sacCer3')
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 SK1Yue_intergenic <- read.table(paste0(path, 'SK1Yue_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
-SK1Yue_intergenic <- rtracklayer::import.bedGraph(paste0(path, 'SK1Yue_intergenic.txt'))
 # 2. Import SK1 data
 SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
                              header = TRUE, stringsAsFactors = FALSE)
