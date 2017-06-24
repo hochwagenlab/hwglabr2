@@ -16,6 +16,7 @@ reference:
     - get_intergenic_regions
     - get_Red1_summits
     - get_dsb_hotspots
+    - get_gff
   - title: Analyses
     contents:
     - average_chr_signal
