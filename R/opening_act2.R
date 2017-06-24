@@ -2,7 +2,7 @@
 #'
 #' Runs the lab's standard analysis of ChIP-seq experiment data and produces
 #' several .pdf files of analysis plots to be kept in a new folder at
-#' \code{.../LabShare/HTGenomics/Opening_act/).
+#' \code{.../LabShare/HTGenomics/Opening_act/}.
 #' 
 #' @param signal_data Input signal track data as a \code{GRanges} object (see
 #' \code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
@@ -51,13 +51,13 @@
 #' \code{.../LabShare/HTGenomics/Opening_act/}) containing output plots (as .pdf
 #' files) of the included of the following analyses:
 #' \enumerate{
-#'   \item \strong{Chromosome size bias}
-#'   \item \strong{Signal at centromeres}
-#'   \item \strong{Signal flanking rDNA}
-#'   \item \strong{Signal at sub-telomeric regions}
-#'   \item \strong{Signal at DSB hotspots}
-#'   \item \strong{Signal at axis binding sites}
-#'   \item \strong{Signal at meta ORF}
+#'   \item Chromosome size bias
+#'   \item Signal at centromeres
+#'   \item Signal flanking rDNA
+#'   \item Signal at sub-telomeric regions
+#'   \item Signal at DSB hotspots
+#'   \item Signal at axis binding sites
+#'   \item Signal at meta ORF
 #' }
 #' @examples
 #' \dontrun{
@@ -92,6 +92,17 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                          run_meta_orf=TRUE) {
   t0 <- proc.time()[0]
   
+  # IO checks
+  check_package("GenomicRanges")
+  check_package("EnrichedHeatmap")
+  
+  check_path(ouput_path)
+  
+  if (!is(signal_data, "GRanges")) {
+      stop('"signal_data" must be a GRanges object.', call. = FALSE)
+  }
+  
+  # Ask user to double-check "sample_id" and "genome" argument input
   if(user_input){
     # Ask user to make sure they provided a valid ID for the data set
     title <- paste0('The "sampleID" argument will be used to name the final',
@@ -110,65 +121,14 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     }
   }
   
-  # IO checks
-  check_package("GenomicRanges")
-  check_package("EnrichedHeatmap")
-  
-  check_path(ouput_path)
-  
-  if (!is(signal_data, "GRanges")) {
-    stop('"signal_data" must be a GRanges object.', call. = FALSE)
+  # Create output directory (if it doesn;t already exist)
+  output_dir <- paste0(genotype, '_anti-', chip_target, '_', sample_id)
+  if (file.exists(paste0(ouput_path, output_dir))) {
+      stop('A folder named "', output_dir, '" already exists at\n', ouput_path,
+           call. = FALSE)
   }
-  
-
-  
-  
-  
-  
-  # Check which reference genome was used to map seq. data
-  check_S288C <- any(grep('chrI.', names(wiggleData), fixed = TRUE))
-  check_SK1 <- any(grep('chr01.', names(wiggleData), fixed = TRUE))
-  if (check_S288C) {
-    refGenome <- 'S288c'
-    message("Detected ref. genome - S288c (Chrs numbered using roman numerals)")
-    
-    if(exists('s288C_gff')){
-      gff_file <- s288C_gff
-    } else {
-      stop('Cannot load data. Please load the package before running:
-           library(hwglabr)', call. = FALSE)
-    }
-  }
-  else if (check_SK1) {
-    refGenome <- 'SK1'
-    message("Detected ref. genome - SK1 (Chrs numbered using arabic numerals)")
-    
-    if(exists('SK1_gff')){
-      gff_file <- SK1_gff
-    } else {
-      stop('Cannot load data. Please load the package before running:
-           library(hwglabr)', call. = FALSE)
-    }
-  }
-  else stop("Did not recognize reference genome.
-            Please make sure chromosome numbers follow the standard format.",
-            call. = FALSE)
-  
-  # Check that gff data (for signal_at_orf) can be loaded
-  
-  
-  
-  destination <- "/Volumes/LabShare/HTGenomics/Opening_act/"
-  output_dir <- paste0(relevantGenotype, '_anti-', chipTarget, '_',
-                       sampleID)
-  # Check if the directory already exists
-  if (file.exists(paste0(destination, output_dir))) {
-    stop('A folder named "', output_dir, '" already exists in "Opening_act".\n',
-         call. = FALSE)
-  }
-  # Create output directory
-  message('Creating output directory "', output_dir, '"')
-  dir.create(file.path(paste0(destination, output_dir)))
+  message('Creating output directory "', output_dir, '"...')
+  dir.create(file.path(paste0(ouput_path, output_dir)))
   
   #----------------------------------------------------------------------------#
   #                                Run analysis                                #
@@ -182,7 +142,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   suppressMessages(
     hwglabr::chr_coverage_plot(output, genome = refGenome, meanNorm = TRUE,
                                onScreen = FALSE,
-                               fileName = paste0(destination, output_dir, '/',
+                               fileName = paste0(output_path, output_dir, '/',
                                                  output_dir, '_chrSizeBias.pdf'))
   )
   
@@ -211,7 +171,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   )
   
   # plot results
-  fileName <- paste0(destination, output_dir, '/', output_dir, '_signalAtCen.pdf')
+  fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtCen.pdf')
   pdf(file = paste0(fileName), width = 6, height = 3)
   
   YLIM <- range(wiggle_cen_avg$mean_signal)
@@ -231,7 +191,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   colnames(rDNA) <- c('position', 'signal')
   
   # plot results
-  fileName <- paste0(destination, output_dir, '/', output_dir, '_signalAtrDNA.pdf')
+  fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtrDNA.pdf')
   pdf(file = paste0(fileName), width = 6, height = 3)
   
   plot(rDNA$position/1000, rDNA$signal, type="l",
@@ -301,7 +261,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                                             'signal' = data[[2]])
     
     # Plot results
-    fileName <- paste0(destination, output_dir, '/', output_dir, '_signalAtTelomeres.pdf')
+    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtTelomeres.pdf')
     pdf(file = paste0(fileName), width = 6, height = 4)
     
     plot(averageSubtelomericSignal$distance_from_telomere / 1000,
@@ -347,7 +307,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     colors <- c("lightblue1", "cadetblue1", "deepskyblue", "deepskyblue3",
                 "royalblue", "blue", "blue4", "black")
     
-    fileName <- paste0(destination, output_dir, '/', output_dir, '_signalAtDSBhotspots.pdf')
+    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtDSBhotspots.pdf')
     pdf(file = paste0(fileName), width = 6, height = 5)
     
     plot(0, type="l", lwd=3, xlim = c(-1000, 1000), ylab="ChIP-seq signal",
@@ -395,7 +355,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     
     colors <- c("darkolivegreen3", "green3", "darkgreen", "black")
     
-    fileName <- paste0(destination, output_dir, '/', output_dir, '_signalAtAxisSites.pdf')
+    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtAxisSites.pdf')
     pdf(file = paste0(fileName), width = 6, height = 5)
     
     plot(0, type="l", lwd=3, ylab="ChIP-seq signal", xlim = c(-1000, 1000),
@@ -426,7 +386,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     suppressMessages(meta_orf <- hwglabr::signal_average(meta_orf, saveFile = F))
     
     # plot results
-    fileName <- paste0(destination, output_dir, '/', output_dir, '_signalAtORF.pdf')
+    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtORF.pdf')
     pdf(file = paste0(fileName), width = 4, height = 3)
     
     plot(meta_orf, type = 'l', xaxt = 'n', yaxt = 'n',
@@ -444,7 +404,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   message()
   message('------------------')
-  message('All plots saved to ', paste0(destination, output_dir))
+  message('All plots saved to ', paste0(output_path, output_dir))
   message('------------------')
   message()
   message('---')

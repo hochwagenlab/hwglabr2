@@ -72,14 +72,19 @@ A new folder at the specified location (default is
 \code{.../LabShare/HTGenomics/Opening_act/}) containing output plots (as .pdf
 files) of the included of the following analyses:
 \enumerate{
-  \item \strong{Chromosome size bias}
-  \item \strong{Signal at centromeres}
-  \item \strong{Signal flanking rDNA}
-  \item \strong{Signal at sub-telomeric regions}
-  \item \strong{Signal at DSB hotspots}
-  \item \strong{Signal at axis binding sites}
-  \item \strong{Signal at meta ORF}
+  \item Chromosome size bias
+  \item Signal at centromeres
+  \item Signal flanking rDNA
+  \item Signal at sub-telomeric regions
+  \item Signal at DSB hotspots
+  \item Signal at axis binding sites
+  \item Signal at meta ORF
 }
+}
+\description{
+Runs the lab's standard analysis of ChIP-seq experiment data and produces
+several .pdf files of analysis plots to be kept in a new folder at
+\code{.../LabShare/HTGenomics/Opening_act/}.
 }
 \examples{
 \dontrun{
