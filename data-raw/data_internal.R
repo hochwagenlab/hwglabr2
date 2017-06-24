@@ -72,21 +72,15 @@ SK1cen <- with(SK1cen, GenomicRanges::GRanges(Chromosome,
 SK1cen <- add_genome_name_to_GR(SK1cen, name='SK1')
 
 # S288c
-path <- '/Users/luis/Google_Drive_NYU/LabShare_Luis/LabWork/GenomeSequences/'
+path <- '/Volumes/LabShare/GenomeSequences/S288C_reference_genome_R64-1-1_20110203/'
 file <- 'saccharomyces_cerevisiae_R64-1-1_20110208.gff'
-sacCer3gff <- read.table(paste0(path, file),
-                         fill = TRUE, stringsAsFactors = FALSE)
-sacCer3gff <- sacCer3gff[1:16406, ]
-sacCer3cen <- sacCer3gff[sacCer3gff[, 3] == 'centromere', c(1, 4:5)]
-names(sacCer3cen) <- c('Chromosome', 'Start', 'End')
-sacCer3cen$Mid <- floor(sacCer3cen$Start + (sacCer3cen$End - sacCer3cen$Start) / 2)
-sacCer3cen$LenChr <- sacCer3gff[sacCer3gff[, 3] == 'chromosome', 5][1:16]
-
-sacCer3cen <- with(sacCer3cen,
-                   GenomicRanges::GRanges(Chromosome,
-                                          IRanges::IRanges(Start+1, End),
-                                          seqlengths = setNames(LenChr,
-                                                                Chromosome)))
+sacCer3gff <- rtracklayer::import.gff(paste0(path, file))
+sacCer3cen <- sacCer3gff[sacCer3gff$type == 'centromere', ]
+sacCer3cen <- GenomeInfoDb::dropSeqlevels(sacCer3cen, c('chrMito', '2-micron'))
+GenomicRanges::mcols(sacCer3cen) <- NULL
+chr_len <- sacCer3gff[sacCer3gff$type == 'chromosome'][1:16]
+chr_len <- setNames(chr_len@ranges@width, chr_len$Name)
+GenomeInfoDb::seqlengths(sacCer3cen) <- chr_len
 
 sacCer3cen <- add_genome_name_to_GR(sacCer3cen, name='sacCer3')
 
@@ -146,6 +140,20 @@ sacCer3_file <- 'spo11_SacCer3_Pan2011hotspot_WT1_fixed.bedgraph'
 sacCer3_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, sacCer3_file))
 sacCer3_Spo11_DSBs <- add_genome_name_to_GR(sacCer3_Spo11_DSBs, name='sacCer3')
 
+
+#------------------------------------------------------------------------------#
+#                                GFF files                                     #
+path <- '/Volumes/LabShare/GenomeSequences/'
+# 1. Import SK1Yue data
+SK1Yue_gff <- 'SK1_Yue_et_al_2017/Yue.SK1.genome.nuclear.mito.2micr.gff'
+SK1Yue_gff <- rtracklayer::import.gff3(paste0(path, SK1Yue_gff))
+# 2. Import S288C data
+S288c_gff <- 's288C_annotation_R64_modified.gff'
+S288c_gff <- rtracklayer::import.gff(paste0(path, S288c_gff))
+# 3. Import SK1 data
+SK1_gff <- 'SK1_MvO_V1___GENOME/SK1_annotation/SK1_annotation_modified_v2.gff'
+SK1_gff <- rtracklayer::import.gff(paste0(path, SK1_gff))
+
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
 #                           Add all data to package                            #
@@ -160,4 +168,5 @@ devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
                    SK1Yue_intergenic, SK1_intergenic, sacCer3_intergenic,
                    SK1Yue_Red1_summits, sacCer3_Red1_summits,
                    SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
+                   SK1Yue_gff, S288c_gff, SK1_gff,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
