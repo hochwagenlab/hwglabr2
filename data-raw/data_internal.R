@@ -147,12 +147,15 @@ path <- '/Volumes/LabShare/GenomeSequences/'
 # 1. Import SK1Yue data
 SK1Yue_gff <- 'SK1_Yue_et_al_2017/Yue.SK1.genome.nuclear.mito.2micr.gff'
 SK1Yue_gff <- rtracklayer::import.gff3(paste0(path, SK1Yue_gff))
+SK1Yue_gff <- add_genome_name_to_GR(SK1Yue_gff, name='SK1Yue')
 # 2. Import S288C data
-S288c_gff <- 's288C_annotation_R64_modified.gff'
-S288c_gff <- rtracklayer::import.gff(paste0(path, S288c_gff))
+sacCer3_gff <- 's288C_annotation_R64_modified.gff'
+sacCer3_gff <- rtracklayer::import.gff(paste0(path, sacCer3_gff))
+sacCer3_gff <- add_genome_name_to_GR(sacCer3_gff, name='sacCer3')
 # 3. Import SK1 data
 SK1_gff <- 'SK1_MvO_V1___GENOME/SK1_annotation/SK1_annotation_modified_v2.gff'
 SK1_gff <- rtracklayer::import.gff(paste0(path, SK1_gff))
+SK1_gff <- add_genome_name_to_GR(SK1_gff, name='SK1')
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
@@ -168,5 +171,5 @@ devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
                    SK1Yue_intergenic, SK1_intergenic, sacCer3_intergenic,
                    SK1Yue_Red1_summits, sacCer3_Red1_summits,
                    SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
-                   SK1Yue_gff, S288c_gff, SK1_gff,
+                   SK1Yue_gff, sacCer3_gff, SK1_gff,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
