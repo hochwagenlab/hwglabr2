@@ -21,7 +21,6 @@ the following options:
 \enumerate{
   \item \code{"SK1Yue"}
   \item \code{"sacCer3"}
-  \item \code{"SK1"}
 }
 No default.}
 

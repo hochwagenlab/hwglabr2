@@ -13,7 +13,6 @@
 #' \enumerate{
 #'   \item \code{"SK1Yue"}
 #'   \item \code{"sacCer3"}
-#'   \item \code{"SK1"}
 #' }
 #' No default.
 #' @param genotype Character object indicating the relevant strain mutations.
@@ -102,6 +101,10 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
       stop('"signal_data" must be a GRanges object.', call. = FALSE)
   }
   
+  if (!gneome %in% c('SK1Yue', 'sacCer3')) {
+    stop('"gneome" must be either "SK1Yue" or "sacCer3".', call. = FALSE)
+  }
+  
   # Ask user to double-check "sample_id" and "genome" argument input
   if(user_input){
     # Ask user to make sure they provided a valid ID for the data set
@@ -133,25 +136,46 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   #----------------------------------------------------------------------------#
   #                                Run analysis                                #
   #----------------------------------------------------------------------------#
+  message('Running analyses:')
   
   #----------------------------------------------------------------------------#
   # Chr size bias
-  message('... Chromosome size bias:')
-  suppressMessages(output <- hwglabr::chr_coverage(wiggleData, meanNorm = T))
-
-  suppressMessages(
-    hwglabr::chr_coverage_plot(output, genome = refGenome, meanNorm = TRUE,
-                               onScreen = FALSE,
-                               fileName = paste0(output_path, output_dir, '/',
-                                                 output_dir, '_chrSizeBias.pdf'))
-  )
+  message('    Chromosome size bias')
+  suppressMessages(output <- hwglabr2::average_chr_signal(signal_data,
+                                                          remove_cen=F,
+                                                          mean_norm=F)[[1]])
+  # Get chr lengths and add to average signal
+  chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates(genome=genome))
+  chr_lengths <- data.frame(chr=names(chr_lengths), length=chr_lengths)
+  output <- merge(output, chr_lengths)
+  
+  
+  file_name <- paste0(output_path, output_dir, '/', output_dir,
+                      '_chrSizeBias.pdf')
+  pdf(file=file_name, width=4, height=4)
+  par(mar = c(5, 5, 4, 2))
+  plot(output$length / 1000, output$avrg_signal,
+       xlab = 'Chromosome size (kb)', ylab = 'ChIP-seq signal/Input',
+       main = paste0('Mean signal per chromosome\nrelative to chromosome size'),
+       col = 'grey50', pch = 19)
+  dev.off()
   
   message('Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   #----------------------------------------------------------------------------#
   # Signal at centromere (Tovah)
-  message('... Signal at centromeres:')
+  message('   Signal at centromeres')
   
   # convert S288Ccen or SK1cen into bed file
   if (check_S288C) {
@@ -186,7 +210,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   #----------------------------------------------------------------------------#
   # Signal at rDNA
-  message('... Signal flanking rDNA:')
+  message('   Signal flanking rDNA')
   suppressMessages(rDNA <- hwglabr::signal_at_rDNA(wiggleData, saveFile = F))
   colnames(rDNA) <- c('position', 'signal')
   
@@ -231,7 +255,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   #----------------------------------------------------------------------------#
   # Signal from telomeres (Viji)
   if (check_S288C) {
-    message('... Signal at sub-telomeric regions:')
+    message('   Signal at sub-telomeric regions')
     
     # Call signal_from_telomeres() function
     suppressMessages(sample_telo <- hwglabr::signal_from_telomeres(wiggleData,
@@ -280,7 +304,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   #----------------------------------------------------------------------------#
   # Signal around DSDs by DSB hotspot hotness (Jonna)
   if (check_S288C) {
-    message('... Signal at DSB hotspots:')
+    message('   Signal at DSB hotspots')
     
     Spo11_DSBs$V1 <- as.character(Spo11_DSBs$V1)
     # Order by signal to make 8 groups based on hotspot hotness
@@ -332,7 +356,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   #----------------------------------------------------------------------------#
   # Signal at axis binding sites (Jonna)
   if (check_S288C) {
-    message('... Signal at axis binding sites:')
+    message('   Signal at axis binding sites')
     
     Red1_summits <- Red1_summits[, c(1, 2, 3, 5)]
     Red1_summits[, 1] <- as.character(Red1_summits[,1])
@@ -381,7 +405,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   #----------------------------------------------------------------------------#
   # Meta ORF
   if(runMetaORF){
-    message('... Signal at meta ORF analysis:')
+    message('   Signal at meta ORF analysis')
     meta_orf <- hwglabr::signal_at_orf(wiggleData, gff = gff_file, saveFile = F)
     suppressMessages(meta_orf <- hwglabr::signal_average(meta_orf, saveFile = F))
     
