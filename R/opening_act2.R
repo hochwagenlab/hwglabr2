@@ -141,176 +141,182 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   #----------------------------------------------------------------------------#
   # Chr size bias
-  message('    Chromosome size bias')
-  suppressMessages(output <- hwglabr2::average_chr_signal(signal_data,
-                                                          remove_cen=F,
-                                                          mean_norm=F)[[1]])
-  # Get chr lengths and add to average signal
-  chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates(genome=genome))
-  chr_lengths <- data.frame(chr=names(chr_lengths), length=chr_lengths)
-  output <- merge(output, chr_lengths)
   
-  file_name <- paste0(output_path, output_dir, '/', output_dir,
-                      '_chrSizeBias.pdf')
-  pdf(file=file_name, width=4, height=4)
-  par(mar = c(5, 5, 4, 2))
-  plot(output$length / 1000, output$avrg_signal,
-       xlab = 'Chromosome size (kb)', ylab = 'Signal',
-       main = paste0('Mean signal per chromosome\nrelative to chromosome size'),
-       col = 'grey50', pch = 19)
-  dev.off()
-  
-  message('   Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
+  if (run_chr_size_bias) {
+    message('    Chromosome size bias')
+    suppressMessages(output <- hwglabr2::average_chr_signal(signal_data,
+                                                            remove_cen=F,
+                                                            mean_norm=F)[[1]])
+    # Get chr lengths and add to average signal
+    chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates(genome=genome))
+    chr_lengths <- data.frame(chr=names(chr_lengths), length=chr_lengths)
+    output <- merge(output, chr_lengths)
+    
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_chrSizeBias.pdf')
+    pdf(file=file_name, width=4, height=4)
+    par(mar = c(5, 5, 4, 2))
+    plot(output$length / 1000, output$avrg_signal,
+         xlab = 'Chromosome size (kb)', ylab = 'Signal',
+         main = paste0('Mean signal per chromosome\nrelative to chromosome size'),
+         col = 'grey50', pch = 19)
+    dev.off()
+    
+    message('   Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
+  } else {
+    message('   (Skip chromosome size bias)')
+  }
   
   #----------------------------------------------------------------------------#
   # Signal at centromeres
-  message('   Signal at centromeres')
-  
-  # Get centromeres
-  centromeres <- hwglabr2::get_chr_coordinates(genome=genome, as_df=FALSE)
-  
-  # Replace start and end centromere positions by midpoint
-  midpoint <- floor(GenomicRanges::width(centromeres) / 2)
-  GenomicRanges::start(centromeres) <- GenomicRanges::start(centromeres) + midpoint
-  GenomicRanges::end(centromeres) <- GenomicRanges::start(centromeres)
-  
-  signal_at_cens <- EnrichedHeatmap::normalizeToMatrix(signal_data, centromeres,
-                                                       extend=5000, w=1,
-                                                       mean_mode="weighted",
-                                                       value_column="score")
-  
-  signal_at_cens_avrg <- colMeans(signal_at_cens, na.rm = T)
-  
-  file_name <- paste0(output_path, output_dir, '/', output_dir, '_signalAtCen.pdf')
-  pdf(file = paste0(file_name), width = 6, height = 3)
-  ylim <- range(signal_at_cens_avrg)
-  if( ylim[2] < 2) ylim[2] <- 2
-  plot(seq(-4999, 5000) / 1000, signal_at_cens_avrg, type="l",
-       ylim=ylim, xlab="Distance to centromere (kb)", ylab="Signal", 
-       lwd=1, cex.axis=1, las=1, col="darkorange", cex.lab=1,
-       main='Average signal around centromeres', cex.main=1)
-  
-  dev.off()
-  message('    Saved plot ', paste0(output_dir, '_signalAtCen.pdf')) 
+  if (run_centromeres) {
+    message('   Signal at centromeres')
+    
+    # Get centromeres
+    centromeres <- hwglabr2::get_chr_coordinates(genome=genome, as_df=FALSE)
+    
+    # Replace start and end centromere positions by midpoint
+    midpoint <- floor(GenomicRanges::width(centromeres) / 2)
+    GenomicRanges::start(centromeres) <- GenomicRanges::start(centromeres) + midpoint
+    GenomicRanges::end(centromeres) <- GenomicRanges::start(centromeres)
+    
+    signal_at_cens <- EnrichedHeatmap::normalizeToMatrix(signal_data, centromeres,
+                                                         extend=5000, w=1,
+                                                         mean_mode="weighted",
+                                                         value_column="score")
+    
+    signal_at_cens_avrg <- colMeans(signal_at_cens, na.rm = T)
+    
+    file_name <- paste0(output_path, output_dir, '/', output_dir, '_signalAtCen.pdf')
+    pdf(file = paste0(file_name), width = 6, height = 3)
+    ylim <- range(signal_at_cens_avrg)
+    if( ylim[2] < 2) ylim[2] <- 2
+    plot(seq(-4999, 5000) / 1000, signal_at_cens_avrg, type="l",
+         ylim=ylim, xlab="Distance to centromere (kb)", ylab="Signal", 
+         lwd=1, cex.axis=1, las=1, col="darkorange", cex.lab=1,
+         main='Average signal around centromeres', cex.main=1)
+    
+    dev.off()
+    message('    Saved plot ', paste0(output_dir, '_signalAtCen.pdf')) 
+  } else {
+    message('   (Skip signal at centromeres)')
+  }
   
   #----------------------------------------------------------------------------#
   # Signal at rDNA
-  message('   Signal flanking rDNA')
-  
-  rDNA <- suppressMessages(hwglabr2::signal_flanking_rDNA(signal_data,
-                                                          flank_length=40000,
-                                                          genome=genome))
-  
-  # Set chromosome length to the last position in the collected data
-  # (this will avoid the creation of genome tiles for positions downstream of the rDNA)
-  last_position <- tail(GenomicRanges::end(rDNA), 1)
-  seq_length <- c('chrXII'=last_position)
-  
-  # Compute 10-bp tiling windows (will compress the data a little bit)
-  bins <- GenomicRanges::tileGenome(seq_length, tilewidth=10,
-                                    cut.last.tile.in.chrom=TRUE)
-  
-  # Keep only required region
-  first_position <- head(GenomicRanges::start(rDNA), 1)
-  greater_than_start <- GenomicRanges::start(bins) >= first_position
-  smaller_than_end <- GenomicRanges::end(bins) <= last_position
-  bins <- bins[greater_than_start & smaller_than_end]
-  # Keep signal data for chr XII only (object's `seqlevels` must match bins')
-  rDNA <- GenomeInfoDb::keepSeqlevels(rDNA, "chrXII")
-  # Get signal as "RleList"; the signal is stored in the "score" metadata column
-  score <- GenomicRanges::coverage(rDNA, weight="score")
-  # Compute average signal per tile
-  bins <- GenomicRanges::binnedAverage(bins, score, "binned_score")
-  # Make data frame (convert positions to Kb; signal is the binned score)
-  rDNA <- data.frame(position=GenomicRanges::start(bins),
-                     signal=bins$binned_score)
-  
-  file_name <- paste0(output_path, output_dir, '/', output_dir,
-                      '_signalAtrDNA.pdf')
-  pdf(file = paste0(file_name), width = 6, height = 3)
-  
-  plot(rDNA$position / 1000, rDNA$signal, type="l",
-       xlab="Position on chr XII (kb)", ylab="Signal", 
-       lwd=1, cex.axis=1, las=1, col='black', cex.lab=1, cex.main=1)
-  
-  # A stretch present in S288C downstream of rDNA is absent in SK1 (the strain we use)
-  # Add label for that (from end of rDNA until about bp 490'500)
-  if (genome == 'sacCer3') {
-    start <- 468931
-    end <- 490500
+  if (run_rDNA) {
+    message('   Signal flanking rDNA')
+    
+    rDNA <- suppressMessages(hwglabr2::signal_flanking_rDNA(signal_data,
+                                                            flank_length=40000,
+                                                            genome=genome))
+    
+    # Set chromosome length to the last position in the collected data
+    # (this will avoid the creation of genome tiles for positions downstream of the rDNA)
+    last_position <- tail(GenomicRanges::end(rDNA), 1)
+    seq_length <- c('chrXII'=last_position)
+    
+    # Compute 10-bp tiling windows (will compress the data a little bit)
+    bins <- GenomicRanges::tileGenome(seq_length, tilewidth=10,
+                                      cut.last.tile.in.chrom=TRUE)
+    
+    # Keep only required region
+    first_position <- head(GenomicRanges::start(rDNA), 1)
+    greater_than_start <- GenomicRanges::start(bins) >= first_position
+    smaller_than_end <- GenomicRanges::end(bins) <= last_position
+    bins <- bins[greater_than_start & smaller_than_end]
+    # Keep signal data for chr XII only (object's `seqlevels` must match bins')
+    rDNA <- GenomeInfoDb::keepSeqlevels(rDNA, "chrXII")
+    # Get signal as "RleList"; the signal is stored in the "score" metadata column
+    score <- GenomicRanges::coverage(rDNA, weight="score")
+    # Compute average signal per tile
+    bins <- GenomicRanges::binnedAverage(bins, score, "binned_score")
+    # Make data frame (convert positions to Kb; signal is the binned score)
+    rDNA <- data.frame(position=GenomicRanges::start(bins),
+                       signal=bins$binned_score)
+    
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_signalAtrDNA.pdf')
+    pdf(file = paste0(file_name), width = 6, height = 3)
+    
+    plot(rDNA$position / 1000, rDNA$signal, type="l",
+         xlab="Position on chr XII (kb)", ylab="Signal", 
+         lwd=1, cex.axis=1, las=1, col='black', cex.lab=1, cex.main=1)
+    
+    # A stretch present in S288C downstream of rDNA is absent in SK1 (the strain we use)
+    # Add label for that (from end of rDNA until about bp 490'500)
+    if (genome == 'sacCer3') {
+      start <- 468931
+      end <- 490500
+      axis(1, at = c(start / 1000, end / 1000),
+           labels = c('', ''),
+           col = 'blue', lwd = 3)
+    }
+    
+    # Add labels for rDNA
+    if (genome == 'sacCer3') {
+      start <- 451575
+      end <- 468931
+      title(paste0("Signal around rDNA: ",
+                   '\n(rDNA position marked in red;',
+                   '\nregion absent form SK1 genome marked in blue)'))
+    } else {
+      start <- 433029
+      end <- 451212
+      title(paste0("Signal around rDNA: ", '\n(rDNA position marked in red)'))
+    }
+    
     axis(1, at = c(start / 1000, end / 1000),
          labels = c('', ''),
-         col = 'blue', lwd = 3)
-  }
-  
-  # Add labels for rDNA
-  if (genome == 'sacCer3') {
-    start <- 451575
-    end <- 468931
-    title(paste0("Signal around rDNA: ",
-                 '\n(rDNA position marked in red;',
-                 '\nregion absent form SK1 genome marked in blue)'))
+         col = 'red', lwd = 3)
+    
+    
+    dev.off()
+    message('    Saved plot ', paste0(output_dir, '_signalAtrDNA.pdf'))
   } else {
-    start <- 433029
-    end <- 451212
-    title(paste0("Signal around rDNA: ", '\n(rDNA position marked in red)'))
+    message('   (Skip signal flanking rDNA)')
   }
-  
-  axis(1, at = c(start / 1000, end / 1000),
-       labels = c('', ''),
-       col = 'red', lwd = 3)
-      
-  
-  dev.off()
-  message('    Saved plot ', paste0(output_dir, '_signalAtrDNA.pdf'))
   
   #----------------------------------------------------------------------------#
   # Signal from telomeres
-  if (check_S288C) {
+  if (run_telomeres) {
     message('   Signal at sub-telomeric regions')
     
-    # Call signal_from_telomeres() function
-    suppressMessages(sample_telo <- hwglabr::signal_from_telomeres(wiggleData,
-                                                                   lengthToCollect=120000))
+    signal_at_tels <- suppressMessages(hwglabr2::signal_from_telomeres2(signal_data,
+                                                                        120000,
+                                                                        1000,
+                                                                        genome))
     
-    # Combine data from large and small chromosomes
-    data <- dplyr::summarise(dplyr::group_by(do.call('rbind', c(sample_telo$small_chrs,
-                                                                sample_telo$large_chrs)),
-                                             distance_to_telomere),
-                             mean_signal=mean(signal, na.rm = TRUE))
+    signal_at_tels <- colMeans(signal_at_tels[, 4:ncol(signal_at_tels)],
+                               na.rm = T)
     
-    # Calculate genome average of the ChIP signal
-    sums <- vector(length=16)
-    counts <- vector(length=16)
-    for (i in c(1:16)) {
-      sums[i] <- sum(wiggleData[[i]][,2])
-      counts[i] <- nrow(wiggleData[[i]])
-    }
-    wiggleDataGenomeAvg <- sum(sums)/sum(counts)
     
-    # Subtract genome average signal from each datapoint to normalize to genome average
-    data$mean_signal <- data$mean_signal / wiggleDataGenomeAvg
+    # Get genome-wide mean
+    genome_wide_mean <- suppressMessages(hwglabr2::average_chr_signal(signal_data)[[2]])
     
-    # Smooth data over 25kb regions?
-    data <- ksmooth(data$distance_to_telomere, data$mean_signal, bandwidth = 25000)
-    averageSubtelomericSignal <- data.frame('distance_from_telomere' = data[[1]],
-                                            'signal' = data[[2]])
+    # Normalize signal
+    signal_at_tels <- signal_at_tels / genome_wide_mean
+    
+    # Plot                         
+    plot(x=seq(1, 120), y=signal_at_tels, col='orange',
+         xlab='Distance to chr end', ylab='Signal (genome mean = 1)',
+         type='l')
+    abline(h=1, lty=3)
     
     # Plot results
-    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtTelomeres.pdf')
-    pdf(file = paste0(fileName), width = 6, height = 4)
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_signalAtTelomeres.pdf')
+    pdf(file = paste0(file_name), width = 6, height = 4)
     
-    plot(averageSubtelomericSignal$distance_from_telomere / 1000,
-         averageSubtelomericSignal$signal, type="l", lwd=2, col='plum4',
-         xlab="Distance from telomeres (Kb)", ylab = "Average Enrichment",
-         main=paste0("Signal at sub-telomeric regions: ", refGenome, "\n(mean-normalized)"),
+    plot(x=seq(1, 120), signal_at_tels, type='l', lwd=2, col='plum4',
+         xlab='Distance from chr end (Kb)', ylab='Signal (genome-wide mean = 1)',
+         main=paste0('Signal at sub-telomeric regions\n(mean-normalized)'),
          cex.main=1)
     abline(h = 1, lty=3, lwd=1.5)
     dev.off()
     message('    Saved plot ', paste0(output_dir, '_signalAtTelomeres.pdf'))
   } else {
-    message('... Skip signal at sub-telomeric regions')
-    message('    (Low quality SK1 genome annotation at telomeric and sub-telomeric regions)')
+    message('   (Skip signal at sub-telomeric regions)')
   }
   
   #----------------------------------------------------------------------------#

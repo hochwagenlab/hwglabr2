@@ -5,7 +5,7 @@
 \title{Standard analysis of ChIP-seq experiments}
 \usage{
 opening_act2(signal_data, genome, genotype, chip_target, sample_id,
-  ouput_path = "/Volumes/LabShare/HTGenomics/Opening_act/",
+  output_path = "/Volumes/LabShare/HTGenomics/Opening_act/",
   user_input = TRUE, run_chr_size_bias = TRUE, run_centromeres = TRUE,
   run_rDNA = TRUE, run_telomeres = TRUE, run_dsb_hotspots = TRUE,
   run_axis = TRUE, run_meta_orf = TRUE)
@@ -37,10 +37,6 @@ used in the analysis pipeline (with a date) and the read mapping conditions
 check that the provided \code{sample_id} matches the required format before
 proceeding with the analysis. No default.}
 
-\item{ouput_path}{Character object with a valid path to directory to save
-output files at.
-Defaults to \code{ouput_path='/Volumes/LabShare/HTGenomics/Opening_act/'}}
-
 \item{user_input}{Logical indicating whether to ask user to check the format
 of the \code{sample_id} argument. Defaults to \code{TRUE}.}
 
@@ -65,6 +61,10 @@ analysis. Defaults to \code{TRUE}.}
 
 \item{run_meta_orf}{Logical indicating whether to run the meta ORF analysis.
 Defaults to \code{TRUE}.}
+
+\item{ouput_path}{Character object with a valid path to directory to save
+output files at.
+Defaults to \code{ouput_path='/Volumes/LabShare/HTGenomics/Opening_act/'}}
 }
 \value{
 A new folder at the specified location (default is
@@ -103,6 +103,7 @@ opening_act2(signal_data=WT, genome="sacCer3", genotype="WT",
 
 opening_act2(signal_data=WT, genome="sacCer3", genotype="WT",
              chip_target="Red1", sample_id="AH119C-040114-sacCer3-2mis",
+             output_path='~/Desktop'
              run_chr_size_bias=FALSE, run_centromeres=FALSE, run_rDNA=FALSE,
              run_telomeres=FALSE, run_dsb_hotspots=TRUE, run_axis=TRUE,
              run_meta_orf=FALSE)
