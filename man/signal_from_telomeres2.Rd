@@ -4,7 +4,8 @@
 \alias{signal_from_telomeres2}
 \title{Collect signal from telomeres for all chromosome arms}
 \usage{
-signal_from_telomeres2(signal_data, length_to_collect = 1e+05, genome)
+signal_from_telomeres2(signal_data, length_to_collect = 1e+05,
+  averaging_window = 1, genome)
 }
 \arguments{
 \item{signal_data}{Input signal track data as a \code{GRanges} object (see
@@ -15,6 +16,10 @@ respectively. No default.}
 \item{length_to_collect}{Integer specifying the length (in bp) of the region
 to collect signal for, starting form the telomeres. Defaults to 100000 (i.e.
 100 kb).}
+
+\item{averaging_window}{Integer specifying the length (in bp) of the window
+to average the signal in.
+Defaults to 1 (i.e. 1 bp: no window averaging).}
 
 \item{genome}{Character object specifying the genome version; accepts one of
 the following options:
@@ -58,6 +63,7 @@ than 150 bp).
 \dontrun{
 signal_from_telomeres2(WT, genome = "SK1Yue")
 
-signal_from_telomeres2(WT, length_to_collect = 50000, genome = "sacCer3")
+signal_from_telomeres2(WT, length_to_collect = 50000, averaging_window = 100,
+                       genome = "sacCer3")
 }
 }

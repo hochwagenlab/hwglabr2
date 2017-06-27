@@ -20,6 +20,9 @@
 #' @param length_to_collect Integer specifying the length (in bp) of the region
 #' to collect signal for, starting form the telomeres. Defaults to 100000 (i.e.
 #' 100 kb).
+#' @param averaging_window Integer specifying the length (in bp) of the window
+#' to average the signal in.
+#' Defaults to 1 (i.e. 1 bp: no window averaging).
 #' @param genome Character object specifying the genome version; accepts one of
 #' the following options:
 #' \enumerate{
@@ -43,13 +46,14 @@
 #' \dontrun{
 #' signal_from_telomeres2(WT, genome = "SK1Yue")
 #' 
-#' signal_from_telomeres2(WT, length_to_collect = 50000, genome = "sacCer3")
+#' signal_from_telomeres2(WT, length_to_collect = 50000, averaging_window = 100,
+#'                        genome = "sacCer3")
 #' }
 #' @export
 
 
 signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
-                                   genome) {
+                                   averaging_window=1, genome) {
   t0  <- proc.time()[3]
   
   # IO checks
@@ -100,10 +104,11 @@ signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
   
   # Compute signal at each gene using package EnrichedHeatmap
   message('Collecting signal...')
+  number_of_windows <- floor(length_to_collect / averaging_window)
   mat <- EnrichedHeatmap::normalizeToMatrix(signal_data, telomeres,
                                             value_column="score",
                                             mean_mode="absolute",
-                                            extend=0, k=length_to_collect,
+                                            extend=0, k=number_of_windows,
                                             empty_value=NA, smooth=FALSE,
                                             target_ratio=1)
   
