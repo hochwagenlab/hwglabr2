@@ -196,20 +196,46 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   #----------------------------------------------------------------------------#
   # Signal at rDNA
   message('   Signal flanking rDNA')
-  suppressMessages(rDNA <- hwglabr::signal_at_rDNA(wiggleData, saveFile = F))
-  colnames(rDNA) <- c('position', 'signal')
   
-  # plot results
-  fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtrDNA.pdf')
-  pdf(file = paste0(fileName), width = 6, height = 3)
+  rDNA <- suppressMessages(hwglabr2::signal_flanking_rDNA(signal_data,
+                                                          flank_length=40000,
+                                                          genome=genome))
   
-  plot(rDNA$position/1000, rDNA$signal, type="l",
-       xlab="Position on chr 12 (kb)", ylab="Signal", 
+  # Set chromosome length to the last position in the collected data
+  # (this will avoid the creation of genome tiles for positions downstream of the rDNA)
+  last_position <- tail(GenomicRanges::end(rDNA), 1)
+  seq_length <- c('chrXII'=last_position)
+  
+  # Compute 10-bp tiling windows (will compress the data a little bit)
+  bins <- GenomicRanges::tileGenome(seq_length, tilewidth=10,
+                                    cut.last.tile.in.chrom=TRUE)
+  
+  # Keep only required region
+  first_position <- head(GenomicRanges::start(rDNA), 1)
+  greater_than_start <- GenomicRanges::start(bins) >= first_position
+  smaller_than_end <- GenomicRanges::end(bins) <= last_position
+  bins <- bins[greater_than_start & smaller_than_end]
+  # Keep signal data for chr XII only (object's `seqlevels` must match bins')
+  rDNA <- GenomeInfoDb::keepSeqlevels(rDNA, "chrXII")
+  # Get signal as "RleList"; the signal is stored in the "score" metadata column
+  score <- GenomicRanges::coverage(rDNA, weight="score")
+  # Compute average signal per tile
+  bins <- GenomicRanges::binnedAverage(bins, score, "binned_score")
+  # Make data frame (convert positions to Kb; signal is the binned score)
+  rDNA <- data.frame(position=GenomicRanges::start(bins),
+                     signal=bins$binned_score)
+  
+  file_name <- paste0(output_path, output_dir, '/', output_dir,
+                      '_signalAtrDNA.pdf')
+  pdf(file = paste0(file_name), width = 6, height = 3)
+  
+  plot(rDNA$position / 1000, rDNA$signal, type="l",
+       xlab="Position on chr XII (kb)", ylab="Signal", 
        lwd=1, cex.axis=1, las=1, col='black', cex.lab=1, cex.main=1)
   
   # A stretch present in S288C downstream of rDNA is absent in SK1 (the strain we use)
   # Add label for that (from end of rDNA until about bp 490'500)
-  if (check_S288C) {
+  if (genome == 'sacCer3') {
     start <- 468931
     end <- 490500
     axis(1, at = c(start / 1000, end / 1000),
@@ -218,15 +244,16 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   }
   
   # Add labels for rDNA
-  if (check_S288C) {
+  if (genome == 'sacCer3') {
     start <- 451575
     end <- 468931
-    title(paste0("Signal around rDNA: ", refGenome, '\n(rDNA position marked in red;',
+    title(paste0("Signal around rDNA: ",
+                 '\n(rDNA position marked in red;',
                  '\nregion absent form SK1 genome marked in blue)'))
   } else {
     start <- 433029
     end <- 451212
-    title(paste0("Signal around rDNA: ", refGenome, '\n(rDNA position marked in red)'))
+    title(paste0("Signal around rDNA: ", '\n(rDNA position marked in red)'))
   }
   
   axis(1, at = c(start / 1000, end / 1000),
@@ -238,7 +265,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   message('    Saved plot ', paste0(output_dir, '_signalAtrDNA.pdf'))
   
   #----------------------------------------------------------------------------#
-  # Signal from telomeres (Viji)
+  # Signal from telomeres
   if (check_S288C) {
     message('   Signal at sub-telomeric regions')
     
