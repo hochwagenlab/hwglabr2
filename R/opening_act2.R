@@ -76,6 +76,7 @@
 #'
 #' opening_act2(signal_data=WT, genome="sacCer3", genotype="WT",
 #'              chip_target="Red1", sample_id="AH119C-040114-sacCer3-2mis",
+#'              output_path='~/Desktop'
 #'              run_chr_size_bias=FALSE, run_centromeres=FALSE, run_rDNA=FALSE,
 #'              run_telomeres=FALSE, run_dsb_hotspots=TRUE, run_axis=TRUE,
 #'              run_meta_orf=FALSE)
@@ -83,7 +84,7 @@
 #' @export
 
 opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
-                         ouput_path='/Volumes/LabShare/HTGenomics/Opening_act/',
+                         output_path='/Volumes/LabShare/HTGenomics/Opening_act/',
                          user_input = TRUE,
                          run_chr_size_bias=TRUE, run_centromeres=TRUE,
                          run_rDNA=TRUE, run_telomeres=TRUE,
@@ -101,7 +102,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
       stop('"signal_data" must be a GRanges object.', call. = FALSE)
   }
   
-  if (!gneome %in% c('SK1Yue', 'sacCer3')) {
+  if (!genome %in% c('SK1Yue', 'sacCer3')) {
     stop('"gneome" must be either "SK1Yue" or "sacCer3".', call. = FALSE)
   }
   
@@ -124,7 +125,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     }
   }
   
-  # Create output directory (if it doesn;t already exist)
+  # Create output directory (if it doesn't already exist)
   output_dir <- paste0(genotype, '_anti-', chip_target, '_', sample_id)
   if (file.exists(paste0(ouput_path, output_dir))) {
       stop('A folder named "', output_dir, '" already exists at\n', ouput_path,
@@ -149,7 +150,6 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   chr_lengths <- data.frame(chr=names(chr_lengths), length=chr_lengths)
   output <- merge(output, chr_lengths)
   
-  
   file_name <- paste0(output_path, output_dir, '/', output_dir,
                       '_chrSizeBias.pdf')
   pdf(file=file_name, width=4, height=4)
@@ -160,7 +160,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
        col = 'grey50', pch = 19)
   dev.off()
   
-  message('Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
+  message('   Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
   
   
   
