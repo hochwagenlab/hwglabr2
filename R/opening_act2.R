@@ -155,58 +155,43 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   pdf(file=file_name, width=4, height=4)
   par(mar = c(5, 5, 4, 2))
   plot(output$length / 1000, output$avrg_signal,
-       xlab = 'Chromosome size (kb)', ylab = 'ChIP-seq signal/Input',
+       xlab = 'Chromosome size (kb)', ylab = 'Signal',
        main = paste0('Mean signal per chromosome\nrelative to chromosome size'),
        col = 'grey50', pch = 19)
   dev.off()
   
   message('   Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   #----------------------------------------------------------------------------#
-  # Signal at centromere (Tovah)
+  # Signal at centromeres
   message('   Signal at centromeres')
   
-  # convert S288Ccen or SK1cen into bed file
-  if (check_S288C) {
-    cen <- S288Ccen
-    
-  } else if (check_SK1) {
-    cen <- SK1cen
-
-  } else stop("Did not recognize reference genome.")
+  # Get centromeres
+  centromeres <- hwglabr2::get_chr_coordinates(genome=genome, as_df=FALSE)
   
-  cenBed <- data.frame(cen$Chromosome, cen$Mid, cen$Mid + 1, stringsAsFactors=F)
+  # Replace start and end centromere positions by midpoint
+  midpoint <- floor(GenomicRanges::width(centromeres) / 2)
+  GenomicRanges::start(centromeres) <- GenomicRanges::start(centromeres) + midpoint
+  GenomicRanges::end(centromeres) <- GenomicRanges::start(centromeres)
   
-  # calculate average around centromere
-  suppressMessages(
-    wiggle_cen_avg <- signal_average( signal_at_summit(wiggleData, cenBed, 50000,
-                                                       onlyComplete=F) )
-  )
+  signal_at_cens <- EnrichedHeatmap::normalizeToMatrix(signal_data, centromeres,
+                                                       extend=5000, w=1,
+                                                       mean_mode="weighted",
+                                                       value_column="score")
   
-  # plot results
-  fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtCen.pdf')
-  pdf(file = paste0(fileName), width = 6, height = 3)
+  signal_at_cens_avrg <- colMeans(signal_at_cens, na.rm = T)
   
-  YLIM <- range(wiggle_cen_avg$mean_signal)
-  if( YLIM[[2]] < 2) { YLIM[2] <- 2 }
-  plot(wiggle_cen_avg$position/1000, wiggle_cen_avg$mean_signal, type="l",
-       ylim=YLIM, xlab="Distance around Centromere (kb)", ylab="Signal", 
+  file_name <- paste0(output_path, output_dir, '/', output_dir, '_signalAtCen.pdf')
+  pdf(file = paste0(file_name), width = 6, height = 3)
+  ylim <- range(signal_at_cens_avrg)
+  if( ylim[2] < 2) ylim[2] <- 2
+  plot(seq(-4999, 5000) / 1000, signal_at_cens_avrg, type="l",
+       ylim=ylim, xlab="Distance to centromere (kb)", ylab="Signal", 
        lwd=1, cex.axis=1, las=1, col="darkorange", cex.lab=1,
-       main=paste0("Signal around centromeres: ", refGenome), cex.main=1)
+       main='Average signal around centromeres', cex.main=1)
   
   dev.off()
-  message('    Saved plot ', paste0(output_dir, '_signalAtCen.pdf'))
+  message('    Saved plot ', paste0(output_dir, '_signalAtCen.pdf')) 
   
   #----------------------------------------------------------------------------#
   # Signal at rDNA
