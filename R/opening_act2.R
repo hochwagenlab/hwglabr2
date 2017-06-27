@@ -279,7 +279,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   #----------------------------------------------------------------------------#
   # Signal from telomeres
-  if (run_telomeres) {
+  if (run_axis) {
     message('   Signal at sub-telomeric regions')
     
     signal_at_tels <- suppressMessages(hwglabr2::signal_from_telomeres2(signal_data,
@@ -319,57 +319,75 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     message('   (Skip signal at sub-telomeric regions)')
   }
   
+  
+  
   #----------------------------------------------------------------------------#
-  # Signal around DSDs by DSB hotspot hotness (Jonna)
-  if (check_S288C) {
+  # Signal around DSBs by DSB hotspot hotness
+  if (run_dsb_hotspots) {
     message('   Signal at DSB hotspots')
     
-    Spo11_DSBs$V1 <- as.character(Spo11_DSBs$V1)
+    Spo11_hs <- hwglabr2::get_dsb_hotspots(genome)
+    midpoint <- floor(GenomicRanges::width(Spo11_hs) / 2)
+    GenomicRanges::start(Spo11_hs) <- GenomicRanges::start(Spo11_hs) + midpoint
+    GenomicRanges::end(Spo11_hs) <- GenomicRanges::start(Spo11_hs)
+    
     # Order by signal to make 8 groups based on hotspot hotness
-    sporder <- Spo11_DSBs[order(Spo11_DSBs$V4),]
+    Spo11_hs <- Spo11_hs[order(Spo11_hs$score, decreasing = TRUE), ]
     
-    spo1 <- sporder[1:450,]
-    spo2 <- sporder[451:900,]
-    spo3 <- sporder[901:1350,]
-    spo4 <- sporder[1351:1800,]
-    spo5 <- sporder[1801:2250,]
-    spo6 <- sporder[2251:2700,]
-    spo7 <- sporder[2701:3150,]
-    spo8 <- sporder[3151:3599,]
+    signal_at_hs <- EnrichedHeatmap::normalizeToMatrix(signal_data, Spo11_hs,
+                                                       extend=1000, w=10,
+                                                       mean_mode="weighted",
+                                                       value_column="score")
     
-    data <- list(spo1, spo2, spo3, spo4, spo5, spo6, spo7, spo8)
+    # Define quantiles (matrix row order respects order by score from above)
+    hs_quants <- list()
+    number_of_hs <- nrow(signal_at_hs)
+    quant_length <- round(number_of_hs / 8)
+    for (i in 1:8) {
+      start <- 1 + ((i - 1) * quant_length)
+      end <- min(number_of_hs, (start + quant_length) - 1)
+      hs_quants[[i]] <- signal_at_hs[start:end, ]
+    }
     
-    message('    Computing signal around DSB hotspots; this takes a few minutes...')
-    suppressMessages(data <- lapply(data, function(x) signal_at_summit(wiggleData, x, 1000)))
-    suppressMessages(data <- lapply(data, signal_average))
+    # Average data
+    hs_quants <- lapply(hs_quants, function(x) colMeans(x, na.rm = T))
     
-    min_data <- sapply(data, function(x) min(x[, 2]))
-    max_data <- sapply(data, function(x) max(x[, 2]))
+    min_data <- sapply(hs_quants, function(x) min(x))
+    max_data <- sapply(hs_quants, function(x) max(x))
     
     colors <- c("lightblue1", "cadetblue1", "deepskyblue", "deepskyblue3",
                 "royalblue", "blue", "blue4", "black")
     
-    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtDSBhotspots.pdf')
-    pdf(file = paste0(fileName), width = 6, height = 5)
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_signalAtDSBhotspots.pdf')
+    pdf(file = paste0(file_name), width = 6, height = 5)
     
-    plot(0, type="l", lwd=3, xlim = c(-1000, 1000), ylab="ChIP-seq signal",
+    plot(0, type="l", lwd=3, xlim = c(-1000, 1000), ylab="Signal",
          ylim=c(min(min_data), max(max_data)),
-         xlab="Distance from Hotspot Midpoints (bp)")
-    for(i in 1:length(data)){
-      lines(data[[i]], lwd=3, col=colors[i])
+         xlab="Distance from DSB hotspot midpoints (bp)")
+    
+    for(i in 1:length(hs_quants)){
+      lines(x=seq(-999, 1000, 10), y=hs_quants[[i]], lwd=3, col=colors[i])
     }
     
     legend("topright", lty=c(1,1), lwd=3, title="Hotspot strength",
            legend=c("weakest", "", "", "", "", "", "", "hottest"),
-           bg = "white", col=colors)
+           bg = "white", col=colors, cex=0.6)
     dev.off()
     
     message('    Saved plot ', paste0(output_dir, '_signalAtDSBhotspots.pdf'))
     
   } else {
-    message('... Skip signal at DSB hotspots')
-    message('    (hotspots only available for data mapped to S288C genome)')
+    message('   (Skip signal at DSB hotspots)')
   }
+  
+  
+  
+  
+  
+  
+  
+  
   
   #----------------------------------------------------------------------------#
   # Signal at axis binding sites (Jonna)
@@ -422,7 +440,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   #----------------------------------------------------------------------------#
   # Meta ORF
-  if(runMetaORF){
+  if (run_meta_orf) {
     message('   Signal at meta ORF analysis')
     meta_orf <- hwglabr::signal_at_orf(wiggleData, gff = gff_file, saveFile = F)
     suppressMessages(meta_orf <- hwglabr::signal_average(meta_orf, saveFile = F))
