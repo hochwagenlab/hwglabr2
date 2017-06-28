@@ -41,8 +41,8 @@
 #' sub-telomeric region analysis. Defaults to \code{TRUE}.
 #' @param run_dsb_hotspots Logical indicating whether to run the signal at DSB
 #' hotspot analysis. Defaults to \code{TRUE}.
-#' @param run_axis Logical indicating whether to run the signal at axis binding site
-#' analysis. Defaults to \code{TRUE}.
+#' @param run_axis Logical indicating whether to run the signal at axis binding
+#' site analysis. Defaults to \code{TRUE}.
 #' @param run_meta_orf Logical indicating whether to run the meta ORF analysis.
 #' Defaults to \code{TRUE}.
 #' 
@@ -148,7 +148,9 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                                                             remove_cen=F,
                                                             mean_norm=F)[[1]])
     # Get chr lengths and add to average signal
-    chr_lengths <- GenomeInfoDb::seqlengths(hwglabr2::get_chr_coordinates(genome=genome))
+    chr_lengths <- GenomeInfoDb::seqlengths(
+      hwglabr2::get_chr_coordinates(genome=genome)
+      )
     chr_lengths <- data.frame(chr=names(chr_lengths), length=chr_lengths)
     output <- merge(output, chr_lengths)
     
@@ -159,7 +161,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     plot(output$length / 1000, output$avrg_signal,
          xlim=c(0, max(output$length) / 1000),
          xlab = 'Chromosome size (kb)', ylab = 'Signal',
-         main = paste0('Mean signal per chromosome\nrelative to chromosome size'),
+         main = paste0('Mean signal / chromosome\nrelative to chromosome size'),
          col = 'grey50', pch = 19)
     dev.off()
     
@@ -178,17 +180,20 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     
     # Replace start and end centromere positions by midpoint
     midpoint <- floor(GenomicRanges::width(centromeres) / 2)
-    GenomicRanges::start(centromeres) <- GenomicRanges::start(centromeres) + midpoint
+    GenomicRanges::start(centromeres) <- GenomicRanges::start(centromeres) +
+      midpoint
     GenomicRanges::end(centromeres) <- GenomicRanges::start(centromeres)
     
-    signal_at_cens <- EnrichedHeatmap::normalizeToMatrix(signal_data, centromeres,
+    signal_at_cens <- EnrichedHeatmap::normalizeToMatrix(signal_data,
+                                                         centromeres,
                                                          extend=40000, w=50,
                                                          mean_mode="weighted",
                                                          value_column="score")
     
     signal_at_cens_avrg <- colMeans(signal_at_cens, na.rm = T)
     
-    file_name <- paste0(output_path, output_dir, '/', output_dir, '_signalAtCen.pdf')
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_signalAtCen.pdf')
     pdf(file = paste0(file_name), width = 6, height = 3)
     ylim <- range(signal_at_cens_avrg)
     if( ylim[2] < 2) ylim[2] <- 2
@@ -213,7 +218,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                                                             genome=genome))
     
     # Set chromosome length to the last position in the collected data
-    # (this will avoid the creation of genome tiles for positions downstream of the rDNA)
+    # (to avoid creating genome tiles for positions downstream of the rDNA)
     last_position <- tail(GenomicRanges::end(rDNA), 1)
     seq_length <- c('chrXII'=last_position)
     
@@ -228,7 +233,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     bins <- bins[greater_than_start & smaller_than_end]
     # Keep signal data for chr XII only (object's `seqlevels` must match bins')
     rDNA <- GenomeInfoDb::keepSeqlevels(rDNA, "chrXII")
-    # Get signal as "RleList"; the signal is stored in the "score" metadata column
+    # Get signal as "RleList"; the signal is in the "score" metadata column
     score <- GenomicRanges::coverage(rDNA, weight="score")
     # Compute average signal per tile
     bins <- GenomicRanges::binnedAverage(bins, score, "binned_score")
@@ -243,7 +248,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
          xlab="Position on chr XII (kb)", ylab="Signal", 
          lwd=1, cex.axis=1, las=1, col='black', cex.lab=1, cex.main=1)
     
-    # A stretch present in S288C downstream of rDNA is absent in SK1 (the strain we use)
+    # A stretch present in S288C downstream of rDNA is absent in SK1
     # Add label for that (from end of rDNA until about bp 490'500)
     if (genome == 'sacCer3') {
       start <- 468931
@@ -281,17 +286,18 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   if (run_axis) {
     message('   Signal at sub-telomeric regions')
     
-    signal_at_tels <- suppressMessages(hwglabr2::signal_from_telomeres2(signal_data,
-                                                                        120000,
-                                                                        500,
-                                                                        genome))
+    signal_at_tels <- suppressMessages(
+      hwglabr2::signal_from_telomeres2(signal_data, 120000, 500, genome)
+      )
     
     signal_at_tels <- colMeans(signal_at_tels[, 4:ncol(signal_at_tels)],
                                na.rm = T)
     
     
     # Get genome-wide mean
-    genome_wide_mean <- suppressMessages(hwglabr2::average_chr_signal(signal_data)[[2]])
+    genome_wide_mean <- suppressMessages(
+      hwglabr2::average_chr_signal(signal_data)[[2]]
+      )
     
     # Normalize signal
     signal_at_tels <- signal_at_tels / genome_wide_mean
@@ -426,29 +432,36 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     message('    Saved plot ', paste0(output_dir, '_signalAtAxisSites.pdf'))
     
   } else {
-    message('... Skip signal at axis binding sites')
+    message('   (Skip signal at axis binding sites)')
   }
   
   #----------------------------------------------------------------------------#
   # Meta ORF
   if (run_meta_orf) {
     message('   Signal at meta ORF analysis')
-    meta_orf <- hwglabr::signal_at_orf(wiggleData, gff = gff_file, saveFile = F)
-    suppressMessages(meta_orf <- hwglabr::signal_average(meta_orf, saveFile = F))
+    
+    gff <- hwglabr2::get_gff(genome)
+    signal_at_ORFs <- suppressMessages(
+      hwglabr2::signal_at_orf2(signal_data, gff, write_to_file=FALSE)
+      )
+    
+    meta_orf <- colMeans(signal_at_ORFs, na.rm=TRUE)
     
     # plot results
-    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtORF.pdf')
-    pdf(file = paste0(fileName), width = 4, height = 3)
-    
-    plot(meta_orf, type = 'l', xaxt = 'n', yaxt = 'n',
-         xlim = c(0, 1000), lwd = 4, col = 'orange',
-         xlab = "Scaled ORF",
-         ylab = 'Signal', main = paste0('Signal at meta ORF'), bty = "n")
-    axis(1, at = c(0, 250, 750, 1000), labels = c('', 'start', 'stop', ''), las = 1)
-    axis(2, las = 2)
-    abline(v = c(250, 750), lty= 2)
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_signalAtORF.pdf')
+    pdf(file = paste0(file_name), width = 6, height = 4)
+    plot(meta_orf, type='l', xaxt='n', yaxt='n',
+         xlim=c(0, 1000), lwd = 3, col = 'orange',
+         xlab="Scaled ORF",
+         ylab='Signal', main=paste0('Signal at meta ORF'), bty='n')
+    axis(1, at=c(0, 250, 750, 1000), labels=c('', 'start', 'stop', ''), las=1)
+    axis(2, las=2)
+    abline(v=c(250, 750), lty=2)
     dev.off()
-    message('    Saved plot ', paste0(output_dir, '_signalAtORF.pdf')) 
+    message('    Saved plot ', paste0(output_dir, '_signalAtmetaORF.pdf')) 
+  } else {
+    message('   (Skip signal at meta ORF)')
   }
   
   #----------------------------------------------------------------------------#
