@@ -154,15 +154,24 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     chr_lengths <- data.frame(chr=names(chr_lengths), length=chr_lengths)
     output <- merge(output, chr_lengths)
     
+    # Get genome-wide mean
+    genome_wide_mean <- suppressMessages(
+      hwglabr2::average_chr_signal(signal_data)[[2]]
+    )
+    
+    # Normalize signal
+    output$avrg_signal <- output$avrg_signal / genome_wide_mean
+    
     file_name <- paste0(output_path, output_dir, '/', output_dir,
                         '_chrSizeBias.pdf')
     pdf(file=file_name, width=4, height=4)
     par(mar = c(5, 5, 4, 2))
     plot(output$length / 1000, output$avrg_signal,
          xlim=c(0, max(output$length) / 1000),
-         xlab = 'Chromosome size (kb)', ylab = 'Signal',
+         xlab = 'Chromosome size (kb)', ylab = 'Signal (genome-wide mean = 1)',
          main = paste0('Mean signal / chromosome\nrelative to chromosome size'),
          col = 'grey50', pch = 19)
+    abline(h = 1, lty=3, lwd=1.5)
     dev.off()
     
     message('      Saved ', paste0(output_dir, '_chrSizeBias.pdf'))
@@ -293,7 +302,6 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     signal_at_tels <- colMeans(signal_at_tels[, 4:ncol(signal_at_tels)],
                                na.rm = T)
     
-    
     # Get genome-wide mean
     genome_wide_mean <- suppressMessages(
       hwglabr2::average_chr_signal(signal_data)[[2]]
@@ -362,7 +370,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     plot(0, type='l', lwd=3, xlim = c(-1000, 1000), ylab='Signal',
          ylim=c(min(min_data), max(max_data)),
          xlab='Distance from DSB hotspot midpoints (bp)',
-         main = 'Signal around axis sites\n(Red1 peaks in WT)')
+         main = 'Signal around DSB hotspots')
     
     for(i in 1:length(hs_quants)){
       lines(x=seq(-999, 1000, 10), y=hs_quants[[i]], lwd=3, col=colors[i])
