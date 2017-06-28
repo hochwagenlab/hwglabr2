@@ -4,7 +4,7 @@
 \alias{get_intergenic_regions}
 \title{Get intergenic regions}
 \usage{
-get_intergenic_regions(genome)
+get_intergenic_regions(genome, as_gr = FALSE)
 }
 \arguments{
 \item{genome}{Character object specifying the reference genome; accepts one
@@ -15,6 +15,12 @@ of the following options:
   \item \code{"SK1"}
 }
 No default.}
+
+\item{as_gr}{Logical specifying whether the output should be returned as a
+\code{GRanges} object. If \code{FALSE}, output is a \code{data.frame}. Can
+only be used if \code{genome="SK1Yue"}, because \code{"SK1"} and
+\code{"sacCer3"} contain overlapping genes, resulting in negative intervals
+(not allowed by \code{IRanges}). Defaults to \code{FALSE}.}
 }
 \value{
 R data frame containing coordinates and annotations for all

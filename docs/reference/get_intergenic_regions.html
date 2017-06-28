@@ -80,7 +80,7 @@
     <p>Returns table of intergenic regions for specified genome.</p>
     
 
-    <pre class="usage"><span class='fu'>get_intergenic_regions</span>(<span class='no'>genome</span>)</pre>
+    <pre class="usage"><span class='fu'>get_intergenic_regions</span>(<span class='no'>genome</span>, <span class='kw'>as_gr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -93,6 +93,14 @@ of the following options:</p><ol>
 <li><p><code>"sacCer3"</code></p></li>
 <li><p><code>"SK1"</code></p></li>
 </ol><p>No default.</p></td>
+    </tr>
+    <tr>
+      <th>as_gr</th>
+      <td><p>Logical specifying whether the output should be returned as a
+<code>GRanges</code> object. If <code>FALSE</code>, output is a <code>data.frame</code>. Can
+only be used if <code>genome="SK1Yue"</code>, because <code>"SK1"</code> and
+<code>"sacCer3"</code> contain overlapping genes, resulting in negative intervals
+(not allowed by <code>IRanges</code>). Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
