@@ -1,5 +1,9 @@
 url: https://hochwagenlab.github.io/hwglabr2
 
+authors:
+  Luis Vale Silva:
+    href: http://luisvalesilva.com
+
 template:
   params:
     bootswatch: yeti
