@@ -173,3 +173,4 @@ devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
                    SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
                    SK1Yue_gff, sacCer3_gff, SK1_gff,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
+
