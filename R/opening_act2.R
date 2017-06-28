@@ -323,7 +323,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     GenomicRanges::end(Spo11_hs) <- GenomicRanges::start(Spo11_hs)
     
     # Order by signal to make 8 groups based on hotspot hotness
-    Spo11_hs <- Spo11_hs[order(Spo11_hs$score, decreasing = TRUE), ]
+    Spo11_hs <- Spo11_hs[order(Spo11_hs$score), ]
     
     signal_at_hs <- EnrichedHeatmap::normalizeToMatrix(signal_data, Spo11_hs,
                                                        extend=1000, w=10,
@@ -346,8 +346,8 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     min_data <- sapply(hs_quants, function(x) min(x))
     max_data <- sapply(hs_quants, function(x) max(x))
     
-    colors <- c("lightblue1", "cadetblue1", "deepskyblue", "deepskyblue3",
-                "royalblue", "blue", "blue4", "black")
+    colors <- c('lightblue1', 'cadetblue1', 'deepskyblue', 'deepskyblue3',
+                'royalblue', 'blue', 'blue4', 'black')
     
     file_name <- paste0(output_path, output_dir, '/', output_dir,
                         '_signalAtDSBhotspots.pdf')
@@ -362,9 +362,9 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
       lines(x=seq(-999, 1000, 10), y=hs_quants[[i]], lwd=3, col=colors[i])
     }
     
-    legend("topright", lty=c(1,1), lwd=3, title="Hotspot strength",
-           legend=c("weakest", "", "", "", "", "", "", "hottest"),
-           bg = "white", col=colors, cex=0.6)
+    legend('topright', lty=c(1,1), lwd=3, title='Hotspot strength',
+           legend=c('weakest', '', '', '', '', '', '', 'hottest'),
+           bg = 'white', col=colors, cex=0.6)
     dev.off()
     
     message('    Saved plot ', paste0(output_dir, '_signalAtDSBhotspots.pdf'))
