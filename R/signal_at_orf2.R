@@ -75,8 +75,12 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
          call. = FALSE)
   }
   
-  # Drop 'chrMito' and '2-micron' if present in gff (absent from ChIP-seq data)
-  gff <- GenomeInfoDb::dropSeqlevels(gff, c('chrMito', '2-micron'))
+  # Drop mitochondrial genome and 2-micron if present (not in ChIP-seq data)
+  chrs <- paste0('chr', as.roman(1:16))
+  seqs_to_drop <- unique(
+    as.character(gff@seqnames)[!as.character(gff@seqnames) %in% chrs]
+    )
+  gff <- GenomeInfoDb::dropSeqlevels(gff, seqs_to_drop)
   
   # Check seqnames (must match between input data and gff)
   # this does not catch the problem of mixing SK1Yue and S288C!
