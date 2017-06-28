@@ -8,6 +8,11 @@ template:
   params:
     bootswatch: yeti
 
+navbar:
+  left:
+    - text: "Functions"
+      href: reference/index.html
+
 reference:
   - title: Import data
     contents:
@@ -33,7 +38,3 @@ reference:
     contents:
     - elapsed_time
 
-navbar:
-  left:
-    - text: "Functions"
-      href: reference/index.html
