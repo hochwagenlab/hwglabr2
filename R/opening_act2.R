@@ -127,12 +127,12 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   # Create output directory (if it doesn't already exist)
   output_dir <- paste0(genotype, '_anti-', chip_target, '_', sample_id)
-  if (file.exists(paste0(ouput_path, output_dir))) {
-      stop('A folder named "', output_dir, '" already exists at\n', ouput_path,
+  if (file.exists(paste0(output_path, output_dir))) {
+      stop('A folder named "', output_dir, '" already exists at\n', output_path,
            call. = FALSE)
   }
   message('Creating output directory "', output_dir, '"...')
-  dir.create(file.path(paste0(ouput_path, output_dir)))
+  dir.create(file.path(paste0(output_path, output_dir)))
   
   #----------------------------------------------------------------------------#
   #                                Run analysis                                #
