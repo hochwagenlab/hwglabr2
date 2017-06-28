@@ -37,6 +37,10 @@ used in the analysis pipeline (with a date) and the read mapping conditions
 check that the provided \code{sample_id} matches the required format before
 proceeding with the analysis. No default.}
 
+\item{output_path}{Character object with a valid path to directory to save
+output files at.
+Defaults to \code{output_path='/Volumes/LabShare/HTGenomics/Opening_act/'}}
+
 \item{user_input}{Logical indicating whether to ask user to check the format
 of the \code{sample_id} argument. Defaults to \code{TRUE}.}
 
@@ -56,15 +60,11 @@ sub-telomeric region analysis. Defaults to \code{TRUE}.}
 \item{run_dsb_hotspots}{Logical indicating whether to run the signal at DSB
 hotspot analysis. Defaults to \code{TRUE}.}
 
-\item{run_axis}{Logical indicating whether to run the signal at axis binding site
-analysis. Defaults to \code{TRUE}.}
+\item{run_axis}{Logical indicating whether to run the signal at axis binding
+site analysis. Defaults to \code{TRUE}.}
 
 \item{run_meta_orf}{Logical indicating whether to run the meta ORF analysis.
 Defaults to \code{TRUE}.}
-
-\item{ouput_path}{Character object with a valid path to directory to save
-output files at.
-Defaults to \code{ouput_path='/Volumes/LabShare/HTGenomics/Opening_act/'}}
 }
 \value{
 A new folder at the specified location (default is
@@ -101,9 +101,9 @@ opening_act2(signal_data=WT, genome="sacCer3", genotype="WT",
              chip_target="Red1", sample_id="AH119C-040114-sacCer3-2mis",
              run_meta_orf=FALSE)
 
-opening_act2(signal_data=WT, genome="sacCer3", genotype="WT",
-             chip_target="Red1", sample_id="AH119C-040114-sacCer3-2mis",
-             output_path='~/Desktop'
+opening_act2(signal_data=WT, genome="sacCer3", genotype="dot1",
+             chip_target="Red1", sample_id="AH8104-010116-sacCer3-2mis",
+             output_path='~/Desktop',
              run_chr_size_bias=FALSE, run_centromeres=FALSE, run_rDNA=FALSE,
              run_telomeres=FALSE, run_dsb_hotspots=TRUE, run_axis=TRUE,
              run_meta_orf=FALSE)

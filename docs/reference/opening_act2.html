@@ -23,8 +23,7 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -77,10 +76,14 @@
     <h1>Standard analysis of ChIP-seq experiments</h1>
     </div>
 
-
+    
+    <p>Runs the lab's standard analysis of ChIP-seq experiment data and produces
+several .pdf files of analysis plots to be kept in a new folder at
+<code>.../LabShare/HTGenomics/Opening_act/</code>.</p>
+    
 
     <pre class="usage"><span class='fu'>opening_act2</span>(<span class='no'>signal_data</span>, <span class='no'>genome</span>, <span class='no'>genotype</span>, <span class='no'>chip_target</span>, <span class='no'>sample_id</span>,
-  <span class='kw'>ouput_path</span> <span class='kw'>=</span> <span class='st'>"/Volumes/LabShare/HTGenomics/Opening_act/"</span>,
+  <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='st'>"/Volumes/LabShare/HTGenomics/Opening_act/"</span>,
   <span class='kw'>user_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>run_chr_size_bias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>run_centromeres</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>run_rDNA</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>run_telomeres</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>run_dsb_hotspots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>run_axis</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>run_meta_orf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
@@ -101,7 +104,6 @@ respectively. No default.</p></td>
 the following options:</p><ol>
 <li><p><code>"SK1Yue"</code></p></li>
 <li><p><code>"sacCer3"</code></p></li>
-<li><p><code>"SK1"</code></p></li>
 </ol><p>No default.</p></td>
     </tr>
     <tr>
@@ -124,10 +126,10 @@ check that the provided <code>sample_id</code> matches the required format befor
 proceeding with the analysis. No default.</p></td>
     </tr>
     <tr>
-      <th>ouput_path</th>
+      <th>output_path</th>
       <td><p>Character object with a valid path to directory to save
 output files at.
-Defaults to <code>ouput_path='/Volumes/LabShare/HTGenomics/Opening_act/'</code></p></td>
+Defaults to <code>output_path='/Volumes/LabShare/HTGenomics/Opening_act/'</code></p></td>
     </tr>
     <tr>
       <th>user_input</th>
@@ -162,8 +164,8 @@ hotspot analysis. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>run_axis</th>
-      <td><p>Logical indicating whether to run the signal at axis binding site
-analysis. Defaults to <code>TRUE</code>.</p></td>
+      <td><p>Logical indicating whether to run the signal at axis binding
+site analysis. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>run_meta_orf</th>
@@ -177,13 +179,13 @@ Defaults to <code>TRUE</code>.</p></td>
     <p>A new folder at the specified location (default is
 <code>.../LabShare/HTGenomics/Opening_act/</code>) containing output plots (as .pdf
 files) of the included of the following analyses:</p><ol>
-<li><p><strong>Chromosome size bias</strong></p></li>
-<li><p><strong>Signal at centromeres</strong></p></li>
-<li><p><strong>Signal flanking rDNA</strong></p></li>
-<li><p><strong>Signal at sub-telomeric regions</strong></p></li>
-<li><p><strong>Signal at DSB hotspots</strong></p></li>
-<li><p><strong>Signal at axis binding sites</strong></p></li>
-<li><p><strong>Signal at meta ORF</strong></p></li>
+<li><p>Chromosome size bias</p></li>
+<li><p>Signal at centromeres</p></li>
+<li><p>Signal flanking rDNA</p></li>
+<li><p>Signal at sub-telomeric regions</p></li>
+<li><p>Signal at DSB hotspots</p></li>
+<li><p>Signal at axis binding sites</p></li>
+<li><p>Signal at meta ORF</p></li>
 </ol>
 
     
@@ -204,8 +206,9 @@ files) of the included of the following analyses:</p><ol>
                <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH119C-040114-sacCer3-2mis"</span>,
                <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 
-  <span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"WT"</span>,
-               <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH119C-040114-sacCer3-2mis"</span>,
+  <span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"dot1"</span>,
+               <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH8104-010116-sacCer3-2mis"</span>,
+               <span class='kw'>output_path</span><span class='kw'>=</span><span class='st'>'~/Desktop'</span>,
                <span class='kw'>run_chr_size_bias</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_centromeres</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_rDNA</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
                <span class='kw'>run_telomeres</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_dsb_hotspots</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>run_axis</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
                <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)

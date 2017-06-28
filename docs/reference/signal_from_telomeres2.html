@@ -23,8 +23,7 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -82,7 +81,8 @@
 specified distance.</p>
     
 
-    <pre class="usage"><span class='fu'>signal_from_telomeres2</span>(<span class='no'>signal_data</span>, <span class='kw'>length_to_collect</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='no'>genome</span>)</pre>
+    <pre class="usage"><span class='fu'>signal_from_telomeres2</span>(<span class='no'>signal_data</span>, <span class='kw'>length_to_collect</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
+  <span class='kw'>averaging_window</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>genome</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -99,6 +99,12 @@ respectively. No default.</p></td>
       <td><p>Integer specifying the length (in bp) of the region
 to collect signal for, starting form the telomeres. Defaults to 100000 (i.e.
 100 kb).</p></td>
+    </tr>
+    <tr>
+      <th>averaging_window</th>
+      <td><p>Integer specifying the length (in bp) of the window
+to average the signal in.
+Defaults to 1 (i.e. 1 bp: no window averaging).</p></td>
     </tr>
     <tr>
       <th>genome</th>
@@ -142,7 +148,8 @@ than 150 bp).</p>
     <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
   <span class='fu'>signal_from_telomeres2</span>(<span class='no'>WT</span>, <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>"SK1Yue"</span>)
 
-  <span class='fu'>signal_from_telomeres2</span>(<span class='no'>WT</span>, <span class='kw'>length_to_collect</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>"sacCer3"</span>)
+  <span class='fu'>signal_from_telomeres2</span>(<span class='no'>WT</span>, <span class='kw'>length_to_collect</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>averaging_window</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+                         <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>"sacCer3"</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

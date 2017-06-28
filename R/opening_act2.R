@@ -25,9 +25,9 @@
 #' (see examples below). If \code{user_input=TRUE} the function asks the user to
 #' check that the provided \code{sample_id} matches the required format before
 #' proceeding with the analysis. No default.
-#' @param ouput_path Character object with a valid path to directory to save
+#' @param output_path Character object with a valid path to directory to save
 #' output files at.
-#' Defaults to \code{ouput_path='/Volumes/LabShare/HTGenomics/Opening_act/'}
+#' Defaults to \code{output_path='/Volumes/LabShare/HTGenomics/Opening_act/'}
 #' @param user_input Logical indicating whether to ask user to check the format
 #' of the \code{sample_id} argument. Defaults to \code{TRUE}.
 #' @param run_chr_size_bias Logical indicating whether to run the chromosome
@@ -74,9 +74,9 @@
 #'              chip_target="Red1", sample_id="AH119C-040114-sacCer3-2mis",
 #'              run_meta_orf=FALSE)
 #'
-#' opening_act2(signal_data=WT, genome="sacCer3", genotype="WT",
-#'              chip_target="Red1", sample_id="AH119C-040114-sacCer3-2mis",
-#'              output_path='~/Desktop'
+#' opening_act2(signal_data=WT, genome="sacCer3", genotype="dot1",
+#'              chip_target="Red1", sample_id="AH8104-010116-sacCer3-2mis",
+#'              output_path='~/Desktop',
 #'              run_chr_size_bias=FALSE, run_centromeres=FALSE, run_rDNA=FALSE,
 #'              run_telomeres=FALSE, run_dsb_hotspots=TRUE, run_axis=TRUE,
 #'              run_meta_orf=FALSE)
@@ -85,25 +85,25 @@
 
 opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                          output_path='/Volumes/LabShare/HTGenomics/Opening_act/',
-                         user_input = TRUE,
+                         user_input=TRUE,
                          run_chr_size_bias=TRUE, run_centromeres=TRUE,
                          run_rDNA=TRUE, run_telomeres=TRUE,
                          run_dsb_hotspots=TRUE, run_axis=TRUE,
                          run_meta_orf=TRUE) {
-  t0 <- proc.time()[0]
+  t0 <- proc.time()[3]
   
   # IO checks
   check_package("GenomicRanges")
   check_package("EnrichedHeatmap")
   
-  check_path(ouput_path)
+  check_path(output_path)
   
   if (!is(signal_data, "GRanges")) {
       stop('"signal_data" must be a GRanges object.', call. = FALSE)
   }
   
   if (!genome %in% c('SK1Yue', 'sacCer3')) {
-    stop('"gneome" must be either "SK1Yue" or "sacCer3".', call. = FALSE)
+    stop('"genome" must be either "SK1Yue" or "sacCer3".', call. = FALSE)
   }
   
   # Ask user to double-check "sample_id" and "genome" argument input
@@ -143,7 +143,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   # Chr size bias
   
   if (run_chr_size_bias) {
-    message('    Chromosome size bias')
+    message('   Chromosome size bias')
     suppressMessages(output <- hwglabr2::average_chr_signal(signal_data,
                                                             remove_cen=F,
                                                             mean_norm=F)[[1]])
@@ -165,9 +165,9 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
          col = 'grey50', pch = 19)
     dev.off()
     
-    message('   Saved plot ', paste0(output_dir, '_chrSizeBias.pdf'))
+    message('      Saved ', paste0(output_dir, '_chrSizeBias.pdf'))
   } else {
-    message('   (Skip chromosome size bias)')
+    message('      (Skip chromosome size bias)')
   }
   
   #----------------------------------------------------------------------------#
@@ -203,9 +203,9 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
          main='Average signal around centromeres', cex.main=1)
     
     dev.off()
-    message('    Saved plot ', paste0(output_dir, '_signalAtCen.pdf')) 
+    message('      Saved ', paste0(output_dir, '_signalAtCen.pdf')) 
   } else {
-    message('   (Skip signal at centromeres)')
+    message('      (Skip signal at centromeres)')
   }
   
   #----------------------------------------------------------------------------#
@@ -222,8 +222,8 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     last_position <- tail(GenomicRanges::end(rDNA), 1)
     seq_length <- c('chrXII'=last_position)
     
-    # Compute 10-bp tiling windows (will compress the data a little bit)
-    bins <- GenomicRanges::tileGenome(seq_length, tilewidth=10,
+    # Compute 50-bp tiling windows (will compress the data a little bit)
+    bins <- GenomicRanges::tileGenome(seq_length, tilewidth=40,
                                       cut.last.tile.in.chrom=TRUE)
     
     # Keep only required region
@@ -255,7 +255,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
       end <- 490500
       axis(1, at = c(start / 1000, end / 1000),
            labels = c('', ''),
-           col = 'blue', lwd = 3)
+           col = 'blue', lwd = 2)
     }
     
     # Add labels for rDNA
@@ -266,19 +266,19 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                    '\n(rDNA position marked in red;',
                    '\nregion absent form SK1 genome marked in blue)'))
     } else {
-      start <- 433029
-      end <- 451212
+      start <- 447012
+      end <- 461699
       title(paste0("Signal around rDNA: ", '\n(rDNA position marked in red)'))
     }
     
     axis(1, at = c(start / 1000, end / 1000),
          labels = c('', ''),
-         col = 'red', lwd = 3)
+         col = 'red', lwd = 2)
     
     dev.off()
-    message('    Saved plot ', paste0(output_dir, '_signalAtrDNA.pdf'))
+    message('      Saved ', paste0(output_dir, '_signalAtrDNA.pdf'))
   } else {
-    message('   (Skip signal flanking rDNA)')
+    message('      (Skip signal flanking rDNA)')
   }
   
   #----------------------------------------------------------------------------#
@@ -313,9 +313,9 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
          cex.main=1)
     abline(h = 1, lty=3, lwd=1.5)
     dev.off()
-    message('    Saved plot ', paste0(output_dir, '_signalAtTelomeres.pdf'))
+    message('      Saved ', paste0(output_dir, '_signalAtTelomeres.pdf'))
   } else {
-    message('   (Skip signal at sub-telomeric regions)')
+    message('      (Skip signal at sub-telomeric regions)')
   }
   
   #----------------------------------------------------------------------------#
@@ -373,10 +373,9 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
            bg = 'white', col=colors, cex=0.6)
     dev.off()
     
-    message('    Saved plot ', paste0(output_dir, '_signalAtDSBhotspots.pdf'))
-    
+    message('      Saved ', paste0(output_dir, '_signalAtDSBhotspots.pdf'))
   } else {
-    message('   (Skip signal at DSB hotspots)')
+    message('      (Skip signal at DSB hotspots)')
   }
   
   #----------------------------------------------------------------------------#
@@ -429,18 +428,22 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
            legend=c('least', '', '', 'most'), bg='white', col=colors, cex=0.6)
     dev.off()
     
-    message('    Saved plot ', paste0(output_dir, '_signalAtAxisSites.pdf'))
+    message('      Saved ', paste0(output_dir, '_signalAtAxisSites.pdf'))
     
   } else {
-    message('   (Skip signal at axis binding sites)')
+    message('      (Skip signal at axis binding sites)')
   }
   
   #----------------------------------------------------------------------------#
   # Meta ORF
   if (run_meta_orf) {
-    message('   Signal at meta ORF analysis')
+    message('   Signal at meta ORF')
     
     gff <- hwglabr2::get_gff(genome)
+    
+    # Drop unnecessary annotations (only actually applies with SK1Yue)
+    gff <- gff[gff$type %in% c('gene', 'pseudogene')]
+    
     signal_at_ORFs <- suppressMessages(
       hwglabr2::signal_at_orf2(signal_data, gff, write_to_file=FALSE)
       )
@@ -459,11 +462,10 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     axis(2, las=2)
     abline(v=c(250, 750), lty=2)
     dev.off()
-    message('    Saved plot ', paste0(output_dir, '_signalAtmetaORF.pdf')) 
+    message('      Saved ', paste0(output_dir, '_signalAtmetaORF.pdf')) 
   } else {
-    message('   (Skip signal at meta ORF)')
+    message('      (Skip signal at meta ORF)')
   }
-  
   #----------------------------------------------------------------------------#
   
   message()
