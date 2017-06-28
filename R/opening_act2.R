@@ -157,6 +157,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     pdf(file=file_name, width=4, height=4)
     par(mar = c(5, 5, 4, 2))
     plot(output$length / 1000, output$avrg_signal,
+         xlim=c(0, max(output$length) / 1000),
          xlab = 'Chromosome size (kb)', ylab = 'Signal',
          main = paste0('Mean signal per chromosome\nrelative to chromosome size'),
          col = 'grey50', pch = 19)
@@ -181,7 +182,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     GenomicRanges::end(centromeres) <- GenomicRanges::start(centromeres)
     
     signal_at_cens <- EnrichedHeatmap::normalizeToMatrix(signal_data, centromeres,
-                                                         extend=5000, w=1,
+                                                         extend=40000, w=50,
                                                          mean_mode="weighted",
                                                          value_column="score")
     
@@ -191,7 +192,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     pdf(file = paste0(file_name), width = 6, height = 3)
     ylim <- range(signal_at_cens_avrg)
     if( ylim[2] < 2) ylim[2] <- 2
-    plot(seq(-4999, 5000) / 1000, signal_at_cens_avrg, type="l",
+    plot(seq(-39999, 40000, 50) / 1000, signal_at_cens_avrg, type="l",
          ylim=ylim, xlab="Distance to centromere (kb)", ylab="Signal", 
          lwd=1, cex.axis=1, las=1, col="darkorange", cex.lab=1,
          main='Average signal around centromeres', cex.main=1)
@@ -238,7 +239,6 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     file_name <- paste0(output_path, output_dir, '/', output_dir,
                         '_signalAtrDNA.pdf')
     pdf(file = paste0(file_name), width = 6, height = 3)
-    
     plot(rDNA$position / 1000, rDNA$signal, type="l",
          xlab="Position on chr XII (kb)", ylab="Signal", 
          lwd=1, cex.axis=1, las=1, col='black', cex.lab=1, cex.main=1)
@@ -270,7 +270,6 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
          labels = c('', ''),
          col = 'red', lwd = 3)
     
-    
     dev.off()
     message('    Saved plot ', paste0(output_dir, '_signalAtrDNA.pdf'))
   } else {
@@ -284,7 +283,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     
     signal_at_tels <- suppressMessages(hwglabr2::signal_from_telomeres2(signal_data,
                                                                         120000,
-                                                                        1000,
+                                                                        500,
                                                                         genome))
     
     signal_at_tels <- colMeans(signal_at_tels[, 4:ncol(signal_at_tels)],
@@ -297,20 +296,14 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     # Normalize signal
     signal_at_tels <- signal_at_tels / genome_wide_mean
     
-    # Plot                         
-    plot(x=seq(1, 120), y=signal_at_tels, col='orange',
-         xlab='Distance to chr end', ylab='Signal (genome mean = 1)',
-         type='l')
-    abline(h=1, lty=3)
-    
     # Plot results
     file_name <- paste0(output_path, output_dir, '/', output_dir,
                         '_signalAtTelomeres.pdf')
     pdf(file = paste0(file_name), width = 6, height = 4)
     
-    plot(x=seq(1, 120), signal_at_tels, type='l', lwd=2, col='plum4',
+    plot(x=seq(1, 120000, 500), signal_at_tels, type='l', lwd=2, col='plum4',
          xlab='Distance from chr end (Kb)', ylab='Signal (genome-wide mean = 1)',
-         main=paste0('Signal at sub-telomeric regions\n(mean-normalized)'),
+         main='Signal at sub-telomeric regions',
          cex.main=1)
     abline(h = 1, lty=3, lwd=1.5)
     dev.off()
@@ -318,8 +311,6 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   } else {
     message('   (Skip signal at sub-telomeric regions)')
   }
-  
-  
   
   #----------------------------------------------------------------------------#
   # Signal around DSBs by DSB hotspot hotness
@@ -362,9 +353,10 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                         '_signalAtDSBhotspots.pdf')
     pdf(file = paste0(file_name), width = 6, height = 5)
     
-    plot(0, type="l", lwd=3, xlim = c(-1000, 1000), ylab="Signal",
+    plot(0, type='l', lwd=3, xlim = c(-1000, 1000), ylab='Signal',
          ylim=c(min(min_data), max(max_data)),
-         xlab="Distance from DSB hotspot midpoints (bp)")
+         xlab='Distance from DSB hotspot midpoints (bp)',
+         main = 'Signal around axis sites\n(Red1 peaks in WT)')
     
     for(i in 1:length(hs_quants)){
       lines(x=seq(-999, 1000, 10), y=hs_quants[[i]], lwd=3, col=colors[i])
@@ -381,61 +373,60 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
     message('   (Skip signal at DSB hotspots)')
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
   #----------------------------------------------------------------------------#
-  # Signal at axis binding sites (Jonna)
-  if (check_S288C) {
+  # Signal at axis binding sites
+  if (run_axis) {
     message('   Signal at axis binding sites')
     
-    Red1_summits <- Red1_summits[, c(1, 2, 3, 5)]
-    Red1_summits[, 1] <- as.character(Red1_summits[,1])
+    Red1_summits <- hwglabr2::get_Red1_summits(genome)
     # Order by signal to make groups based on binding level
-    axisorder <- Red1_summits[order(Red1_summits[,4]), ]
-    n <- nrow(Red1_summits)/4
+    Red1_summits <- Red1_summits[order(Red1_summits$score), ]
     
-    axis1 <- axisorder[1:round(n),]
-    axis2 <- axisorder[(round(n)+1):round(2*n),]
-    axis3 <- axisorder[(round(2*n)+1):round(3*n),]
-    axis4 <- axisorder[(round(3*n)+1):round(4*n),]
+    signal_at_axis <- EnrichedHeatmap::normalizeToMatrix(signal_data,
+                                                         Red1_summits,
+                                                         extend=1000, w=10,
+                                                         mean_mode="weighted",
+                                                         value_column="score")
     
-    data <- list(axis1, axis2, axis3, axis4)
-    message('    Computing signal around axis binding sites; this takes a few minutes...')
-    suppressMessages(data <- lapply(data, function(x) signal_at_summit(wiggleData, x, 1000)))
-    suppressMessages(data <- lapply(data, signal_average))
+    # Define quantiles (matrix row order respects order by score from above)
+    axis_quants <- list()
+    number_of_peaks <- nrow(signal_at_axis)
+    quant_length <- round(number_of_peaks / 4)
+    for (i in 1:4) {
+      start <- 1 + ((i - 1) * quant_length)
+      end <- min(number_of_peaks, (start + quant_length) - 1)
+      axis_quants[[i]] <- signal_at_axis[start:end, ]
+    }
     
-    min_data <- sapply(data, function(x) min(x[, 2]))
-    max_data <- sapply(data, function(x) max(x[, 2]))
+    # Average data
+    axis_quants <- lapply(axis_quants, function(x) colMeans(x, na.rm = T))
+    
+    min_data <- sapply(axis_quants, function(x) min(x))
+    max_data <- sapply(axis_quants, function(x) max(x))
     
     colors <- c("darkolivegreen3", "green3", "darkgreen", "black")
     
-    fileName <- paste0(output_path, output_dir, '/', output_dir, '_signalAtAxisSites.pdf')
-    pdf(file = paste0(fileName), width = 6, height = 5)
+    file_name <- paste0(output_path, output_dir, '/', output_dir,
+                        '_signalAtAxisSites.pdf')
+    pdf(file = paste0(file_name), width = 6, height = 5)
     
-    plot(0, type="l", lwd=3, ylab="ChIP-seq signal", xlim = c(-1000, 1000),
+    plot(0, type='l', lwd=3, xlim = c(-1000, 1000), ylab='Signal',
          ylim=c(min(min_data), max(max_data)),
-         xlab="Distance from Axis Midpoints (bp)",
-         main = "Signal around axis sites\n(Red1 peaks in WT)")
+         xlab='Distance from Axis Midpoints (bp)',
+         main = 'Signal around axis sites\n(Red1 peaks in WT)')
     
-    for(i in 1:length(data)){
-      lines(data[[i]], lwd=3, col=colors[i])
+    for(i in 1:length(axis_quants)){
+      lines(x=seq(-999, 1000, 10), y=axis_quants[[i]], lwd=3, col=colors[i])
     }
     
-    legend("topright", lty=c(1, 1), lwd=3, title="Axis binding",
-           legend=c("least", "", "", "most"), bg='white', col=colors)
+    legend('topright', lty=c(1, 1), lwd=3, title='Axis binding',
+           legend=c('least', '', '', 'most'), bg='white', col=colors, cex=0.6)
     dev.off()
     
     message('    Saved plot ', paste0(output_dir, '_signalAtAxisSites.pdf'))
     
   } else {
     message('... Skip signal at axis binding sites')
-    message('    (binding sites only available for data mapped to S288C genome)')
   }
   
   #----------------------------------------------------------------------------#
