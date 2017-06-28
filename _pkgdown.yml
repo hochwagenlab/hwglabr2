@@ -28,3 +28,8 @@ reference:
   - title: Helpers
     contents:
     - elapsed_time
+
+navbar:
+  left:
+    - text: "Functions"
+      href: reference/index.html
