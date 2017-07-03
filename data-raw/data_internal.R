@@ -46,6 +46,43 @@ SK1Yuecen <- with(SK1Yuecen,
 
 SK1Yuecen <- add_genome_name_to_GR(SK1Yuecen, name='SK1Yue')
 
+# S288c genome assembly published in Yue et al. 2017
+# Chromosome lengths calculated using:
+#cat S288c_SK1_Yue.fa | awk '$0 ~ ">" {print c; c=0;printf substr($0,2,100) "\t"; } \
+#$0 !~ ">" {c+=length($0);} END { print c; }'
+
+## got centromere details:
+# $ cd Google_Drive_NYU/LabShare_Luis/LabWork/GenomeSequences/
+# $ mkdir S288C_Yue_et_al_2017/
+# $ cd S288C_Yue_et_al_2017/
+# $ wget http://yjx1217.github.io/Yeast_PacBio_2016/data/Nuclear_GFF/S288c.all_feature.gff.gz
+# $ gunzip *
+
+S288CYue_gff <- rtracklayer::import.gff(paste0('~/Google_Drive_NYU/LabShare_Luis/',
+                                               'LabWork/GenomeSequences/',
+                                               'S288C_Yue_et_al_2017/',
+                                               'S288c.all_feature.gff'))
+start <- S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@start
+end <- start + S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@width - 1
+
+S288CYuecen <- data.frame("Chromosome" = c("chrI","chrII","chrIII","chrIV","chrV",
+                                           "chrVI","chrVII","chrVIII","chrIX",
+                                           "chrX","chrXI","chrXII","chrXIII",
+                                           "chrXIV","chrXV","chrXVI"),
+                          "Start" = start, "End" = end,
+                          "LenChr" = c(219929, 813597, 341580, 1566853, 583092,
+                                       271539, 1091538, 581049, 440036, 751611,
+                                       666862, 1075542, 930506, 777615, 1091343,
+                                       954457))
+
+S288CYuecen <- with(S288CYuecen,
+                    GenomicRanges::GRanges(Chromosome,
+                                           IRanges::IRanges(Start + 1, End),
+                                           seqlengths=setNames(LenChr,
+                                                               Chromosome)))
+
+S288CYuecen <- add_genome_name_to_GR(S288CYuecen, name='S288cYue')
+
 # SK1 info based on Keeney lab genome sequence and annotation
 SK1cen <- data.frame("Chromosome" = c("chr01","chr02","chr03","chr04","chr05",
                                       "chr06","chr07","chr08","chr09","chr10",
@@ -167,7 +204,7 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 
 # Set package directory as working directory
 # setwd('/path/to/hwglabr2/')
-devtools::use_data(SK1Yuecen, sacCer3cen, SK1cen,
+devtools::use_data(SK1Yuecen, S288CYuecen, sacCer3cen, SK1cen,
                    SK1Yue_intergenic, SK1_intergenic, sacCer3_intergenic,
                    SK1Yue_Red1_summits, sacCer3_Red1_summits,
                    SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
