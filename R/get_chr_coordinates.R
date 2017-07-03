@@ -5,6 +5,7 @@
 #' the following options:
 #' \enumerate{
 #'   \item \code{"SK1Yue"}
+#'   \item \code{"S288CYue"}
 #'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
 #' }
@@ -31,11 +32,14 @@ get_chr_coordinates <- function(genome, as_df=FALSE){
   
   if (genome == 'SK1Yue') {
     coord_table <- SK1Yuecen
+  } else if (genome == 'S288CYue') {
+    coord_table <- S288CYuecen
   } else if (genome == 'sacCer3') {
     coord_table <- sacCer3cen
   } else if (genome == 'SK1') {
     coord_table <- SK1cen
-  } else stop('"genome" argument must be one of "SK1Yue", "sacCer3" or "SK1".')
+  } else stop('"genome" argument must be one of ',
+              '"SK1Yue", "S288CYue", "sacCer3" or "SK1".')
   
   if (as_df) {
     coord_table <- cbind(GenomicRanges::as.data.frame(coord_table),
