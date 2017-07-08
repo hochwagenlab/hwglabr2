@@ -39,7 +39,7 @@ signal_mean_and_ci <- function(signal_data, ci=0.95, rep_bootstrap=1000,
   t0  <- proc.time()[3]
   
   # IO checks
-  signal_data <- as.matrix(signal_data)
+  #signal_data <- as.matrix(signal_data)
   class(signal_data) <- 'matrix'
   
   if (!is(signal_data[1, ], "numeric")) {
