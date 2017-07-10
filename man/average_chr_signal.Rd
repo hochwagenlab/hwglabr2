@@ -18,7 +18,8 @@ centromeres. Defaults to \code{FALSE}.}
 
 \item{genome}{Character string indicating reference genome used to align
 the data. Must be provided when \code{remove_cen = TRUE}, in order to load
-appropriate centromere data. Accepts one of the following strings:
+appropriate centromere data, or \code{order_chrs = TRUE}, in order to load
+chromosome length data. Accepts one of the following strings:
 \enumerate{
   \item \code{"SK1Yue"}
   \item \code{"sacCer3"}

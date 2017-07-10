@@ -11,7 +11,8 @@
 #' centromeres. Defaults to \code{FALSE}.
 #' @param genome Character string indicating reference genome used to align
 #' the data. Must be provided when \code{remove_cen = TRUE}, in order to load
-#' appropriate centromere data. Accepts one of the following strings:
+#' appropriate centromere data, or \code{order_chrs = TRUE}, in order to load
+#' chromosome length data. Accepts one of the following strings:
 #' \enumerate{
 #'   \item \code{"SK1Yue"}
 #'   \item \code{"sacCer3"}
@@ -52,6 +53,12 @@ average_chr_signal <- function(gr, remove_cen=FALSE, genome,
   if (!is(gr, "GRanges")) stop('input must be a GRanges object.')
   if (!"score" %in% names(GenomicRanges::mcols(gr))) {
     stop(deparse(substitute(gr)), ' does not have a "score" metadata column.')
+  }
+  
+  if (order_chrs & missing(genome)) {
+    stop('No reference genome provided.\n',
+         '"genome" is required when "order_chrs = TRUE"',
+         call. = FALSE)
   }
   
   if (remove_cen) {
@@ -113,40 +120,25 @@ average_chr_signal <- function(gr, remove_cen=FALSE, genome,
   }
   
   if (order_chrs) seq_avrg <- order_chromosomes(seq_avrg, chr_column='chr',
-                                                decreasing=FALSE)
+                                                genome=genome, decreasing=FALSE)
   
   message('Done!')
   return(list("seq_avrg"=seq_avrg, "genome_avrg"=genome_avrg))
 }
 
-
-order_chromosomes <- function(df, chr_column, decreasing=FALSE) {
+order_chromosomes <- function(df, chr_column, genome, decreasing=FALSE) {
   # Make sure input is a data frame with 16 rows
   if (!is.data.frame(df) | nrow(df) != 16) {
     stop("Wrong input data - not an R data frame wit 16 rows.", call. = FALSE)
   }
   
-  # Check reference genome and get order
-  chrom_roman <- c('chrI', 'chrVI', 'chrIII', 'chrIX', 'chrVIII', 'chrV',
-                   'chrXI', 'chrX', 'chrXIV', 'chrII', 'chrXIII', 'chrXVI',
-                   'chrXII', 'chrVII', 'chrXV', 'chrIV')
-  chrom_arabic <- c('chr01', 'chr06', 'chr03', 'chr09', 'chr08', 'chr05',
-                    'chr11', 'chr10', 'chr14', 'chr02', 'chr13', 'chr16',
-                    'chr12', 'chr07', 'chr15', 'chr04')
+  # Get info for specified genome
+  chr_len <- hwglabr2::get_chr_coordinates(genome, as_df=TRUE)
+  # Order by length (and drop unnecessary columns)
+  chr_order <- order(chr_len$chr_len)
+  if (decreasing) chr_order <- rev(chr_order)
   
-  check_roman <- any(grep('chr[XVI]', df[, chr_column]))
-  check_arabic <- any(grep('chr[0-9]', df[, chr_column]))
+  chr_len <- chr_len[chr_order, 'seqnames']
   
-  if (check_roman && !check_arabic) {
-    chrom <- chrom_roman    
-  } else if (check_arabic && !check_roman) {
-    chrom <- chrom_arabic
-  } else stop('Did not recognize chromosome numbering system.\n',
-              'Please make sure chromosomes are numbered according to one of',
-              ' the following formats:\n',
-              'e.g. "chrI" or "chr01"', call. = FALSE)
-  
-  if (decreasing) chrom <- rev(chrom)
-  
-  return(df[match(chrom, df[[chr_column]]), ])
+  return(df[match(chr_len, df[[chr_column]]), ])
 }
