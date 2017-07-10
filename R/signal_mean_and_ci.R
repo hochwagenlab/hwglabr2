@@ -40,7 +40,12 @@ signal_mean_and_ci <- function(signal_data, ci=0.95, rep_bootstrap=1000,
   
   # IO checks
   #signal_data <- as.matrix(signal_data)
-  class(signal_data) <- 'matrix'
+  try(class(signal_data) <- 'matrix', silent = T)
+  
+  if (length(dim(signal_data)) != 2) {
+    stop('"signal_data" must be either a numeric matrix or ',
+         'an object that can be coerced to one', call. = FALSE)
+  }
   
   if (!is(signal_data[1, ], "numeric")) {
     stop('"signal_data" must be either a numeric matrix or ',
@@ -52,8 +57,7 @@ signal_mean_and_ci <- function(signal_data, ci=0.95, rep_bootstrap=1000,
   
   # Apply function mean_and_ci (defined here below) to every column in the input
   result <- apply(signal_data, 2, bootstrap_mean_ci, method='empirical',
-                  conf_int=ci, B=rep_bootstrap,
-                  na.rm=na_rm)
+                  conf_int=ci, B=rep_bootstrap, na.rm=na_rm)
   
   message('---')
   message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
