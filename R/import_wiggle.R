@@ -30,6 +30,7 @@ import_wiggle <- function(path, local_copy=TRUE){
   check_package("hwglabr")
   check_package("GenomicRanges")
   check_package("IRanges")
+  check_package('pbapply')
   
   if (local_copy) path <- make_local_copy(path)
   
