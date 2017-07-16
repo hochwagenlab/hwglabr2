@@ -80,7 +80,15 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
   seqs_to_drop <- unique(
     as.character(gff@seqnames)[!as.character(gff@seqnames) %in% chrs]
     )
-  gff <- GenomeInfoDb::dropSeqlevels(gff, seqs_to_drop)
+  
+  # GenomeInfoDb package introduced (in version 1.12, I believe) a new argument
+  # in function dropSeqlevels(); try running with it and without if that fails
+  try (kept_gff <- GenomeInfoDb::dropSeqlevels(gff, seqs_to_drop,
+                                               pruning.mode="coarse"),
+       silent = T)
+  
+  if (!exists('kept_gff')) kept_gff <- GenomeInfoDb::dropSeqlevels(gff,
+                                                                   seqs_to_drop)
   
   # Check seqnames (must match between input data and gff)
   # this does not catch the problem of mixing SK1Yue and S288C!
