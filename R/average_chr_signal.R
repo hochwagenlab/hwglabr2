@@ -100,7 +100,7 @@ average_chr_signal <- function(gr, remove_cen=FALSE, genome,
     GenomicRanges::end(cen) <- (GenomicRanges::end(cen) - offset
                                 + half_length)
     # Remove centromere regions
-    gr <- gr[!GenomicRanges::overlapsAny(gr, cen)]
+    gr <- gr[!IRanges::overlapsAny(gr, cen)]
   }
   
   message('Computing average signal...')
