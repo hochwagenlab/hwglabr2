@@ -35,6 +35,7 @@ reference:
     - signal_mean_and_ci
     - opening_act2
     - compress_signal_track
+    - signal_track_correlation
   - title: Helpers
     contents:
     - elapsed_time

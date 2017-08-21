@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -191,28 +192,28 @@ files) of the included of the following analyses:</p><ol>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"WT"</span>,
-               <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH119C-040114-sacCer3-2mis"</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"WT"</span>,
+             <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH119C-040114-sacCer3-2mis"</span>)
 
-  <span class='fu'>opening_act2</span>(<span class='no'>set1_wiggle</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='st'>"set1"</span>, <span class='st'>"Red1"</span>,
-               <span class='st'>"AH8584b-16032016-sacCer3-2mis"</span>)
+<span class='fu'>opening_act2</span>(<span class='no'>set1_wiggle</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='st'>"set1"</span>, <span class='st'>"Red1"</span>,
+             <span class='st'>"AH8584b-16032016-sacCer3-2mis"</span>)
 
-  <span class='fu'>opening_act2</span>(<span class='no'>rec8</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"SK1Yue"</span>, <span class='st'>"rec8"</span>, <span class='st'>"Red1"</span>,
-               <span class='st'>"AH8115b-24042015-SK1Yue-PM"</span>, <span class='kw'>user_input</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-               <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'>opening_act2</span>(<span class='no'>rec8</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"SK1Yue"</span>, <span class='st'>"rec8"</span>, <span class='st'>"Red1"</span>,
+             <span class='st'>"AH8115b-24042015-SK1Yue-PM"</span>, <span class='kw'>user_input</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+             <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 
-  <span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"WT"</span>,
-               <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH119C-040114-sacCer3-2mis"</span>,
-               <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"WT"</span>,
+             <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH119C-040114-sacCer3-2mis"</span>,
+             <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 
-  <span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"dot1"</span>,
-               <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH8104-010116-sacCer3-2mis"</span>,
-               <span class='kw'>output_path</span><span class='kw'>=</span><span class='st'>'~/Desktop'</span>,
-               <span class='kw'>run_chr_size_bias</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_centromeres</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_rDNA</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-               <span class='kw'>run_telomeres</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_dsb_hotspots</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>run_axis</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-               <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-})</div></pre>
+<span class='fu'>opening_act2</span>(<span class='kw'>signal_data</span><span class='kw'>=</span><span class='no'>WT</span>, <span class='kw'>genome</span><span class='kw'>=</span><span class='st'>"sacCer3"</span>, <span class='kw'>genotype</span><span class='kw'>=</span><span class='st'>"dot1"</span>,
+             <span class='kw'>chip_target</span><span class='kw'>=</span><span class='st'>"Red1"</span>, <span class='kw'>sample_id</span><span class='kw'>=</span><span class='st'>"AH8104-010116-sacCer3-2mis"</span>,
+             <span class='kw'>output_path</span><span class='kw'>=</span><span class='st'>'~/Desktop'</span>,
+             <span class='kw'>run_chr_size_bias</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_centromeres</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_rDNA</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+             <span class='kw'>run_telomeres</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>run_dsb_hotspots</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>run_axis</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+             <span class='kw'>run_meta_orf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

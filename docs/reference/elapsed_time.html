@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -103,14 +104,14 @@ hrs, as appropriate.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='fu'>proc.time</span>()[<span class='fl'>3</span>]
-  <span class='no'>end</span> <span class='kw'>&lt;-</span> <span class='fu'>proc.time</span>()[<span class='fl'>3</span>]
-  <span class='fu'>elapsed_time</span>(<span class='kw'>t0</span><span class='kw'>=</span><span class='no'>start</span>, <span class='kw'>t1</span><span class='kw'>=</span><span class='no'>end</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='fu'>proc.time</span>()[<span class='fl'>3</span>]
+<span class='no'>end</span> <span class='kw'>&lt;-</span> <span class='fu'>proc.time</span>()[<span class='fl'>3</span>]
+<span class='fu'>elapsed_time</span>(<span class='kw'>t0</span><span class='kw'>=</span><span class='no'>start</span>, <span class='kw'>t1</span><span class='kw'>=</span><span class='no'>end</span>)
 
-  <span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='fu'>proc.time</span>()
-  <span class='fu'>elapsed_time</span>(<span class='no'>start</span>[<span class='fl'>3</span>], <span class='fu'>proc.time</span>()[<span class='fl'>3</span>])
-})</div></pre>
+<span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='fu'>proc.time</span>()
+<span class='fu'>elapsed_time</span>(<span class='no'>start</span>[<span class='fl'>3</span>], <span class='fu'>proc.time</span>()[<span class='fl'>3</span>])
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

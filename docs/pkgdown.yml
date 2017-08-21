@@ -1,2 +1,5 @@
-reference_url: https://hochwagenlab.github.io/hwglabr2/reference
+urls:
+  reference: https://hochwagenlab.github.io/hwglabr2/reference
+  article: https://hochwagenlab.github.io/hwglabr2/articles
+articles: {}
 

@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -79,9 +80,9 @@
     
     <p>Returns double-strand break (DSB) hotspots mapped using the Spo11 oligo
 technique (hotspot location data from 
-<a href = 'https://www.ncbi.nlm.nih.gov/pubmed/21376234'>Pan <em>et al.</em> 2011</a>;
+<a href='https://www.ncbi.nlm.nih.gov/pubmed/21376234'>Pan <em>et al.</em> 2011</a>;
 hotspot intensities from 
-<a href = 'https://www.ncbi.nlm.nih.gov/pubmed/24717437'>Thacker <em>et al.</em> 
+<a href='https://www.ncbi.nlm.nih.gov/pubmed/24717437'>Thacker <em>et al.</em> 
 2014</a>).</p>
     
 
@@ -113,11 +114,11 @@ hotspot start and end coordinates, as well as intensity.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='fu'>get_dsb_hotspots</span>(<span class='kw'>genome</span><span class='kw'>=</span><span class='st'>'SK1Yue'</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>get_dsb_hotspots</span>(<span class='kw'>genome</span><span class='kw'>=</span><span class='st'>'SK1Yue'</span>)
 
-  <span class='fu'>get_dsb_hotspots</span>(<span class='kw'>genome</span><span class='kw'>=</span><span class='st'>'sacCer3'</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-})</div></pre>
+<span class='fu'>get_dsb_hotspots</span>(<span class='kw'>genome</span><span class='kw'>=</span><span class='st'>'sacCer3'</span>, <span class='kw'>as_df</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

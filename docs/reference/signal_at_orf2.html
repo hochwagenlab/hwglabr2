@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -138,12 +139,12 @@ number of affected genes is printed to the console.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='no'>gff</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='no'>gff</span>)
 
-  <span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='st'>"S288C_annotation_modified.gff"</span>,
-                 <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"WT_S288C_metaORF.txt"</span>)
-})</div></pre>
+<span class='fu'>signal_at_orf2</span>(<span class='no'>WT</span>, <span class='kw'>gff</span> <span class='kw'>=</span> <span class='st'>"S288C_annotation_modified.gff"</span>,
+               <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='st'>"WT_S288C_metaORF.txt"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
