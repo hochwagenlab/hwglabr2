@@ -8,6 +8,7 @@
 #'   \item \code{"S288CYue"}
 #'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
+#'   \item \code{"SK1_S288CYue"}
 #' }
 #' No default.
 #' @param as_df Logical specifying whether the output should be returned as a
@@ -22,6 +23,8 @@
 #' get_chr_coordinates(genome='sacCer3', as_df=FALSE)
 #' 
 #' get_chr_coordinates(genome='SK1', as_df=TRUE)
+#' 
+#' get_chr_coordinates(genome='SK1_S288CYue', as_df=TRUE)
 #' }
 #' @export
 
@@ -38,12 +41,14 @@ get_chr_coordinates <- function(genome, as_df=FALSE){
     coord_table <- sacCer3cen
   } else if (genome == 'SK1') {
     coord_table <- SK1cen
+  } else if (genome == 'SK1_S288CYue') {
+    coord_table <- SK1_S288CYuecen
   } else stop('"genome" argument must be one of ',
-              '"SK1Yue", "S288CYue", "sacCer3" or "SK1".')
+              '"SK1Yue", "S288CYue", "sacCer3", "SK1" or "SK1_S288CYue".')
   
   if (as_df) {
     coord_table <- cbind(GenomicRanges::as.data.frame(coord_table),
-                   chr_len=GenomeInfoDb::seqlengths(coord_table))
+                         chr_len=GenomeInfoDb::seqlengths(coord_table))
   }
     
   return(coord_table)

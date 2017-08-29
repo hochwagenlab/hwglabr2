@@ -14,6 +14,7 @@ the following options:
   \item \code{"S288CYue"}
   \item \code{"sacCer3"}
   \item \code{"SK1"}
+  \item \code{"SK1_S288CYue"}
 }
 No default.}
 
@@ -35,5 +36,7 @@ get_chr_coordinates(genome='SK1Yue')
 get_chr_coordinates(genome='sacCer3', as_df=FALSE)
 
 get_chr_coordinates(genome='SK1', as_df=TRUE)
+
+get_chr_coordinates(genome='SK1_S288CYue', as_df=TRUE)
 }
 }

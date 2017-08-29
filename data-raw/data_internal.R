@@ -23,20 +23,18 @@ add_genome_name_to_GR <- function(gr, name='SK1Yue') {
 # Chromosome lengths calculated using:
 #cat SK1.genome.fa | awk '$0 ~ ">" {print c; c=0;printf substr($0,2,100) "\t"; } \
 #$0 !~ ">" {c+=length($0);} END { print c; }'
-SK1Yuecen <- data.frame("Chromosome" = c("chrI","chrII","chrIII","chrIV","chrV",
-                                         "chrVI","chrVII","chrVIII","chrIX",
-                                         "chrX","chrXI","chrXII","chrXIII",
-                                         "chrXIV","chrXV","chrXVI"),
-                     "Start" = c(154628, 251815, 108708, 460752, 171136, 170910,
-                                 501251, 102251, 348027, 447447, 451859, 151679,
-                                 251000, 637019, 307189, 555578),
-                     "End" = c(154745, 251931, 108824, 460871, 171253, 171027,
-                               501370, 102368, 348143, 447565, 451975, 151797,
-                               251118, 637136, 307307, 555694),
-                     "LenChr" = c(228861, 829469, 340914, 1486921, 589812,
-                                  299318, 1080440, 542723, 449612, 753937,
-                                  690901, 1054145, 923535, 791982, 1053869,
-                                  946846))
+SK1Yuecen <- data.frame("Chromosome" = paste0('chr', as.roman(1:16)),
+                        "Start" = c(154628, 251815, 108708, 460752, 171136,
+                                    170910, 501251, 102251, 348027, 447447,
+                                    451859, 151679, 251000, 637019, 307189,
+                                    555578),
+                        "End" = c(154745, 251931, 108824, 460871, 171253,
+                                  171027, 501370, 102368, 348143, 447565, 451975,
+                                  151797, 251118, 637136, 307307, 555694),
+                        "LenChr" = c(228861, 829469, 340914, 1486921, 589812,
+                                     299318, 1080440, 542723, 449612, 753937,
+                                     690901, 1054145, 923535, 791982, 1053869,
+                                     946846))
 
 SK1Yuecen <- with(SK1Yuecen,
                   GenomicRanges::GRanges(Chromosome,
@@ -65,10 +63,7 @@ S288CYue_gff <- rtracklayer::import.gff(paste0('~/Google_Drive_NYU/LabShare_Luis
 start <- S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@start
 end <- start + S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@width - 1
 
-S288CYuecen <- data.frame("Chromosome" = c("chrI","chrII","chrIII","chrIV","chrV",
-                                           "chrVI","chrVII","chrVIII","chrIX",
-                                           "chrX","chrXI","chrXII","chrXIII",
-                                           "chrXIV","chrXV","chrXVI"),
+S288CYuecen <- data.frame("Chromosome" = paste0('chr', as.roman(1:16)),
                           "Start" = start, "End" = end,
                           "LenChr" = c(219929, 813597, 341580, 1566853, 583092,
                                        271539, 1091538, 581049, 440036, 751611,
@@ -120,6 +115,46 @@ chr_len <- setNames(chr_len@ranges@width, chr_len$Name)
 GenomeInfoDb::seqlengths(sacCer3cen) <- chr_len
 
 sacCer3cen <- add_genome_name_to_GR(sacCer3cen, name='sacCer3')
+
+### SK1-S288C hybrid genome using assemblies published in Yue et al. 2017
+# Using the data from the SK1 and the S288C Yue et al. assemblies from above
+# Useful for analysis of hybrid strains and SK1 strain ChIP-seq spiked in with
+# SK288c cells
+
+S288CYue_gff <- rtracklayer::import.gff(paste0('~/Google_Drive_NYU/LabShare_Luis/',
+                                               'LabWork/GenomeSequences/',
+                                               'S288C_Yue_et_al_2017/',
+                                               'S288c.all_feature.gff'))
+start <- S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@start
+end <- start + S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@width - 1
+
+SK1_S288CYuecen <- data.frame("Chromosome" = c(paste0('chr', as.roman(1:16), '_SK1'),
+                                               paste0('chr', as.roman(1:16), '_S288C')),
+                              "Start" = c(c(154628, 251815, 108708, 460752, 171136, 170910,
+                                            501251, 102251, 348027, 447447, 451859, 151679,
+                                            251000, 637019, 307189, 555578), start),
+                              "End" = c(c(154745, 251931, 108824, 460871, 171253, 171027,
+                                          501370, 102368, 348143, 447565, 451975, 151797,
+                                          251118, 637136, 307307, 555694), end),
+                              "LenChr" = c(c(228861, 829469, 340914, 1486921, 589812,
+                                             299318, 1080440, 542723, 449612, 753937,
+                                             690901, 1054145, 923535, 791982, 1053869,
+                                             946846),
+                                           c(219929, 813597, 341580, 1566853, 583092,
+                                             271539, 1091538, 581049, 440036, 751611,
+                                             666862, 1075542, 930506, 777615, 1091343,
+                                             954457)))
+
+
+SK1_S288CYuecen <- with(SK1_S288CYuecen,
+                        GenomicRanges::GRanges(Chromosome,
+                                               IRanges::IRanges(Start + 1, End),
+                                               seqlengths=setNames(LenChr,
+                                                                   Chromosome)))
+
+SK1_S288CYuecen <- add_genome_name_to_GR(SK1_S288CYuecen, name='SK1_S288C_Yue')
+
+
 
 #------------------------------------------------------------------------------#
 #                         Intergenic region data                               #
@@ -204,7 +239,7 @@ tools::checkRdaFiles('R/') # Suggests 'bzip2'
 
 # Set package directory as working directory
 # setwd('/path/to/hwglabr2/')
-devtools::use_data(SK1Yuecen, S288CYuecen, sacCer3cen, SK1cen,
+devtools::use_data(SK1Yuecen, S288CYuecen, sacCer3cen, SK1cen, SK1_S288CYuecen,
                    SK1Yue_intergenic, SK1_intergenic, sacCer3_intergenic,
                    SK1Yue_Red1_summits, sacCer3_Red1_summits,
                    SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
