@@ -114,7 +114,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
                     'It should identify the yeast strain, date, and read ',
                     'mapping conditions, as in:\n',
                     '"AH119C-040114-sacCer3-2mis"\n',
-                    'You provided the following "sample_id" and "genome:\n',
+                    'You provided the following "sample_id" and "genome":\n',
                     '     ', sample_id, '\n     ', genome,
                     '\n\nIs this correct?')
     choices = c('No, let me change that.', 'Yes, continue analysis!')
