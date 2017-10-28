@@ -36,6 +36,7 @@ reference:
     - opening_act2
     - compress_signal_track
     - signal_track_correlation
+    - facs_density_plot2
   - title: Helpers
     contents:
     - elapsed_time
