@@ -138,7 +138,7 @@ facs_density_plot2 <- function(dir, strain_code, gate, plot_color='black',
   
   file_name <- paste0(dir, strain_code)
   
-  print(p + xlim(gate))
+  if (!missing(gate)) print(p + xlim(gate))
   message('Saving plot:')
   
   if (file_format == 'jpeg') {
