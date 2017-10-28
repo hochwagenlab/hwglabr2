@@ -16,7 +16,10 @@ Suggests:
     IRanges,
     rtracklayer,
     EnrichedHeatmap,
-    testthat
+    testthat,
+    flowCore,
+    ggcyto,
+    ggridges    
 License: MIT + file LICENSE 
 Encoding: UTF-8
 LazyData: true
