@@ -3,6 +3,7 @@
 export(average_chr_signal)
 export(compress_signal_track)
 export(elapsed_time)
+export(facs_density_plot2)
 export(get_Red1_summits)
 export(get_chr_coordinates)
 export(get_dsb_hotspots)
