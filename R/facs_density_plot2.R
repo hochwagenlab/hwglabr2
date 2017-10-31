@@ -106,7 +106,8 @@ facs_density_plot2 <- function(dir, strain_code, gate, plot_color='black',
                         size=0.25, alpha=plot_transparency) +
     scale_y_discrete(expand = c(0.01, 0)) +
     scale_fill_gradient2() +
-    labs(title = 'WT', x = "DNA content", y = "Time in meiosis\n(hrs)") +
+    labs(title = as.character(strain_code),
+         x = "DNA content", y = "Time in meiosis\n(hrs)\n") +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.4, size = 30, face = 'bold'),
           panel.border = element_blank(),
