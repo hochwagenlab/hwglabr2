@@ -4,7 +4,8 @@
 \alias{signal_at_orf2}
 \title{Signal at all ORFs genome-wide normalized to constant length (meta ORF)}
 \usage{
-signal_at_orf2(signal_data, gff, write_to_file = FALSE, file_name)
+signal_at_orf2(signal_data, gff, window_size = 1, write_to_file = FALSE,
+  file_name)
 }
 \arguments{
 \item{signal_data}{Input signal track data as a \code{GRanges} object (see
@@ -14,6 +15,9 @@ respectively. No default.}
 
 \item{gff}{Either a path to a gff file or loaded gff data as a \code{GRanges}
 object. No default.}
+
+\item{window_size}{Integer specifying the width in bp of a window to average
+signal in. Defaults to \code{1} (no averaging).}
 
 \item{write_to_file}{Logical indicating whether output should be written to a
 .txt file. The file will be saved at location provided in \code{file_name}

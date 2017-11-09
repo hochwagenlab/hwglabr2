@@ -20,6 +20,8 @@
 #' respectively. No default.
 #' @param gff Either a path to a gff file or loaded gff data as a \code{GRanges}
 #' object. No default.
+#' @param window_size Integer specifying the width in bp of a window to average
+#' signal in. Defaults to \code{1} (no averaging).
 #' @param write_to_file Logical indicating whether output should be written to a
 #' .txt file. The file will be saved at location provided in \code{file_name}
 #' argument or at the current working directory if only a file name is provided).
@@ -43,7 +45,8 @@
 #' }
 #' @export
 
-signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
+signal_at_orf2 <- function(signal_data, gff, window_size = 1,
+                           write_to_file=FALSE, file_name) {
   t0  <- proc.time()[3]
   
   # IO checks
@@ -52,6 +55,12 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
   
   if (!is(signal_data, "GRanges")) {
     stop('"signal_data" must be a GRanges object.')
+  }
+  
+  window_size <- as.integer(window_size)
+  if (window_size < 1 | window_size > 1000 | is.na(window_size)) {
+    stop('"window_size" must be an integer between 1 and 1000\n',
+         '(or an object that can be converted to one).', call. = FALSE)
   }
   
   if (missing(gff)) stop('No gff data provided.\n',
@@ -117,11 +126,15 @@ signal_at_orf2 <- function(signal_data, gff, write_to_file=FALSE, file_name) {
   
   # Compute signal at each gene using package EnrichedHeatmap
   message('Computing signal at each normalized ORF...')
+  
+  # Concert window_size to n of windows
+  n_windows <- floor(1000 / window_size)
   mat <- EnrichedHeatmap::normalizeToMatrix(signal_data, gff,
                                             value_column="score",
                                             mean_mode="absolute",
-                                            extend=0, k=1000, empty_value=NA,
-                                            smooth=FALSE, target_ratio=1)
+                                            extend=0, k=n_windows,
+                                            empty_value=NA, smooth=FALSE,
+                                            target_ratio=1)
   
   # Check NAs
   n_genes <- nrow(mat)

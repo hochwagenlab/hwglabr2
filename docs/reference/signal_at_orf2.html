@@ -88,7 +88,8 @@ downstream, respectively. The whole region is then rescaled to a length of
 region.</p>
     
 
-    <pre class="usage"><span class='fu'>signal_at_orf2</span>(<span class='no'>signal_data</span>, <span class='no'>gff</span>, <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>file_name</span>)</pre>
+    <pre class="usage"><span class='fu'>signal_at_orf2</span>(<span class='no'>signal_data</span>, <span class='no'>gff</span>, <span class='kw'>window_size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>write_to_file</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>file_name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -104,6 +105,11 @@ respectively. No default.</p></td>
       <th>gff</th>
       <td><p>Either a path to a gff file or loaded gff data as a <code>GRanges</code>
 object. No default.</p></td>
+    </tr>
+    <tr>
+      <th>window_size</th>
+      <td><p>Integer specifying the width in bp of a window to average
+signal in. Defaults to <code>1</code> (no averaging).</p></td>
     </tr>
     <tr>
       <th>write_to_file</th>
