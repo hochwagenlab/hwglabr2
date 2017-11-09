@@ -126,7 +126,6 @@ signal_at_orf2 <- function(signal_data, gff, window_size = 1,
   
   # Compute signal at each gene using package EnrichedHeatmap
   message('Computing signal at each normalized ORF...')
-  
   # Concert window_size to n of windows
   n_windows <- floor(1000 / window_size)
   mat <- EnrichedHeatmap::normalizeToMatrix(signal_data, gff,
@@ -153,9 +152,12 @@ signal_at_orf2 <- function(signal_data, gff, window_size = 1,
     message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
   } else {
     # Adjust attributes of EnrichedHeatmap matrix:
-    attr(mat, "upstream_index") <- 1:250
-    attr(mat, "target_index") <- 251:750
-    attr(mat, "downstream_index") <- 751:1000
+    start <- floor(250 / window_size)
+    end <- floor(750 / window_size)
+    
+    attr(mat, "upstream_index") <- 1:start
+    attr(mat, "target_index") <- start:end
+    attr(mat, "downstream_index") <- end:n_windows
     attr(mat, "extend") <- c('', '') # Leave x axis 1 and 1000 annotations blank
     attr(mat, "signal_name") <- deparse(substitute(signal_data))
     attr(mat, "target_name") <- 'ORFs'
