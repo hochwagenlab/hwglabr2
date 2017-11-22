@@ -292,7 +292,7 @@ opening_act2 <- function(signal_data, genome, genotype, chip_target, sample_id,
   
   #----------------------------------------------------------------------------#
   # Signal from telomeres
-  if (run_axis) {
+  if (run_telomeres) {
     message('   Signal at sub-telomeric regions')
     
     signal_at_tels <- suppressMessages(
