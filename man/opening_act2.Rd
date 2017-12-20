@@ -38,7 +38,8 @@ check that the provided \code{sample_id} matches the required format before
 proceeding with the analysis. No default.}
 
 \item{output_path}{Character object with a valid path to directory to save
-output files at.
+output files at. Defaults to
+\code{'/Volumes/LabShare/HTGenomics/Opening_act/'}.
 Defaults to \code{output_path='/Volumes/LabShare/HTGenomics/Opening_act/'}}
 
 \item{user_input}{Logical indicating whether to ask user to check the format
