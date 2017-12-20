@@ -34,6 +34,7 @@ reference:
     - signal_flanking_rDNA
     - signal_mean_and_ci
     - opening_act2
+    - opening_act2_batch_run
     - compress_signal_track
     - signal_track_correlation
     - facs_density_plot2
