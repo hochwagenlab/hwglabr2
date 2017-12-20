@@ -90,11 +90,9 @@ opening_act2_batch_run <- function(input_data_file, ref_genome,
                            sample_id=args_file[i, 'sample_id'],
                            output_path=output_path, user_input=FALSE)
     
-    message()
-    message('xxxxxx Completed ', args_file[i, 'sample_id'], ' xxxxxx')
-    message()
   }
-  
+ 
+  message() 
   message('----------------------------------------')
   message('----------------------------------------')
   message('Ran "opening_act" on all ', nrow(args_file), ' datasets')
