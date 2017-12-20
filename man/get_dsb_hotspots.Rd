@@ -25,9 +25,10 @@ hotspot start and end coordinates, as well as intensity.
 }
 \description{
 Returns double-strand break (DSB) hotspots mapped using the Spo11 oligo
-technique (hotspot location data from 
-\href{https://www.ncbi.nlm.nih.gov/pubmed/21376234}{Pan \emph{et al.} 2011};
-hotspot intensities from 
+technique. FASTQ data aligned from scratch for the package. Hotspots
+originally published in
+\href{https://www.ncbi.nlm.nih.gov/pubmed/21376234}{Pan \emph{et al.} 2011}
+and in
 \href{https://www.ncbi.nlm.nih.gov/pubmed/24717437}{Thacker \emph{et al.} 
 2014}).
 }

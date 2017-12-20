@@ -197,18 +197,24 @@ sacCer3_Red1_summits <- add_genome_name_to_GR(sacCer3_Red1_summits,
 
 #------------------------------------------------------------------------------#
 #                            Spo11 DSB hotspots                                #
-# Files generated using the script in:
+# Files generated using the scripts in:
 # '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
+# Creating_spo11_SacCer3_Pan2011_WT1_fixedbegraph.R
+# Spo11hotspots_to_SK1Yue.R
 # Source of data: nature13120-s2_SacCer2.xls from Thacker 2014 paper.
 # S288C data file copied from old package (hwglabr) folder
+# Update on 12/2017: New files were made by mapping the Thacker 2014 fastqs to
+# the appropriate genomes. New files generated using the script in:
+# '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
+# 
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 # 1. Import SK1Yue data
-SK1Yue_file <- 'spo11_SK1Yue_Pan2011hotspot_WT1_fixed.bedgraph'
+SK1Yue_file <- 'Spo11oligo_WT1_SK1Yue_peaks.bedgraph'
 SK1Yue_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, SK1Yue_file))
 SK1Yue_Spo11_DSBs <- add_genome_name_to_GR(SK1Yue_Spo11_DSBs, name='SK1Yue')
 
 # 2. Import S288C data
-sacCer3_file <- 'spo11_SacCer3_Pan2011hotspot_WT1_fixed.bedgraph'
+sacCer3_file <- 'Spo11oligo_WT1_Saccer3_peaks.bedgraph'
 sacCer3_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, sacCer3_file))
 sacCer3_Spo11_DSBs <- add_genome_name_to_GR(sacCer3_Spo11_DSBs, name='sacCer3')
 
@@ -245,4 +251,3 @@ devtools::use_data(SK1Yuecen, S288CYuecen, sacCer3cen, SK1cen, SK1_S288CYuecen,
                    SK1Yue_Spo11_DSBs, sacCer3_Spo11_DSBs,
                    SK1Yue_gff, sacCer3_gff, SK1_gff,
                    internal = TRUE, overwrite = TRUE, compress = "bzip2")
-
