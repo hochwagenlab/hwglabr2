@@ -89,8 +89,7 @@ opening_act2_batch_run <- function(input_data_file, ref_genome,
                            output_path=output_path, user_input=FALSE)
     
     message('---')
-    message('---')
-    message('Ran "opening_act2" on all data found in ', args_file[i, 'path'])
+    message()
   }
   
   message()
