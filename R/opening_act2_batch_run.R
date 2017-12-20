@@ -80,6 +80,8 @@ opening_act2_batch_run <- function(input_data_file, ref_genome,
   
   # For each data set, read in wiggle data and run 'opening_act2'
   for(i in 1:nrow(args_file)){
+    message('-----> Running sample ', args_file[i, 'sample_id'], ':')
+    message()
     data <- hwglabr2::import_bedGraph(path=args_file[i, 'path'],
                                       local_copy=TRUE, keep_zeros=FALSE)
     hwglabr2::opening_act2(signal_data=data, genome=ref_genome,
@@ -88,15 +90,14 @@ opening_act2_batch_run <- function(input_data_file, ref_genome,
                            sample_id=args_file[i, 'sample_id'],
                            output_path=output_path, user_input=FALSE)
     
-    message('---')
+    message()
+    message('xxxxxx Completed ', args_file[i, 'sample_id'], ' xxxxxx')
     message()
   }
   
-  message()
   message('----------------------------------------')
   message('----------------------------------------')
-  message('Ran "opening_act" on all ', nrow(args_file), ' datasets.')
-  message()
-  message('Completed in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
+  message('Ran "opening_act" on all ', nrow(args_file), ' datasets')
+  message('in ', hwglabr2::elapsed_time(t0, proc.time()[3]))
   message('----------------------------------------')
 }
