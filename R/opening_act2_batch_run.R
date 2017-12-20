@@ -80,6 +80,7 @@ opening_act2_batch_run <- function(input_data_file, ref_genome,
   
   # For each data set, read in wiggle data and run 'opening_act2'
   for(i in 1:nrow(args_file)){
+    message()
     message('-----> Running sample ', args_file[i, 'sample_id'], ':')
     message()
     data <- hwglabr2::import_bedGraph(path=args_file[i, 'path'],
