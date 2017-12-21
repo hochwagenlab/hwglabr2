@@ -83,7 +83,8 @@ match in the file names, generates density plots of FACS data across time
 points.</p>
     
 
-    <pre class="usage"><span class='fu'>facs_density_plot2</span>(<span class='no'>dir</span>, <span class='no'>strain_code</span>, <span class='no'>gate</span>, <span class='kw'>plot_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+    <pre class="usage"><span class='fu'>facs_density_plot2</span>(<span class='no'>dir</span>, <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='no'>dir</span>, <span class='no'>strain_code</span>, <span class='no'>gate</span>,
+  <span class='kw'>y_axis_label</span> <span class='kw'>=</span> <span class='st'>"Time in meiosis\n(hrs)\n"</span>, <span class='kw'>plot_color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>plot_transparency</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>file_format</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>user_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -94,9 +95,13 @@ points.</p>
       <td><p>Path to directory containing <code>.fcs</code> files. No default.</p></td>
     </tr>
     <tr>
+      <th>output_dir</th>
+      <td><p>Path to output directory. Defaults to <code>dir</code>.</p></td>
+    </tr>
+    <tr>
       <th>strain_code</th>
       <td><p>The lab's database numeric code identifier of the yeast
-strain. No default.</p></td>
+strain (used to name files). No default.</p></td>
     </tr>
     <tr>
       <th>gate</th>
@@ -104,9 +109,14 @@ strain. No default.</p></td>
 (corresponds to no gating).</p></td>
     </tr>
     <tr>
+      <th>y_axis_label</th>
+      <td><p>Character string indicating the label for the plot's y
+axis. Defaults to <code>"Time in meiosis\n(hrs)\n"</code>.</p></td>
+    </tr>
+    <tr>
       <th>plot_color</th>
       <td><p>Optional R color to fill the plot. Defaults to
-<code>black</code>.</p></td>
+<code>"black"</code>.</p></td>
     </tr>
     <tr>
       <th>plot_transparency</th>
@@ -142,17 +152,6 @@ saved to a file in the selected format in the same directory as the
 <code>.fcs</code> files.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>facs_density_plot2</span>(<span class='fl'>119</span>)
-
-<span class='fu'>facs_density_plot2</span>(<span class='kw'>dir</span><span class='kw'>=</span><span class='st'>'~/Desktop'</span>, <span class='kw'>strain_code</span><span class='kw'>=</span><span class='fl'>119</span>,
-                   <span class='kw'>gate</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>1500000</span>, <span class='fl'>7000000</span>), <span class='kw'>file_format</span><span class='kw'>=</span><span class='st'>'pdf'</span>)
-
-<span class='fu'>facs_density_plot2</span>(<span class='kw'>dir</span><span class='kw'>=</span><span class='st'>'~/Desktop'</span>, <span class='kw'>strain_code</span><span class='kw'>=</span><span class='fl'>119</span>,
-                   <span class='kw'>gate</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>1500000</span>, <span class='fl'>7000000</span>), <span class='kw'>plot_color</span><span class='kw'>=</span><span class='st'>'orange'</span>,
-                   <span class='kw'>plot_transparency</span><span class='kw'>=</span><span class='fl'>1</span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -162,9 +161,7 @@ saved to a file in the selected format in the same directory as the
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
