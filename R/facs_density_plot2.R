@@ -4,10 +4,13 @@
 #' match in the file names, generates density plots of FACS data across time
 #' points.
 #' @param dir Path to directory containing \code{.fcs} files. No default.
+#' @param output_dir Path to output directory. Defaults to \code{dir}.
 #' @param strain_code The lab's database numeric code identifier of the yeast
-#' strain. No default.
+#' strain (used to name files). No default.
 #' @param gate Optional two-element vector containing gating limits. No default
 #' (corresponds to no gating).
+#' @param y_axis_label Character string indicating the label for the plot's y
+#' axis. Defaults to \code{Time in meiosis\n(hrs)\n}.
 #' @param plot_color Optional R color to fill the plot. Defaults to
 #' \code{black}.
 #' @param plot_transparency Floating point number between 0 and 1 indicating 
@@ -33,15 +36,16 @@
 #' facs_density_plot2(dir='~/Desktop', strain_code=119,
 #'                    gate=c(1500000, 7000000), file_format='pdf')
 #'
-#' facs_density_plot2(dir='~/Desktop', strain_code=119,
-#'                    gate=c(1500000, 7000000), plot_color='orange',
-#'                    plot_transparency=1)
+#' facs_density_plot2(dir='~/Desktop', output_dir='~/Desktop, strain_code=119,
+#'                    gate=c(1500000, 7000000), y_axis_label='Samples',
+#'                    plot_color='orange', plot_transparency=1, user_input=F)
 #' }
 #' @export
 
-facs_density_plot2 <- function(dir, strain_code, gate, plot_color='black',
-                               plot_transparency=0.8, file_format='jpeg',
-                               user_input=TRUE){
+facs_density_plot2 <- function(dir, output_dir=dir, strain_code, gate,
+                               y_axis_label='Time in meiosis\n(hrs)\n',
+                               plot_color='black', plot_transparency=0.8,
+                               file_format='jpeg', user_input=TRUE){
   
   # IO checks
   if (is(dir, "character") & length(list.files(dir)) > 0) {
@@ -107,20 +111,24 @@ facs_density_plot2 <- function(dir, strain_code, gate, plot_color='black',
     scale_y_discrete(expand = c(0.01, 0)) +
     scale_fill_gradient2() +
     labs(title = as.character(strain_code),
-         x = "DNA content", y = "Time in meiosis\n(hrs)\n") +
+         x="DNA content", y=y_axis_label) +
     theme_bw() +
-    theme(plot.title = element_text(hjust = 0.4, size = 30, face = 'bold'),
+    theme(plot.title = element_text(hjust=0.4, size=30, face='bold'),
           panel.border = element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           axis.line = element_blank(),
-          axis.ticks = element_blank(),
-          axis.text.x = element_blank(),
+          #axis.ticks = element_blank(),
+          axis.text.x = element_text(size=15, colour='black'),
           axis.text.y = element_text(color = 'black', size = 26),
           axis.title = element_text(size = 26))
   
   # Show ungated plot on screen
   print(p)
+  
+  # Remove x axis ticks and labels
+  p <- p + theme(axis.ticks = element_blank(),
+                 axis.text.x = element_blank())
   
   # Ask user to save file
   if (missing(gate)) {
@@ -129,15 +137,15 @@ facs_density_plot2 <- function(dir, strain_code, gate, plot_color='black',
   
   if(user_input) {
     title <- question
-    choices = c('No, let me change it first.', 'Yes, save plot!')
+    choices <- c('No, let me change it first.', 'Yes, save plot!')
     answer <- menu(choices, graphics = FALSE, title)
     
     if(answer == 0 | answer == 1){
-      stop('You chose to stop the function.', call. = FALSE)
+      stop('Quitting. See you soon!', call. = FALSE)
     }
   }
   
-  file_name <- paste0(dir, strain_code)
+  file_name <- paste0(output_dir, strain_code)
   
   if (!missing(gate)) print(p + xlim(gate))
   message('Saving plot:')

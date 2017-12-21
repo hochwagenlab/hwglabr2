@@ -4,17 +4,23 @@
 \alias{facs_density_plot2}
 \title{FACS density plot}
 \usage{
-facs_density_plot2(dir, strain_code, gate, plot_color = "black",
+facs_density_plot2(dir, output_dir = dir, strain_code, gate,
+  y_axis_label = "Time in meiosis\\n(hrs)\\n", plot_color = "black",
   plot_transparency = 0.8, file_format = "jpeg", user_input = TRUE)
 }
 \arguments{
 \item{dir}{Path to directory containing \code{.fcs} files. No default.}
 
+\item{output_dir}{Path to output directory. Defaults to \code{dir}.}
+
 \item{strain_code}{The lab's database numeric code identifier of the yeast
-strain. No default.}
+strain (used to name files). No default.}
 
 \item{gate}{Optional two-element vector containing gating limits. No default
 (corresponds to no gating).}
+
+\item{y_axis_label}{Character string indicating the label for the plot's y
+axis. Defaults to \code{Time in meiosis\n(hrs)\n}.}
 
 \item{plot_color}{Optional R color to fill the plot. Defaults to
 \code{black}.}
@@ -48,15 +54,3 @@ saved to a file in the selected format in the same directory as the
 \code{.fcs} files.
 }
 
-\examples{
-\dontrun{
-facs_density_plot2(119)
-
-facs_density_plot2(dir='~/Desktop', strain_code=119,
-                   gate=c(1500000, 7000000), file_format='pdf')
-
-facs_density_plot2(dir='~/Desktop', strain_code=119,
-                   gate=c(1500000, 7000000), plot_color='orange',
-                   plot_transparency=1)
-}
-}
