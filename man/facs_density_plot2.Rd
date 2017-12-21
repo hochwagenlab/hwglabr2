@@ -20,10 +20,10 @@ strain (used to name files). No default.}
 (corresponds to no gating).}
 
 \item{y_axis_label}{Character string indicating the label for the plot's y
-axis. Defaults to \code{Time in meiosis\n(hrs)\n}.}
+axis. Defaults to \code{"Time in meiosis\n(hrs)\n"}.}
 
 \item{plot_color}{Optional R color to fill the plot. Defaults to
-\code{black}.}
+\code{"black"}.}
 
 \item{plot_transparency}{Floating point number between 0 and 1 indicating 
 transparency of the plot (corresponds to the plotting \code{alpha} argument:
