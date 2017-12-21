@@ -3,10 +3,11 @@
 #' Given a path to a directory containing \code{.fcs} files and a pattern to
 #' match in the file names, generates density plots of FACS data across time
 #' points.
-#' @param dir Path to directory containing \code{.fcs} files. No default.
-#' @param output_dir Path to output directory. Defaults to \code{dir}.
 #' @param strain_code The lab's database numeric code identifier of the yeast
 #' strain (used to name files). No default.
+#' @param dir Path to directory containing \code{.fcs} files. Defaults to 
+#' current working directory (\code{"./"}).
+#' @param output_dir Path to output directory. Defaults to \code{dir}.
 #' @param gate Optional two-element vector containing gating limits. No default
 #' (corresponds to no gating).
 #' @param y_axis_label Character string indicating the label for the plot's y
@@ -33,16 +34,16 @@
 #' \dontrun{
 #' facs_density_plot2(119)
 #' 
-#' facs_density_plot2(dir='~/Desktop', strain_code=119,
-#'                    gate=c(1500000, 7000000), file_format='pdf')
+#' facs_density_plot2(strain_code=8401, dir='~/Desktop/my_facs_data',
+#'                    output_dir='~/Desktop', gate=c(1500000, 7000000))
 #'
-#' facs_density_plot2(dir='~/Desktop', output_dir='~/Desktop, strain_code=119,
+#' facs_density_plot2(strain_code=119, dir='~/Desktop/', output_dir='~/Desktop',
 #'                    gate=c(1500000, 7000000), y_axis_label='Samples',
 #'                    plot_color='orange', plot_transparency=1, user_input=F)
 #' }
 #' @export
 
-facs_density_plot2 <- function(dir, output_dir=dir, strain_code, gate,
+facs_density_plot2 <- function(strain_code, dir='./', output_dir=dir, gate,
                                y_axis_label='Time in meiosis\n(hrs)\n',
                                plot_color='black', plot_transparency=0.8,
                                file_format='jpeg', user_input=TRUE){
@@ -50,7 +51,7 @@ facs_density_plot2 <- function(dir, output_dir=dir, strain_code, gate,
   # IO checks
   if (is(dir, "character") & length(list.files(dir)) > 0) {
     check_path(dir)
-  } else stop("'path' argument must be a path to a bedGraph file")
+  } else stop('"path" argument must be a path to a non-empty directory')
   
   if (!requireNamespace("flowCore", quietly = TRUE)) {
     stop('Requires R package "flowCore". Please install it.\n',
@@ -87,7 +88,17 @@ facs_density_plot2 <- function(dir, output_dir=dir, strain_code, gate,
   message('Loading fcs files...')
   files <- list.files(dir)
   target_files <- files[grep(strain_code, files)]
+  # Found files for required strain?
+  if (!exists('target_files') | length(target_files) == 0) {
+    stop('Could not find any files containing "', strain_code,
+         '" in their name.', call. = FALSE)
+  }
   target_files <- target_files[grep("fcs", target_files)]
+  # Found .fcs files for required strain?
+  if (!exists('target_files') | length(target_files) == 0) {
+    stop('Could not find any ".fcs" files containing "', strain_code,
+         '" in their name.', call. = FALSE)
+  }
   
   # Load all files into list
   samples <- vector("list")
