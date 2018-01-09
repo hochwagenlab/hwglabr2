@@ -1,7 +1,7 @@
 #' Apply function to bins of a numerical variable defined along a genome
 #'
 #' This is a generalization of \code{GenomicRanges::binnedAverage} to allow the
-#' use of any applicable function instead of simply the sum. The interface is
+#' use of any applicable function instead of simply the mean. The interface is
 #' the same with the added argument for the function to use.
 #' @param bins \code{GRanges} object representing the genomic bins. Typically
 #' obtained by calling \code{tileGenome} with

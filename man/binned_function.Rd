@@ -25,7 +25,7 @@ No default.}
 }
 \description{
 This is a generalization of \code{GenomicRanges::binnedAverage} to allow the
-use of any applicable function instead of simply the sum. The interface is
+use of any applicable function instead of simply the mean. The interface is
 the same with the added argument for the function to use.
 }
 \examples{
