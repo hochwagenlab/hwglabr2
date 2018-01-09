@@ -37,6 +37,7 @@ reference:
     - opening_act2_batch_run
     - compress_signal_track
     - signal_track_correlation
+    - binned_function
     - facs_density_plot2
   - title: Helpers
     contents:
