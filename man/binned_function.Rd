@@ -4,7 +4,7 @@
 \alias{binned_function}
 \title{Apply function to bins of a numerical variable defined along a genome}
 \usage{
-binned_function(bins, numvar, varname, fun, ...)
+binned_function(bins, numvar, fun, ...)
 }
 \arguments{
 \item{bins}{\code{GRanges} object representing the genomic bins. Typically
@@ -15,9 +15,6 @@ obtained by calling \code{tileGenome} with
 along the genome covered by bins (which is the genome described by
 \code{seqinfo(bins)}). No default.}
 
-\item{varname}{Character string indicating the name of the genomic variable.
-No default.}
-
 \item{fun}{R function to apply to the numerical variable in each bin.
 No default.}
 
@@ -26,11 +23,18 @@ No default.}
 \description{
 This is a generalization of \code{GenomicRanges::binnedAverage} to allow the
 use of any applicable function instead of simply the mean. The interface is
-the same with the added argument for the function to use.
+very similar, with two differences:
+\enumerate{
+  \item Added argument \code{fun}, for the function to use.
+  \item Dropped argument \code{varname}, since this function outputs the
+  metadata as a vector, rather than the complete \code{GRanges} object with
+  the metadata column added and named as indicated by \code{varname}. 
+  \item \code{"SK1"}
+}
 }
 \examples{
 \dontrun{
-# Generate 100-bp genome tiles
+# Generate 100-bp genome tiles for a given GRanges object
 bins <- GenomicRanges::tileGenome(GenomeInfoDb::seqlengths(gr),
                                   tilewidth=100, cut.last.tile.in.chrom=TRUE)
 
@@ -38,7 +42,10 @@ bins <- GenomicRanges::tileGenome(GenomeInfoDb::seqlengths(gr),
 score <- GenomicRanges::coverage(gr, weight="score")
 
 # Now use the function to get the maximum score in each tile
-max_per_bin <- binned_function(bins=bins, numvar=score,
-                               varname="binned_score", fun=max)
+gr$max_per_bin <- binned_function(bins=bins, numvar=score, fun=max)
+
+# You can pass arguments to fun too
+gr$max_per_bin <- binned_function(bins=bins, numvar=score,
+                                  fun=max, na.rm=TRUE)
 }
 }
