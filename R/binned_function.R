@@ -8,7 +8,6 @@
 #'   \item Dropped argument \code{varname}, since this function outputs the
 #'   metadata as a vector, rather than the complete \code{GRanges} object with
 #'   the metadata column added and named as indicated by \code{varname}. 
-#'   \item \code{"SK1"}
 #' }
 #' @param bins \code{GRanges} object representing the genomic bins. Typically
 #' obtained by calling \code{tileGenome} with
