@@ -91,23 +91,23 @@ SK1:S288C genome.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ref_chip_counts</th>
-      <td><p>Path to reference ChIP samples' read counts file.
-No default.</p></td>
+      <td><p>Either a single or a list of paths to reference ChIP
+samples' read counts file. No default.</p></td>
     </tr>
     <tr>
       <th>ref_input_counts</th>
-      <td><p>Path to reference input samples' read counts file.
-No default.</p></td>
+      <td><p>Either a single or a list of paths to reference input
+samples' read counts file. No default.</p></td>
     </tr>
     <tr>
       <th>test_chip_counts</th>
-      <td><p>Path to test ChIP samples' read counts file.
-No default.</p></td>
+      <td><p>Either a single or a list of paths to test ChIP
+samples' read counts file. No default.</p></td>
     </tr>
     <tr>
       <th>test_input_counts</th>
-      <td><p>Path to test input samples' read counts file.
-No default.</p></td>
+      <td><p>Either a single or a list of paths to test input
+samples' read counts file. No default.</p></td>
     </tr>
     </table>
     
@@ -120,6 +120,15 @@ No default.</p></td>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>spikein_normalization_factor</span>(<span class='kw'>ref_chip_counts</span><span class='kw'>=</span><span class='st'>'Counts_AH119_chip.txt'</span>,
                              <span class='kw'>ref_input_counts</span><span class='kw'>=</span><span class='st'>'Counts_AH119_input.txt'</span>,
+                             <span class='kw'>test_chip_counts</span><span class='kw'>=</span><span class='st'>'Counts_AH8104_chip.txt'</span>,
+                             <span class='kw'>test_input_counts</span><span class='kw'>=</span><span class='st'>'Counts_AH8104_input.txt'</span>)
+
+<span class='fu'>spikein_normalization_factor</span>(<span class='kw'>ref_chip_counts</span><span class='kw'>=</span><span class='fu'>list</span>(<span class='st'>'Counts_AH119_chip_1.txt'</span>,
+                                                  <span class='st'>'Counts_AH119_chip_2.txt'</span>,
+                                                  <span class='st'>'Counts_AH119_chip_3.txt'</span>),
+                             <span class='kw'>ref_input_counts</span><span class='kw'>=</span><span class='fu'>list</span>(<span class='st'>'Counts_AH119_inp_1.txt'</span>,
+                                                   <span class='st'>'Counts_AH119_inp_2.txt'</span>,
+                                                   <span class='st'>'Counts_AH119_inp_3.txt'</span>),
                              <span class='kw'>test_chip_counts</span><span class='kw'>=</span><span class='st'>'Counts_AH8104_chip.txt'</span>,
                              <span class='kw'>test_input_counts</span><span class='kw'>=</span><span class='st'>'Counts_AH8104_input.txt'</span>)
 <span class='co'># }</span></pre>

@@ -8,17 +8,17 @@ spikein_normalization_factor(ref_chip_counts, ref_input_counts,
   test_chip_counts, test_input_counts)
 }
 \arguments{
-\item{ref_chip_counts}{Path to reference ChIP samples' read counts file.
-No default.}
+\item{ref_chip_counts}{Either a single or a list of paths to reference ChIP
+samples' read counts file. No default.}
 
-\item{ref_input_counts}{Path to reference input samples' read counts file.
-No default.}
+\item{ref_input_counts}{Either a single or a list of paths to reference input
+samples' read counts file. No default.}
 
-\item{test_chip_counts}{Path to test ChIP samples' read counts file.
-No default.}
+\item{test_chip_counts}{Either a single or a list of paths to test ChIP
+samples' read counts file. No default.}
 
-\item{test_input_counts}{Path to test input samples' read counts file.
-No default.}
+\item{test_input_counts}{Either a single or a list of paths to test input
+samples' read counts file. No default.}
 }
 \value{
 Numeric normalization factor.
@@ -32,6 +32,15 @@ SK1:S288C genome.
 \dontrun{
 spikein_normalization_factor(ref_chip_counts='Counts_AH119_chip.txt',
                              ref_input_counts='Counts_AH119_input.txt',
+                             test_chip_counts='Counts_AH8104_chip.txt',
+                             test_input_counts='Counts_AH8104_input.txt')
+
+spikein_normalization_factor(ref_chip_counts=list('Counts_AH119_chip_1.txt',
+                                                  'Counts_AH119_chip_2.txt',
+                                                  'Counts_AH119_chip_3.txt'),
+                             ref_input_counts=list('Counts_AH119_inp_1.txt',
+                                                   'Counts_AH119_inp_2.txt',
+                                                   'Counts_AH119_inp_3.txt'),
                              test_chip_counts='Counts_AH8104_chip.txt',
                              test_input_counts='Counts_AH8104_input.txt')
 }
