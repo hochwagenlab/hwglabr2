@@ -35,7 +35,7 @@ spikein_normalization_factor <- function(ref_chip_counts, ref_input_counts,
   # Print files to read to console
   message('>>> Read alignment count files:')
   for (file in files) {
-      message('   ', file)
+      message('   ', basename(file))
   }
   
   # Add space to console output
