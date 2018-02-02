@@ -78,7 +78,7 @@
     </div>
 
     
-    <p>This is a generalization of <code>GenomicRanges::binnedAverage</code> to allow the
+    <p>This is a generalization of <code><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/genomicvars'>GenomicRanges::binnedAverage</a></code> to allow the
 use of any applicable function instead of simply the mean. The interface is
 very similar, with two differences:</p><ol>
 <li><p>Added argument <code>fun</code>, for the function to use.</p></li>
@@ -120,11 +120,11 @@ No default.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># Generate 100-bp genome tiles for a given GRanges object</span>
-<span class='no'>bins</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>GenomicRanges</span><span class='kw ns'>::</span><span class='fu'>tileGenome</span>(<span class='kw pkg'>GenomeInfoDb</span><span class='kw ns'>::</span><span class='fu'>seqlengths</span>(<span class='no'>gr</span>),
+<span class='no'>bins</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>GenomicRanges</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/tileGenome'>tileGenome</a></span>(<span class='kw pkg'>GenomeInfoDb</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/GenomeInfoDb/topics/seqinfo'>seqlengths</a></span>(<span class='no'>gr</span>),
                                   <span class='kw'>tilewidth</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>cut.last.tile.in.chrom</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
 <span class='co'># Get signal as "RleList"; stored in the "score" metadata column</span>
-<span class='no'>score</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>GenomicRanges</span><span class='kw ns'>::</span><span class='fu'>coverage</span>(<span class='no'>gr</span>, <span class='kw'>weight</span><span class='kw'>=</span><span class='st'>"score"</span>)
+<span class='no'>score</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>GenomicRanges</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/coverage-methods'>coverage</a></span>(<span class='no'>gr</span>, <span class='kw'>weight</span><span class='kw'>=</span><span class='st'>"score"</span>)
 
 <span class='co'># Now use the function to get the maximum score in each tile</span>
 <span class='no'>gr</span>$<span class='no'>max_per_bin</span> <span class='kw'>&lt;-</span> <span class='fu'>binned_function</span>(<span class='kw'>bins</span><span class='kw'>=</span><span class='no'>bins</span>, <span class='kw'>numvar</span><span class='kw'>=</span><span class='no'>score</span>, <span class='kw'>fun</span><span class='kw'>=</span><span class='no'>max</span>)
@@ -151,7 +151,7 @@ No default.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
       </footer>
