@@ -123,7 +123,16 @@ signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
   df <- as.data.frame(mat)
   size_cat <- ifelse(as.character(telomeres@seqnames) %in% c('chrI',
                                                              'chrIII',
-                                                             'chrVI'),
+                                                             'chrVI',
+                                                             'chr01',
+                                                             'chr03',
+                                                             'chr06',
+                                                             'chrI_SK1',
+                                                             'chrIII_SK1',
+                                                             'chrVI_SK1',
+                                                             'chrI_S288C',
+                                                             'chrIII_S288C',
+                                                             'chrVI_S288C'),
                      'small', 'large')
   
   df <- cbind(chr=as.character(telomeres@seqnames),
