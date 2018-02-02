@@ -27,8 +27,10 @@
 #' the following options:
 #' \enumerate{
 #'   \item \code{"SK1Yue"}
+#'   \item \code{"S288CYue"}
 #'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
+#'   \item \code{"SK1_S288CYue"}
 #' }
 #' No default.
 #' @return An R data frame containing 32 rows (one for each chromosome arm) and
@@ -75,12 +77,17 @@ signal_from_telomeres2 <- function(signal_data, length_to_collect=100000,
   # Generated using 'data-raw/data_internal.R'; stored in 'R/sysdata.rda'
   if (genome == 'SK1Yue') {
     coord_table <- SK1Yuecen
+  } else if (genome == 'S288CYue') {
+    coord_table <- S288CYuecen
   } else if (genome == 'sacCer3') {
     coord_table <- sacCer3cen
   } else if (genome == 'SK1') {
     coord_table <- SK1cen
-  } else stop('"genome" argument must be one of "SK1Yue", "sacCer3" or "SK1".')
-  
+  } else if (genome == 'SK1_S288CYue') {
+    coord_table <- SK1_S288CYuecen
+  } else stop('"genome" argument must be one of ',
+              '"SK1Yue", "S288CYue", "sacCer3", "SK1" or "SK1_S288CYue".')
+
   message('Making GRanges object of subtelomeric regions...')
   # Make sure it is integer
   length_to_collect <- floor(length_to_collect)

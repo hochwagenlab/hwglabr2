@@ -25,8 +25,10 @@ Defaults to 1 (i.e. 1 bp: no window averaging).}
 the following options:
 \enumerate{
   \item \code{"SK1Yue"}
+  \item \code{"S288CYue"}
   \item \code{"sacCer3"}
   \item \code{"SK1"}
+  \item \code{"SK1_S288CYue"}
 }
 No default.}
 }
