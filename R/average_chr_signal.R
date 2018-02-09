@@ -104,7 +104,8 @@ average_chr_signal <- function(gr, remove_cen=FALSE, genome,
   }
   
   message('Computing average signal...')
-  avrg <- function(x) (sum(GenomicRanges::width(x) * GenomicRanges::score(x))
+  avrg <- function(x) (sum(GenomicRanges::width(x) * GenomicRanges::score(x),
+                           na.rm = T)
                        / sum(GenomicRanges::width(x)))
   genome_avrg <- avrg(gr)
   seq_avrg <- sapply(GenomicRanges::split(gr, GenomicRanges::seqnames(gr)),
