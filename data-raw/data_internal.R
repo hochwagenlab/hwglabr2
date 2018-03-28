@@ -16,6 +16,24 @@ add_genome_name_to_GR <- function(gr, name='SK1Yue') {
   gr
 }
 
+
+#------------------------------------------------------------------------------#
+#                                GFF files                                     #
+path <- '/Volumes/LabShare/GenomeSequences/'
+# 1. Import SK1Yue data
+SK1Yue_gff <- 'SK1_Yue_et_al_2017/Yue.SK1.genome.nuclear.mito.2micr.gff'
+SK1Yue_gff <- rtracklayer::import.gff3(paste0(path, SK1Yue_gff))
+SK1Yue_gff <- add_genome_name_to_GR(SK1Yue_gff, name='SK1Yue')
+# 2. Import S288C data
+sacCer3_gff <- 's288C_annotation_R64_modified.gff'
+sacCer3_gff <- rtracklayer::import.gff(paste0(path, sacCer3_gff))
+sacCer3_gff <- add_genome_name_to_GR(sacCer3_gff, name='sacCer3')
+# 3. Import SK1 data
+SK1_gff <- 'SK1_MvO_V1___GENOME/SK1_annotation/SK1_annotation_modified_v2.gff'
+SK1_gff <- rtracklayer::import.gff(paste0(path, SK1_gff))
+SK1_gff <- add_genome_name_to_GR(SK1_gff, name='SK1')
+
+
 #------------------------------------------------------------------------------#
 #                               Centromeres                                    #
 
@@ -219,21 +237,7 @@ sacCer3_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, sacCer3_file))
 sacCer3_Spo11_DSBs <- add_genome_name_to_GR(sacCer3_Spo11_DSBs, name='sacCer3')
 
 
-#------------------------------------------------------------------------------#
-#                                GFF files                                     #
-path <- '/Volumes/LabShare/GenomeSequences/'
-# 1. Import SK1Yue data
-SK1Yue_gff <- 'SK1_Yue_et_al_2017/Yue.SK1.genome.nuclear.mito.2micr.gff'
-SK1Yue_gff <- rtracklayer::import.gff3(paste0(path, SK1Yue_gff))
-SK1Yue_gff <- add_genome_name_to_GR(SK1Yue_gff, name='SK1Yue')
-# 2. Import S288C data
-sacCer3_gff <- 's288C_annotation_R64_modified.gff'
-sacCer3_gff <- rtracklayer::import.gff(paste0(path, sacCer3_gff))
-sacCer3_gff <- add_genome_name_to_GR(sacCer3_gff, name='sacCer3')
-# 3. Import SK1 data
-SK1_gff <- 'SK1_MvO_V1___GENOME/SK1_annotation/SK1_annotation_modified_v2.gff'
-SK1_gff <- rtracklayer::import.gff(paste0(path, SK1_gff))
-SK1_gff <- add_genome_name_to_GR(SK1_gff, name='SK1')
+
 
 #------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------#
