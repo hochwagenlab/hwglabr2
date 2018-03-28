@@ -68,7 +68,7 @@ SK1Yuecen <- data.frame(
 
 SK1Yuecen <- with(SK1Yuecen,
                   GenomicRanges::GRanges(Chromosome,
-                                         IRanges::IRanges(Start + 1, End),
+                                         IRanges::IRanges(Start, End),
                                          seqlengths=setNames(LenChr,
                                                              Chromosome)))
 
@@ -90,7 +90,7 @@ S288CYuecen <- data.frame(
 
 S288CYuecen <- with(S288CYuecen,
                     GenomicRanges::GRanges(Chromosome,
-                                           IRanges::IRanges(Start + 1, End),
+                                           IRanges::IRanges(Start, End),
                                            seqlengths=setNames(LenChr,
                                                                Chromosome)))
 
@@ -110,7 +110,7 @@ SK1cen <- data.frame(
                921188))
 
 SK1cen <- with(SK1cen, GenomicRanges::GRanges(Chromosome,
-                                              IRanges::IRanges(Start + 1, End),
+                                              IRanges::IRanges(Start, End),
                                               seqlengths=setNames(LenChr,
                                                                   Chromosome)))
 SK1cen <- add_genome_name_to_GR(SK1cen, name='SK1')
@@ -137,27 +137,26 @@ sacCer3cen <- add_genome_name_to_GR(sacCer3cen, name='sacCer3')
 start <- S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@start
 end <- start + S288CYue_gff[S288CYue_gff$type == 'centromere']@ranges@width - 1
 
-SK1_S288CYuecen <- data.frame("Chromosome" = c(paste0('chr', as.roman(1:16), '_SK1'),
-                                               paste0('chr', as.roman(1:16), '_S288C')),
-                              "Start" = c(c(154628, 251815, 108708, 460752, 171136, 170910,
-                                            501251, 102251, 348027, 447447, 451859, 151679,
-                                            251000, 637019, 307189, 555578), start),
-                              "End" = c(c(154745, 251931, 108824, 460871, 171253, 171027,
-                                          501370, 102368, 348143, 447565, 451975, 151797,
-                                          251118, 637136, 307307, 555694), end),
-                              "LenChr" = c(c(228861, 829469, 340914, 1486921, 589812,
-                                             299318, 1080440, 542723, 449612, 753937,
-                                             690901, 1054145, 923535, 791982, 1053869,
-                                             946846),
-                                           c(219929, 813597, 341580, 1566853, 583092,
-                                             271539, 1091538, 581049, 440036, 751611,
-                                             666862, 1075542, 930506, 777615, 1091343,
-                                             954457)))
+SK1_S288CYuecen <- data.frame(
+  "Chromosome" = c(paste0('chr', as.roman(1:16), '_SK1'),
+                   paste0('chr', as.roman(1:16), '_S288C')),
+  "Start" = c(c(154628, 251815, 108708, 460752, 171136, 170910, 501251, 102251,
+                348027, 447447, 451859, 151679, 251000, 637019, 307189, 555578),
+              start),
+  "End" = c(c(154745, 251931, 108824, 460871, 171253, 171027, 501370, 102368,
+              348143, 447565, 451975, 151797, 251118, 637136, 307307, 555694),
+            end),
+  "LenChr" = c(c(228861, 829469, 340914, 1486921, 589812, 299318, 1080440,
+                 542723, 449612, 753937, 690901, 1054145, 923535, 791982,
+                 1053869, 946846),
+               c(219929, 813597, 341580, 1566853, 583092, 271539, 1091538,
+                 581049, 440036, 751611, 666862, 1075542, 930506, 777615,
+                 1091343, 954457)))
 
 
 SK1_S288CYuecen <- with(SK1_S288CYuecen,
                         GenomicRanges::GRanges(Chromosome,
-                                               IRanges::IRanges(Start + 1, End),
+                                               IRanges::IRanges(Start, End),
                                                seqlengths=setNames(LenChr,
                                                                    Chromosome)))
 
