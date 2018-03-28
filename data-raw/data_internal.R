@@ -176,10 +176,10 @@ path <- '/Volumes/LabShare/GenomeSequences/hwglabr2'
 SK1Yue_intergenic <- read.table(file.path(path, 'SK1Yue_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
 # 2. Import SK1 data
-SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
+SK1_intergenic <- read.table(file.path(path, 'SK1_intergenic.txt'),
                              header = TRUE, stringsAsFactors = FALSE)
 # 3. Import S288C data
-sacCer3_intergenic <- read.table(paste0(path, 'sacCer3_intergenic.txt'),
+sacCer3_intergenic <- read.table(file.path(path, 'sacCer3_intergenic.txt'),
                                  header = TRUE, stringsAsFactors = FALSE)
 
 #------------------------------------------------------------------------------#
@@ -189,16 +189,16 @@ sacCer3_intergenic <- read.table(paste0(path, 'sacCer3_intergenic.txt'),
 # '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
 # 1. Import SK1Yue data
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
-SK1Yue_Red1_summits_file <- paste0(path,
-                                   'Red1-wildtype-71-34-199-29-Reps-SK1Yue-',
-                                   'PM_B3W3_MACS2_over20_summits.bed')
+SK1Yue_Red1_summits_file <- file.path(
+  path,
+  'Red1-wildtype-71-34-199-29-Reps-SK1Yue-PM_B3W3_MACS2_over20_summits.bed')
 SK1Yue_Red1_summits <- rtracklayer::import.bed(SK1Yue_Red1_summits_file)
 SK1Yue_Red1_summits <- add_genome_name_to_GR(SK1Yue_Red1_summits, name='SK1Yue')
 
 # 2. Import S288C data
-sacCer3_Red1_summits_file <- paste0(path,
-                                    'Red1-wildtype-71-34-199-29-Reps-SacCer3-',
-                                    '2mis_B3W3_MACS2_over20_summits.bed')
+sacCer3_Red1_summits_file <- file.path(
+  path,
+  'Red1-wildtype-71-34-199-29-Reps-SacCer3-2mis_B3W3_MACS2_over20_summits.bed')
 sacCer3_Red1_summits <- rtracklayer::import.bed(sacCer3_Red1_summits_file)
 sacCer3_Red1_summits <- add_genome_name_to_GR(sacCer3_Red1_summits,
                                               name='sacCer3')
@@ -218,12 +218,13 @@ sacCer3_Red1_summits <- add_genome_name_to_GR(sacCer3_Red1_summits,
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 # 1. Import SK1Yue data
 SK1Yue_file <- 'Spo11oligo_WT1_SK1Yue_peaks.bedgraph'
-SK1Yue_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, SK1Yue_file))
+SK1Yue_Spo11_DSBs <- rtracklayer::import.bedGraph(file.path(path, SK1Yue_file))
 SK1Yue_Spo11_DSBs <- add_genome_name_to_GR(SK1Yue_Spo11_DSBs, name='SK1Yue')
 
 # 2. Import S288C data
 sacCer3_file <- 'Spo11oligo_WT1_Saccer3_peaks.bedgraph'
-sacCer3_Spo11_DSBs <- rtracklayer::import.bedGraph(paste0(path, sacCer3_file))
+sacCer3_Spo11_DSBs <- rtracklayer::import.bedGraph(file.path(path,
+                                                             sacCer3_file))
 sacCer3_Spo11_DSBs <- add_genome_name_to_GR(sacCer3_Spo11_DSBs, name='sacCer3')
 
 
