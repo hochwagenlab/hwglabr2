@@ -172,8 +172,8 @@ SK1_S288CYuecen <- add_genome_name_to_GR(SK1_S288CYuecen, name='SK1_S288C_Yue')
 # S288C and old SK1 regions were generated from the files in hwglabr
 
 # 1. Import SK1Yue data
-path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
-SK1Yue_intergenic <- read.table(paste0(path, 'SK1Yue_intergenic.txt'),
+path <- '/Volumes/LabShare/GenomeSequences/hwglabr2'
+SK1Yue_intergenic <- read.table(file.path(path, 'SK1Yue_intergenic.txt'),
                                 header = TRUE, stringsAsFactors = FALSE)
 # 2. Import SK1 data
 SK1_intergenic <- read.table(paste0(path, 'SK1_intergenic.txt'),
