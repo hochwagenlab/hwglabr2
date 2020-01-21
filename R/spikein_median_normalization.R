@@ -26,9 +26,10 @@ spikein_median_normalization <- function(gr,spikein_factor){
                       GenomicRanges::width(gr))))
   genome_median <- gmedian(gr)
   print(genome_median)
-
-  gr$spikescore <- gr$score - genome_median
-  gr$spikescore <- gr$spikescore * spikein_factor
+  
+  bdg <- gr
+  bdg$spikescore <- bdg$score - genome_median
+  bdg$spikescore <- bdg$spikescore * spikein_factor
 
   message('Done!')
   return(gr)
