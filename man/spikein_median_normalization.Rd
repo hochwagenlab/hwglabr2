@@ -8,14 +8,14 @@ spikein_median_normalization(gr, spikein_factor)
 }
 \arguments{
 \item{gr}{Input signal track data as a \code{GRanges} object (see
-\code{?"GRanges-class"} for more details). To load wiggle and bedGraph data
+\code{?"GRanges-class"} for more details). To load bedGraph data
 run \code{\link{import_bedGraph}}. No default.}
 }
 \value{
 
 }
 \description{
-Computes median signal (in the \code{gmedian} \code{GRanges} metadata column)
+Computes median signal (in the \code{spikescore} \code{GRanges} metadata column)
 genome-wide.
 }
 \examples{
