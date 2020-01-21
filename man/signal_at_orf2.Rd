@@ -4,8 +4,13 @@
 \alias{signal_at_orf2}
 \title{Signal at all ORFs genome-wide normalized to constant length (meta ORF)}
 \usage{
-signal_at_orf2(signal_data, gff, window_size = 1, write_to_file = FALSE,
-  file_name)
+signal_at_orf2(
+  signal_data,
+  gff,
+  window_size = 1,
+  write_to_file = FALSE,
+  file_name
+)
 }
 \arguments{
 \item{signal_data}{Input signal track data as a \code{GRanges} object (see

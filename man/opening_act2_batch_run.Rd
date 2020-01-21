@@ -4,8 +4,11 @@
 \alias{opening_act2_batch_run}
 \title{Batch run of \code{\link{opening_act2}} function}
 \usage{
-opening_act2_batch_run(input_data_file, ref_genome,
-  output_path = "/Volumes/LabShare/HTGenomics/Opening_act/")
+opening_act2_batch_run(
+  input_data_file,
+  ref_genome,
+  output_path = "/Volumes/LabShare/HTGenomics/Opening_act/"
+)
 }
 \arguments{
 \item{input_data_file}{String indicating path to file containing

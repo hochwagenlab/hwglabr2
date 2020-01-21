@@ -26,7 +26,7 @@ yeast chromosome), imports data into a \code{GRanges} object.
 \dontrun{
 x <- import_wiggle('wiggle_data/')
 
-dot1 <- import_wiggle('/Volumes/LabShare/HTGenomics/HiSeqOutputs/\\
+dot1 <- import_wiggle('/Volumes/LabShare/HTGenomics/HiSeqOutputs/\
                       AveReps_SacCer3_MACS2/Red1-dot1D-195-16-reps-MACS2/',
                       local_copy=TRUE)
 }

@@ -4,11 +4,22 @@
 \alias{opening_act2}
 \title{Standard analysis of ChIP-seq experiments}
 \usage{
-opening_act2(signal_data, genome, genotype, chip_target, sample_id,
+opening_act2(
+  signal_data,
+  genome,
+  genotype,
+  chip_target,
+  sample_id,
   output_path = "/Volumes/LabShare/HTGenomics/Opening_act/",
-  user_input = TRUE, run_chr_size_bias = TRUE, run_centromeres = TRUE,
-  run_rDNA = TRUE, run_telomeres = TRUE, run_dsb_hotspots = TRUE,
-  run_axis = TRUE, run_meta_orf = TRUE)
+  user_input = TRUE,
+  run_chr_size_bias = TRUE,
+  run_centromeres = TRUE,
+  run_rDNA = TRUE,
+  run_telomeres = TRUE,
+  run_dsb_hotspots = TRUE,
+  run_axis = TRUE,
+  run_meta_orf = TRUE
+)
 }
 \arguments{
 \item{signal_data}{Input signal track data as a \code{GRanges} object (see

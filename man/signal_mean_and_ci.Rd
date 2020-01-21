@@ -4,8 +4,7 @@
 \alias{signal_mean_and_ci}
 \title{Mean, SD, SEM, and confidence interval}
 \usage{
-signal_mean_and_ci(signal_data, ci = 0.95, rep_bootstrap = 1000,
-  na_rm = TRUE)
+signal_mean_and_ci(signal_data, ci = 0.95, rep_bootstrap = 1000, na_rm = TRUE)
 }
 \arguments{
 \item{signal_data}{Input signal data matrix (or an object that can be coerced

@@ -4,8 +4,12 @@
 \alias{signal_from_telomeres2}
 \title{Collect signal from telomeres for all chromosome arms}
 \usage{
-signal_from_telomeres2(signal_data, length_to_collect = 1e+05,
-  averaging_window = 1, genome)
+signal_from_telomeres2(
+  signal_data,
+  length_to_collect = 1e+05,
+  averaging_window = 1,
+  genome
+)
 }
 \arguments{
 \item{signal_data}{Input signal track data as a \code{GRanges} object (see

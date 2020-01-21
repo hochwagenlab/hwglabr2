@@ -4,8 +4,14 @@
 \alias{average_chr_signal}
 \title{Average signal genome-wide and on each chromosome}
 \usage{
-average_chr_signal(gr, remove_cen = FALSE, genome,
-  cen_region_length = 50000, mean_norm = FALSE, order_chrs = FALSE)
+average_chr_signal(
+  gr,
+  remove_cen = FALSE,
+  genome,
+  cen_region_length = 50000,
+  mean_norm = FALSE,
+  order_chrs = FALSE
+)
 }
 \arguments{
 \item{gr}{Input signal track data as a \code{GRanges} object (see

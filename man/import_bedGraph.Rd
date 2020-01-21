@@ -4,8 +4,12 @@
 \alias{import_bedGraph}
 \title{Import bedGraph file}
 \usage{
-import_bedGraph(path, keep_zeros = FALSE, local_copy = TRUE,
-  use_rtracklayer = FALSE)
+import_bedGraph(
+  path,
+  keep_zeros = FALSE,
+  local_copy = TRUE,
+  use_rtracklayer = FALSE
+)
 }
 \arguments{
 \item{path}{Path to a bedGraph file. No default.}
@@ -41,9 +45,9 @@ one-based format, irrespective of the format of the imported file.
 \dontrun{
 x <- import_bedGraph('data.bdg', keep_zeros=TRUE, local_copy=FALSE, use_rtracklayer)
 
-dot1 <- import_bedGraph('/Volumes/LabShare/HTGenomics/HiSeqOutputs/\\
-                         AveReps_SacCer3_MACS2_FE/\\
-                         Red1-dot1D-195-16-Reps-SacCer3-B3W3-MACS2/\\
+dot1 <- import_bedGraph('/Volumes/LabShare/HTGenomics/HiSeqOutputs/\
+                         AveReps_SacCer3_MACS2_FE/\
+                         Red1-dot1D-195-16-Reps-SacCer3-B3W3-MACS2/\
                          Red1-dot1D-195-16-Reps-SacCer3-2mis_B3W3_MACS2_FE.bdg.gz')
 }
 }

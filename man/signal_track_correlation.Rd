@@ -4,8 +4,12 @@
 \alias{signal_track_correlation}
 \title{Compute correlation between signal track data for two samples}
 \usage{
-signal_track_correlation(signal_data_A, signal_data_B, genome,
-  method = "pearson")
+signal_track_correlation(
+  signal_data_A,
+  signal_data_B,
+  genome,
+  method = "pearson"
+)
 }
 \arguments{
 \item{signal_data_A}{Input signal track data as a \code{GRanges} object (see

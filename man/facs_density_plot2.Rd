@@ -4,9 +4,17 @@
 \alias{facs_density_plot2}
 \title{FACS density plot}
 \usage{
-facs_density_plot2(strain_code, dir = "./", output_dir = dir, gate,
-  y_axis_label = "Time in meiosis\\n(hrs)\\n", plot_color = "black",
-  plot_transparency = 0.8, file_format = "jpeg", user_input = TRUE)
+facs_density_plot2(
+  strain_code,
+  dir = "./",
+  output_dir = dir,
+  gate,
+  y_axis_label = "Time in meiosis\\n(hrs)\\n",
+  plot_color = "black",
+  plot_transparency = 0.8,
+  file_format = "jpeg",
+  user_input = TRUE
+)
 }
 \arguments{
 \item{strain_code}{The lab's database numeric code identifier of the yeast

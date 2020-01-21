@@ -4,8 +4,12 @@
 \alias{spikein_normalization_factor}
 \title{Compute spike-in normalization factor}
 \usage{
-spikein_normalization_factor(ref_chip_counts, ref_input_counts,
-  test_chip_counts, test_input_counts)
+spikein_normalization_factor(
+  ref_chip_counts,
+  ref_input_counts,
+  test_chip_counts,
+  test_input_counts
+)
 }
 \arguments{
 \item{ref_chip_counts}{Either a single or a list of paths to reference ChIP
