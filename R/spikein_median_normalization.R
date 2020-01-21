@@ -16,7 +16,6 @@
 
 spikein_median_normalization <- function(gr,spikein_factor){
   # IO checks
-  check_package("GenomicRanges")
   if (!is(gr, "GRanges")) stop('input must be a GRanges object.')
   if (!"score" %in% names(GenomicRanges::mcols(gr))) {
     stop(deparse(substitute(gr)), ' does not have a "score" metadata column.')
