@@ -39,6 +39,7 @@ reference:
     - signal_track_correlation
     - binned_function
     - facs_density_plot2
+    - spikein_median_normalization
     - spikein_normalization_factor
   - title: Helpers
     contents:
