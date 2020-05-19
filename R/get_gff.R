@@ -29,7 +29,9 @@ get_gff <- function(genome){
       gff <- sacCer3_gff
   } else if (genome == 'SK1') {
       gff <- SK1_gff
-  } else stop('"genome" argument must be one of "SK1Yue", "sacCer3" or "SK1".')
+  } else if (genome == 'S288cYue') {
+      gff <- S288CYue_gff
+  } else stop('"genome" argument must be one of "SK1Yue", "S288cYue","sacCer3" or "SK1".')
     
   return(gff)
 }
