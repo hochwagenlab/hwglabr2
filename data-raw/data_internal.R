@@ -31,7 +31,7 @@ SK1Yue_gff <- add_genome_name_to_GR(SK1Yue_gff, name='SK1Yue')
 # $ wget http://yjx1217.github.io/Yeast_PacBio_2016/data/Nuclear_GFF/S288c.all_feature.gff.gz
 # $ gunzip *
 S288CYue_gff <- 'S288C_Yue_et_al_2017/S288c.all_feature.gff'
-S288CYue_gff <- rtracklayer::import.gff(file.path(path, S288CYue_gff))
+S288CYue_gff <- rtracklayer::import.gff3(file.path(path, S288CYue_gff))
 S288CYue_gff <- add_genome_name_to_GR(S288CYue_gff, name='S288cYue')
 # 3. Import S288C data
 sacCer3_gff <- 's288C_annotation_R64_modified.gff'
