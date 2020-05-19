@@ -12,7 +12,7 @@
 add_genome_name_to_GR <- function(gr, name='SK1Yue') {
   number_seqs <- length(levels(gr@seqnames))
   gr@seqinfo@genome <- rep(name, number_seqs)
-  
+
   gr
 }
 
@@ -32,7 +32,7 @@ SK1Yue_gff <- add_genome_name_to_GR(SK1Yue_gff, name='SK1Yue')
 # $ gunzip *
 S288CYue_gff <- 'S288C_Yue_et_al_2017/S288c.all_feature.gff'
 S288CYue_gff <- rtracklayer::import.gff3(file.path(path, S288CYue_gff))
-S288CYue_gff <- add_genome_name_to_GR(S288CYue_gff, name='S288cYue')
+S288CYue_gff <- add_genome_name_to_GR(S288CYue_gff, name='S288CYue')
 # 3. Import S288C data
 sacCer3_gff <- 's288C_annotation_R64_modified.gff'
 sacCer3_gff <- rtracklayer::import.gff(file.path(path, sacCer3_gff))
@@ -214,7 +214,7 @@ sacCer3_Red1_summits <- add_genome_name_to_GR(sacCer3_Red1_summits,
 # Update on 12/2017: New files were made by mapping the Thacker 2014 fastqs to
 # the appropriate genomes. New files generated using the script in:
 # '/Volumes/LabShare/Luis/LabWork/GenomeSequences/hwglabr2/'
-# 
+#
 path <- '/Volumes/LabShare/GenomeSequences/hwglabr2/'
 # 1. Import SK1Yue data
 SK1Yue_file <- 'Spo11oligo_WT1_SK1Yue_peaks.bedgraph'
