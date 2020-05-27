@@ -5,7 +5,7 @@
 #' the following options:
 #' \enumerate{
 #'   \item \code{"SK1Yue"}
-#'   \item \code{"S288CYue"}
+#'   \item \code{"S288CYue"} #
 #'   \item \code{"sacCer3"}
 #'   \item \code{"SK1"}
 #' }
